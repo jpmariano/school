@@ -1,6 +1,11 @@
-import './globals.css'
+import Header from '@/components/header'
+import "the-new-css-reset/css/reset.css";
+import '@/styles/index.scss';
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import {darkTheme, lightTheme} from '@/material/thememode'
+import { StyledEngineProvider, ThemeProvider } from '@mui/material'
+import { Providers } from '@/components/provider';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,8 +20,19 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang={'en'}>
+      <body className={inter.className} suppressHydrationWarning={true}>
+      <Providers>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={lightTheme}>
+            <Header />
+            {children}
+          </ThemeProvider>
+        </StyledEngineProvider>
+        </Providers>
+      </body>
     </html>
   )
 }
+
+
