@@ -1,0 +1,242 @@
+@font-face {
+    font-family: 'Barlow'; 
+    src: local('Barlow'), url('/fonts/barlow/Barlow-Regular.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'Barlow-Black';
+    src: local('Barlow'), url('/fonts/barlow/Barlow-Black.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'Barlow-BlackItalic';
+    src: local('Barlow'),
+      url('/fonts/barlow/Barlow-BlackItalic.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'Barlow-Bold';
+    src: local('Barlow'), url('/fonts/barlow/Barlow-Bold.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'Barlow-ExtraLight';
+    src: local('Barlow'),
+      url('/fonts/barlow/Barlow-ExtraLight.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'Barlow-Italic';
+    src: local('Barlow'), url('/fonts/barlow/Barlow-Italic.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'Barlow-Light';
+    src: local('Barlow'), url('/fonts/barlow/Barlow-Light.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'Barlow-LightItalic';
+    src: local('Barlow'),
+      url('/fonts/barlow/Barlow-LightItalic.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'Barlow-Medium';
+    src: local('Barlow'), url('/fonts/barlow/Barlow-Medium.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'Barlow-MediumItalic';
+    src: local('Barlow'),
+      url('/fonts/barlow/Barlow-MediumItalic.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'Barlow-Regular';
+    src: local('Barlow'), url('/fonts/barlow/Barlow-Regular.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'Barlow-SemiBold';
+    src: local('Barlow'),
+      url('/fonts/barlow/Barlow-SemiBold.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'Barlow-SemiBoldItalic';
+    src: local('Barlow'),
+      url('/fonts/barlow/Barlow-SemiBoldItalic.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'Barlow-Thin';
+    src: local('Barlow'), url('/fonts/barlow/Barlow-Thin.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'Barlow-ThinItalic';
+    src: local('Barlow'),
+      url('/fonts/barlow/Barlow-ThinItalic.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'BarlowCondensed-Black';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowCondensed-Black.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'barlowcondensed-blackitalic';
+    src: local('Barlow'),
+      url('/fonts/barlow/barlowcondensed-blackitalic.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'BarlowCondensed-BoldItalic';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowCondensed-BoldItalic.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'BarlowCondensed-ExtraBold';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowCondensed-ExtraBold.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'BarlowCondensed-ExtraBoldItalic';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowCondensed-ExtraBoldItalic.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'BarlowCondensed-ExtraLight';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowCondensed-ExtraLight.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'BarlowCondensed-Italic';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowCondensed-Italic.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'BarlowCondensed-Light';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowCondensed-Light.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'BarlowCondensed-LightItalic';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowCondensed-LightItalic.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'BarlowCondensed-Medium';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowCondensed-Medium.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'BarlowCondensed-MediumItalic';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowCondensed-MediumItalic.otf') format('woff');
+  }
+  
+  @font-face {
+    font-family: 'BarlowCondensed-Regular';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowCondensed-Regular.otf') format('woff');
+  }
+  
+  @font-face {
+    font-family: 'BarlowCondensed-SemiBoldItalic';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowCondensed-SemiBoldItalic.otf') format('woff');
+  }
+  
+  @font-face {
+    font-family: 'BarlowCondensed-Thin';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowCondensed-Thin.otf') format('woff');
+  }
+  
+  @font-face {
+    font-family: 'BarlowCondensed-ThinItalic';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowCondensed-ThinItalic.otf') format('woff');
+  }
+  
+  @font-face {
+    font-family: 'BarlowBarlowSemiCondensed-Black';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowSemiCondensed-Black.otf') format('woff');
+  }
+  
+  @font-face {
+    font-family: 'BarlowSemiCondensed-BlackItalic';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowSemiCondensed-BlackItalic.otf') format('woff');
+  }
+  
+  @font-face {
+    font-family: 'BarlowSemiCondensed-Bold';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowSemiCondensed-Bold.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'BarlowSemiCondensed-BoldItalic';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowSemiCondensed-BoldItalic.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'barlowsemicondensed-extrabold';
+    src: local('Barlow'),
+      url('/fonts/barlow/barlowsemicondensed-extrabold.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'BarlowSemiCondensed-ExtraBoldItalic';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowSemiCondensed-ExtraBoldItalic.otf')
+        format('woff');
+  }
+  @font-face {
+    font-family: 'BarlowSemiCondensed-ExtraLight';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowSemiCondensed-ExtraLight.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'barlowsemicondensed-extralightitalic';
+    src: local('Barlow'),
+      url('/fonts/barlow/barlowsemicondensed-extralightitalic.otf')
+        format('woff');
+  }
+  @font-face {
+    font-family: 'barlowsemicondensed-italic';
+    src: local('Barlow'),
+      url('/fonts/barlow/barlowsemicondensed-italic.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'barlowsemicondensed-light';
+    src: local('Barlow'),
+      url('/fonts/barlow/barlowsemicondensed-light.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'BarlowSemiCondensed-LightItalic';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowSemiCondensed-LightItalic.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'BarlowSemiCondensed-Medium';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowSemiCondensed-Medium.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'barlowsemicondensed-mediumitalic';
+    src: local('Barlow'),
+      url('/fonts/barlow/barlowsemicondensed-mediumitalic.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'BarlowSemiCondensed-Regular';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowSemiCondensed-Regular.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'BarlowSemiCondensed-SemiBold';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowSemiCondensed-SemiBold.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'BarlowSemiCondensed-SemiBoldItalic';
+    src: local('Barlow'),
+      url('/fonts/barlow/BarlowSemiCondensed-SemiBoldItalic.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'barlowsemicondensed-thin';
+    src: local('Barlow'),
+      url('/fonts/barlow/barlowsemicondensed-thin.otf') format('woff');
+  }
+  @font-face {
+    font-family: 'barlowsemicondensed-thinitalic';
+    src: local('Barlow'),
+      url('/fonts/barlow/barlowsemicondensed-thinitalic.otf') format('woff');
+  }
+  

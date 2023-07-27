@@ -1,19 +1,30 @@
 
-import React from 'react';
+'use client'
+import React, { useContext } from 'react';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
-import { Box, List, ListItem } from '@mui/material';
+import { Box, Link, List, ListItem, useMediaQuery, useTheme } from '@mui/material';
 import Logo from "@/components/logo";
+import { IsMobileContext } from '@/components/provider/ismobileProvider';
+import styles from "@/styles/components/headernav/index.module.scss";
 
 const HeaderNav: React.FC = () => {
-  return (
-   <Box component="nav" >
-       <List>
-            <ListItem>test</ListItem>
-            <ListItem>test</ListItem>
-       </List>
-    </Box>
-        
-    );
+ // const { isMobile } = useContext(IsMobileContext);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
+
+  if(!isMobile){
+    return (
+      <Box component="nav" >
+         <List sx={{ display: 'flex', direction: 'row', color: "#ffffff"}}>
+              <ListItem><Link href="/" >Home</Link></ListItem>
+              <ListItem><Link href="/test" >Test</Link></ListItem>
+              <ListItem><Link href="/" className={styles.link} >Home2</Link></ListItem>
+              <ListItem><Link href="/" className={styles.link} >Home3</Link></ListItem>
+              <ListItem><Link href="/"className={styles.link} >Home4</Link></ListItem>
+         </List>
+      </Box> 
+      )
+  }
 };
 
 export default HeaderNav;

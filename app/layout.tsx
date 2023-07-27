@@ -1,11 +1,14 @@
 import Header from '@/components/header'
 import "the-new-css-reset/css/reset.css";
 import '@/styles/index.scss';
+import '@/styles/fonts.scss';
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import {darkTheme, lightTheme} from '@/material/thememode'
-import { StyledEngineProvider, ThemeProvider } from '@mui/material'
+import { Box, StyledEngineProvider, ThemeProvider } from '@mui/material'
 import { Providers } from '@/components/provider';
+import { useAppSelector } from '@/store/store';
+import ThemeProviders from '@/components/provider/themeprovider';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,19 +22,25 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
+  
+  
   return (
-    <html lang={'en'}>
-      <body className={inter.className} suppressHydrationWarning={true}>
+    
+      <html lang={'en'}>
+      <Box component="body" className={inter.className} suppressHydrationWarning={true}>
       <Providers>
         <StyledEngineProvider injectFirst>
-          <ThemeProvider theme={lightTheme}>
+          <ThemeProviders>
             <Header />
             {children}
-          </ThemeProvider>
+          </ThemeProviders>
         </StyledEngineProvider>
         </Providers>
-      </body>
+      </Box>
     </html>
+ 
+    
   )
 }
 

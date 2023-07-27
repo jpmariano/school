@@ -14,9 +14,9 @@ export const ToggleSlice = createSlice({
   name: 'toggle',
   initialState,
   reducers: {
-    setToggleModal: (
+    setToggle: (
       state,
-      action: PayloadAction<{ open: boolean; id: string }>
+      action: PayloadAction<{ open: boolean, id: string }>
     ) => {
       return {
         ...state,
@@ -28,4 +28,4 @@ export const ToggleSlice = createSlice({
 });
 
 export default ToggleSlice.reducer;
-export const { setToggleModal } = ToggleSlice.actions;
+export const { setToggle } = ToggleSlice.actions;

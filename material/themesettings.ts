@@ -3,7 +3,7 @@ import { ThemeOptions } from '@mui/material';
 //https://mui.com/material-ui/customization/default-theme/
 export const light: ThemeOptions = {
   breakpoints: {
-    values: {xs: 0, sm: 335, md: 744, lg: 936, xl: 1200}
+    values: {xs: 0, sm: 335, md: 744, lg: 936, xl: 1280}
   },
   palette: {
     mode: 'light',
@@ -25,14 +25,14 @@ export const light: ThemeOptions = {
     h1: {
       color: '#1E1E1E',
       fontFamily: '"Barlow", "sans-serif"',
-      fontSize: '60px',
+      fontSize: '3.75rem',
       fontWeight: 'Normal',
       lineHeight: '120%',
       letterSpacing: '-0.5px',
       fontStyle: 'inherit',
       '@media (max-width: 900px)': {
         fontFamily: '"Barlow-Bold", "sans-serif"',
-        fontSize: '30px',
+        fontSize: '1.875rem',
         fontWeight: 'bold',
         lineHeight: '123.5%',
         letterSpacing: '-0.25px',
@@ -48,7 +48,7 @@ export const light: ThemeOptions = {
       fontStyle: 'inherit',
       '@media (max-width: 600px)': {
         color: '#1E1E1E',
-        fontSize: '24px',
+        fontSize: '1.5rem',
         fontWeight: '700',
         lineHeight: '32px',
         fontStyle: 'inherit',
@@ -63,7 +63,7 @@ export const light: ThemeOptions = {
       fontStyle: 'inherit',
       '@media (max-width: 600px)': {
         color: '#1E1E1E',
-        fontSize: '20px',
+        fontSize: '1.25rem',
         fontWeight: '700',
         lineHeight: '32px',
         letterSpacing: '0.15px',
@@ -81,7 +81,7 @@ export const light: ThemeOptions = {
     body1: {
       color: '#1E1E1E',
       fontFamily: '"Barlow-Bold", "sans-serif"',
-      fontSize: '16px',
+      fontSize: '1.125rem',
       fontWeight: '400',
       lineHeight: '150%',
       fontStyle: 'inherit',
@@ -89,7 +89,7 @@ export const light: ThemeOptions = {
     body2: {
       color: '#1E1E1E',
       fontFamily: '"Barlow", "sans-serif"',
-      fontSize: '14px',
+      fontSize: '1rem',
       fontWeight: '400',
       lineHeight: '143%',
       fontStyle: 'inherit',
@@ -97,7 +97,7 @@ export const light: ThemeOptions = {
     subtitle1: {
       color: '#1E1E1E',
       fontFamily: '"Barlow", "sans-serif"',
-      fontSize: '14px',
+      fontSize: '0.875rem',
       fontWeight: '500',
       lineHeight: '157%',
       fontStyle: 'inherit',
@@ -105,7 +105,7 @@ export const light: ThemeOptions = {
     overline: {
       color: '#1E1E1E',
       fontFamily: '"Barlow", "sans-serif"',
-      fontSize: '12px',
+      fontSize: '0.75rem',
       fontWeight: '500',
       lineHeight: '266%',
       fontStyle: 'inherit',
@@ -113,7 +113,7 @@ export const light: ThemeOptions = {
     button: {
       color: '#1E1E1E',
       fontFamily: '"Barlow", "sans-serif"',
-      fontSize: '16px',
+      fontSize: '1rem',
       fontWeight: '600',
       lineHeight: '175%',
       letterSpacing: '0.5px',
@@ -140,7 +140,7 @@ export const light: ThemeOptions = {
 
 export const dark: ThemeOptions = {
   breakpoints: {
-    values: {xs: 0, sm: 335, md: 744, lg: 936, xl: 936}
+    values: {xs: 0, sm: 335, md: 744, lg: 936, xl: 1280}
   },
   palette: {
     mode: 'dark',
@@ -152,8 +152,8 @@ export const dark: ThemeOptions = {
       main: '#005293',
     },
     background: {
-      paper: '#ffffff',
-      default: '#ffffff'
+      paper: '#121212',
+      default: '#121212'
     },
     customFont: {
       family: {
@@ -166,19 +166,19 @@ export const dark: ThemeOptions = {
     h1: {
       color: '#FFFFFF',
       fontFamily: '"Barlow", "sans-serif"',
-      fontSize: '60px',
-      fontWeight: 'Medium',
+      fontSize: '3.75rem',
+      fontWeight: 'Normal',
       lineHeight: '120%',
-      letterSpacing: '-0.5 px',
+      letterSpacing: '-0.5px',
       fontStyle: 'inherit',
-      paddingTop: '50px',
-      paddingBottom: '50px',
-      '@media (max-width: 600px)': {
-        fontSize: '34px',
-        fontWeight: '700',
-        lineHeight: '42px',
+      '@media (max-width: 900px)': {
+        fontFamily: '"Barlow-Bold", "sans-serif"',
+        fontSize: '1.875rem',
+        fontWeight: 'bold',
+        lineHeight: '123.5%',
+        letterSpacing: '-0.25px',
         fontStyle: 'inherit',
-      },
+      }
     },
     h2: {
       color: '#FFFFFF',
@@ -188,8 +188,8 @@ export const dark: ThemeOptions = {
       lineHeight: '3.8rem',
       fontStyle: 'inherit',
       '@media (max-width: 600px)': {
-        color: '#FFFFFF',
-        fontSize: '24px',
+        color: '#1E1E1E',
+        fontSize: '1.5rem',
         fontWeight: '700',
         lineHeight: '32px',
         fontStyle: 'inherit',
@@ -204,7 +204,7 @@ export const dark: ThemeOptions = {
       fontStyle: 'inherit',
       '@media (max-width: 600px)': {
         color: '#FFFFFF',
-        fontSize: '20px',
+        fontSize: '1.25rem',
         fontWeight: '700',
         lineHeight: '32px',
         letterSpacing: '0.15px',
@@ -222,7 +222,7 @@ export const dark: ThemeOptions = {
     body1: {
       color: '#FFFFFF',
       fontFamily: '"Barlow-Bold", "sans-serif"',
-      fontSize: '16px',
+      fontSize: '1.125rem',
       fontWeight: '400',
       lineHeight: '150%',
       fontStyle: 'inherit',
@@ -230,7 +230,7 @@ export const dark: ThemeOptions = {
     body2: {
       color: '#FFFFFF',
       fontFamily: '"Barlow", "sans-serif"',
-      fontSize: '14px',
+      fontSize: '1rem',
       fontWeight: '400',
       lineHeight: '143%',
       fontStyle: 'inherit',
@@ -238,7 +238,7 @@ export const dark: ThemeOptions = {
     subtitle1: {
       color: '#FFFFFF',
       fontFamily: '"Barlow", "sans-serif"',
-      fontSize: '14px',
+      fontSize: '0.875rem',
       fontWeight: '500',
       lineHeight: '157%',
       fontStyle: 'inherit',
@@ -246,7 +246,7 @@ export const dark: ThemeOptions = {
     overline: {
       color: '#FFFFFF',
       fontFamily: '"Barlow", "sans-serif"',
-      fontSize: '12px',
+      fontSize: '0.75rem',
       fontWeight: '500',
       lineHeight: '266%',
       fontStyle: 'inherit',
@@ -254,7 +254,7 @@ export const dark: ThemeOptions = {
     button: {
       color: '#FFFFFF',
       fontFamily: '"Barlow", "sans-serif"',
-      fontSize: '16px',
+      fontSize: '1rem',
       fontWeight: '600',
       lineHeight: '175%',
       letterSpacing: '0.5px',

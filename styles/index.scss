@@ -1,0 +1,25 @@
+header {
+    nav {
+        ul {
+            li {
+                a {
+                    color: #ffffff !important;
+                }
+            }
+        }
+    }
+}
+
+main.light {
+    .MuiPaper-root.MuiPaper-elevation.inverse {
+        background-color: #F3F3F3;
+        //color: #ffffff;
+        
+    }
+}
+main.dark {
+    .MuiPaper-root.MuiPaper-elevation.inverse {
+        background-color: #1E1E1E;
+       
+    }
+}

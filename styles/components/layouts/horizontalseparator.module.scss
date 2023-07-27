@@ -1,0 +1,23 @@
+.dividerTop {
+    margin-bottom: 40px;
+    border-color: transparent;
+    background-color: transparent;
+    @media screen and (max-width: 744px) {
+        margin-bottom: 32px;
+    }
+    @media screen and (max-width: 414px) {
+        margin-bottom: 15px;
+    }
+  }
+
+  .dividerBottom {
+    margin-top: 40px;
+    border-color: transparent;
+    background-color: transparent;
+    @media screen and (max-width: 744px) {
+      margin-top: 32px;
+    }
+    @media screen and (max-width: 414px) {
+      margin-top: 15px;
+    }
+  }
