@@ -11,6 +11,8 @@ import NotAside from '@/components/layouts/notAside';
 import ShowCode from '@/components/prismjs/showcode';
 import SuperEditor from '@/components/prismjs/superEditor';
 import jscode from '@/data/js.json';
+import css from '@/data/css.json';
+import html from '@/data/html.json';
 //import { useEffect } from 'react';
 
 
@@ -23,14 +25,34 @@ const Index: NextPage = () => {
     <Main>
       <HorizontalSeparator />
       <CenterBox>
-      <SuperEditor codeValue={jscode[0].code} />
+        <SuperEditor id="123">{jscode[1].code}</SuperEditor>
       </CenterBox>
       <HorizontalSeparator />
       <CenterBox>
-      <ShowCode>
-      {jscode[0].code}
-      </ShowCode>
-        </CenterBox>
+        <ShowCode id="1234">
+          {jscode[1].code}
+        </ShowCode>
+      </CenterBox>
+      <HorizontalSeparator />
+      <CenterBox>
+        <SuperEditor id="12333" language='css'>{css[1].css}</SuperEditor>
+      </CenterBox>
+      <HorizontalSeparator />
+      <CenterBox>
+        <ShowCode id="2345" language='css'>
+          {css[1].css}
+        </ShowCode>
+      </CenterBox>
+      <HorizontalSeparator />
+      <CenterBox>
+        <SuperEditor id="8888" language='html'>{html[0].html}</SuperEditor>
+      </CenterBox>
+      <HorizontalSeparator />
+      <CenterBox>
+        <ShowCode id="99999" language='markup'>
+          {html[0].html}
+        </ShowCode>
+      </CenterBox>
       <HorizontalSeparator />
       <CenterBoxWithSidebar fullwidth={false} mobileReverseOrder={true}>
         <NotAside addClassName="inverse">item 2</NotAside>
@@ -84,7 +106,7 @@ const Index: NextPage = () => {
         <Typography component="p" variant="subtitle1">test</Typography>
         <Typography component="p" variant="overline">test</Typography>
       </FullWidthBox>
-      <HorizontalSeparator top={false}/>
+      <HorizontalSeparator top={false} />
     </Main>
   );
 };

@@ -9,30 +9,33 @@ import Prism from 'prismjs';
 import 'prismjs/themes/prism-okaidia.css';
 //import 'prismjs/themes/prism-twilight.css';
 
-export interface notAsideProps {
+export interface showCodeProps {
     children?: string;
-    language?: 'javascript' | 'css' | 'html';
+    language?: 'javascript' | 'css' | 'markup';
+    id: string;
 }
 
-const ShowCode: React.FC<notAsideProps> = ({children, language = 'javascript'}) => {
+const ShowCode: React.FC<showCodeProps> = ({id, children, language = 'javascript'}) => {
     const [isLoaded, setIsLoaded] = useState(false);
-    const lineNumbers = document.querySelector('.linenumbers');
+    const lineNumbers = document.querySelector(`.linenumbers${id}`);
+    const [childCode, setChildCode] = useState('');
     useEffect(() => {
+        children && setChildCode(children);
         Prism.highlightAll();
         setIsLoaded(true);
-        }, []);
-        useEffect(() => {
-            if (isLoaded) {
-              const countNumberofLines = children?.split('\n').length;
-              console.log(countNumberofLines)
-              if (lineNumbers !== null) {
+    }, []);
+    useEffect(() => {
+        if (isLoaded) {
+            const countNumberofLines = children?.split('\n').length;
+            //console.log(countNumberofLines)
+            if (lineNumbers !== null) {
                 lineNumbers.innerHTML = Array(countNumberofLines).fill('<span></span>').join('');
-              }
             }
-          }, [isLoaded]);
+        }
+    }, [isLoaded]);
   return (
         <Box component="div" className={`${styles.showcode}`}>
-            <Box component="div" className={`linenumbers ${styles.linenumbers}`}>
+            <Box component="div" className={`linenumbers${id} ${styles.linenumbers}`}>
                 <Box component="span"></Box>
             </Box>
             <pre className={styles.precontainer}><code className={`language-${language} ${styles.code}`}>{children}</code></pre>

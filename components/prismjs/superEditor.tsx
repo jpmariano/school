@@ -5,8 +5,9 @@ import dynamic from "next/dynamic";
 import "@uiw/react-textarea-code-editor/dist.css";
 import { Box } from "@mui/material";
 export interface notAsideProps {
-    codeValue?: string;
+    children?: string;
     language?: 'js' | 'css' | 'html';
+    id: string;
 }
 //https://www.npmjs.com/package/@uiw/react-textarea-code-editor
 const CodeEditor = dynamic(
@@ -15,15 +16,15 @@ const CodeEditor = dynamic(
   );
 
   
-const SuperEditor: React.FC<notAsideProps> = ({codeValue, language = 'js'}) => {
+const SuperEditor: React.FC<notAsideProps> = ({id, children, language = 'js'}) => {
   const [code, setCode] = React.useState('');
   const textarea = document.querySelector('textarea');
-  const lineNumbers = document.querySelector('.line-numbers');
-  const codeInitialize = codeValue?.toString();
+  const lineNumbers = document.querySelector(`.line-numbers${id}`);
+  const codeInitialize = children?.toString();
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    codeValue && setCode(codeInitialize ? codeInitialize : '');
+    children && setCode(codeInitialize ? codeInitialize : '');
     setIsLoaded(true);
   }, []);
   useEffect(() => {
@@ -36,7 +37,7 @@ const SuperEditor: React.FC<notAsideProps> = ({codeValue, language = 'js'}) => {
   }, [isLoaded]);
   return (
     <Box component="div" className="supereditor">
-      <Box component="div" className="line-numbers">
+      <Box component="div" className={`line-numbers line-numbers${id}`}>
         <Box component="span"></Box>
       </Box>
       <CodeEditor

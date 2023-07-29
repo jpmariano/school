@@ -45,6 +45,7 @@ main.dark {
             content: counter(linenumber);
             display: block;
             color: #506882;
+            padding: 3px 0 0px 0;
         }
     }
       
@@ -53,6 +54,7 @@ main.dark {
         .w-tc-editor-preview {
            padding: 0 !important;
            min-height: inherit !important;
+           font-size: 1.15em !important;
             pre {
                 word-wrap: break-word;
                 white-space: pre-wrap;
@@ -77,7 +79,7 @@ main.dark {
             outline: none;
             resize: none;
             font-family: 'Barlow' !important;
-            font-size: 1.25em !important;
+            font-size: 1.45em !important;
             word-wrap: break-word;
             white-space: pre-wrap;
             word-break: normal;

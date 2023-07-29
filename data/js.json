@@ -1,3 +1,4 @@
 [
-   { "code": "const parallax = document.getElementById(\"parallax\");\n   window.addEventListener(\"scroll\", function () {\n     let offset = window.pageYOffset;\n     parallax.style.backgroundPositionY = offset * 0.7 + \"px\";\n   });" }
+   { "code": "const parallax = document.getElementById(\"parallax\");\n   window.addEventListener(\"scroll\", function () {\n     let offset = window.pageYOffset;\n     parallax.style.backgroundPositionY = offset * 0.7 + \"px\";\n   });" },
+   { "code": "const wrapper = document.getElementById(\"wrapper\");\nconst paralx0 = document.getElementById(\"paralx0\");\nconst paralx1 = document.getElementById(\"paralx1\");\nconst paralx2 = document.getElementById(\"paralx2\");\n\nwrapper.onscroll = function () {\n  let y = wrapper.scrollTop;\n  paralx0.style.top = 1800 - y * 2.65 + \"px\";\n  paralx1.style.top = 1200 - y * 0.75 + \"px\";\n  paralx2.style.top = 800 + y * 0.5 + \"px\";\n};\n"}
 ]
