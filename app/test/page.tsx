@@ -13,6 +13,7 @@ import SuperEditor from '@/components/prismjs/superEditor';
 import jscode from '@/data/js.json';
 import css from '@/data/css.json';
 import html from '@/data/html.json';
+import JsToIframe from '@/components/prismjs/jsToIframe';
 //import { useEffect } from 'react';
 
 
@@ -23,6 +24,10 @@ const Index: NextPage = () => {
   
   return (
     <Main>
+      <HorizontalSeparator />
+      <CenterBox>
+        <JsToIframe></JsToIframe>
+      </CenterBox>
       <HorizontalSeparator />
       <CenterBox>
         <SuperEditor id="123">{jscode[1].code}</SuperEditor>
