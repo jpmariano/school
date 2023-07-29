@@ -25,14 +25,14 @@ const SuperEditor: React.FC<notAsideProps> = ({codeValue, language = 'js'}) => {
   useEffect(() => {
     codeValue && setCode(codeInitialize ? codeInitialize : '');
     setIsLoaded(true);
-    }, []);
-    useEffect(() => {
-      if (isLoaded) {
-        const countNumberofLines = code?.split('\n').length;
-        if(lineNumbers !== null){
-          lineNumbers.innerHTML = Array(countNumberofLines).fill('<span></span>').join('')
-        }
+  }, []);
+  useEffect(() => {
+    if (isLoaded) {
+      const countNumberofLines = code?.split('\n').length;
+      if (lineNumbers !== null) {
+        lineNumbers.innerHTML = Array(countNumberofLines).fill('<span></span>').join('')
       }
+    }
   }, [isLoaded]);
   return (
     <Box component="div" className="supereditor">

@@ -1,3 +1,30 @@
+.showcode {
+    display: inline-flex;
+}
+.linenumbers {
+    width: 20px;
+    text-align: right;
+    padding-top: 10px;
+    background: #272822;
+    padding-top: 17px;
+    span {
+        counter-increment: linenumber;
+        font-family: "Barlow";
+        font-size: 0.93em;
+        &:before {
+            content: counter(linenumber);
+            display: block;
+            color: #506882;
+            padding: 5px 0 0px 0;
+        }
+    }
+}
+.precontainer {
+    border-radius: 0 !important;
+    width: 100%;
+    //padding: 0 !important;
+    margin: 0 !important;
+}
 .code {
     font-family: 'Barlow' !important;
 }
