@@ -18,6 +18,19 @@
     }
 }
 
+.mobileReverseOrder {
+    *:first-child {
+        @media screen and (max-width: 1300px) {
+            order: 2;
+        }
+    }
+}
+
+.fullHeight {
+    height: 100%;
+    min-height: 89vh;
+}
+
 .sectionFull {
     width: 100%;
     display: flex;

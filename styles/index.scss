@@ -20,6 +20,68 @@ main.light {
 main.dark {
     .MuiPaper-root.MuiPaper-elevation.inverse {
         background-color: #1E1E1E;
-       
+    }
+}
+
+.supereditor {
+    display: inline-flex;
+    //gap: 10px;
+    //font-family: monospace;
+    //line-height: 21px;
+    //background: #282a3a;
+    //border-radius: 2px;
+    //padding: 20px 10px;
+    .line-numbers {
+        width: 20px;
+        text-align: right;
+        padding-top: 10px;
+        background: #272822;
+        span {
+            counter-increment: linenumber;
+            font-family: 'Barlow';
+            font-size: .93em;
+        }
+        span::before {
+            content: counter(linenumber);
+            display: block;
+            color: #506882;
+        }
+    }
+      
+    .w-tc-editor {
+        width: 100%;
+        .w-tc-editor-preview {
+           padding: 0 !important;
+           min-height: inherit !important;
+            pre {
+                word-wrap: break-word;
+                white-space: pre-wrap;
+                word-break: normal;
+                line-height: inherit;
+                padding: 10px !important;
+                border-radius: 0;
+                code {
+                    caret-color: #ffffff;
+                    font-family: 'Barlow';
+                    font-size: 1.25em;
+                    line-height: inherit;
+                }
+            }
+        }
+        textarea {
+            caret-color: #ffffff;
+            padding: 10px !important;
+            overflow-y: hidden;
+            min-height: inherit !important;
+            min-width: 500px;
+            outline: none;
+            resize: none;
+            font-family: 'Barlow' !important;
+            font-size: 1.25em !important;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            word-break: normal;
+            line-height: inherit;
+        }
     }
 }

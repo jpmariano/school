@@ -46,7 +46,7 @@ export const light: ThemeOptions = {
       fontWeight: '400',
       lineHeight: '3.8rem',
       fontStyle: 'inherit',
-      '@media (max-width: 600px)': {
+      '@media (max-width: 900px)': {
         color: '#1E1E1E',
         fontSize: '1.5rem',
         fontWeight: '700',
@@ -61,7 +61,7 @@ export const light: ThemeOptions = {
       fontWeight: '500',
       lineHeight: '3.2rem',
       fontStyle: 'inherit',
-      '@media (max-width: 600px)': {
+      '@media (max-width: 900px)': {
         color: '#1E1E1E',
         fontSize: '1.25rem',
         fontWeight: '700',
@@ -77,6 +77,14 @@ export const light: ThemeOptions = {
       fontWeight: '600',
       lineHeight: '2.2rem',
       fontStyle: 'inherit',
+      '@media (max-width: 900px)': {
+        color: '#1E1E1E',
+        fontSize: '1.15rem',
+        fontWeight: '600',
+        lineHeight: '32px',
+        letterSpacing: '0.15px',
+        fontStyle: 'inherit',
+      },
     },
     body1: {
       color: '#1E1E1E',

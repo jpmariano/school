@@ -8,6 +8,9 @@ import HorizontalSeparator from '@/components/layouts/horizontalSeparator';
 import CenterBoxWithSidebar from '@/components/layouts/centerBoxWithSidebar';
 import Aside from '@/components/layouts/aside';
 import NotAside from '@/components/layouts/notAside';
+import ShowCode from '@/components/prismjs/showcode';
+import SuperEditor from '@/components/prismjs/superEditor';
+import jscode from '@/data/js.json';
 //import { useEffect } from 'react';
 
 
@@ -19,7 +22,27 @@ const Index: NextPage = () => {
   return (
     <Main>
       <HorizontalSeparator />
+      <CenterBox>
+      <SuperEditor codeValue={jscode[0].code} />
+      </CenterBox>
+      <HorizontalSeparator />
+      <CenterBox>
+      <ShowCode>
+      {jscode[0].code}
+      </ShowCode>
+        </CenterBox>
+      <HorizontalSeparator />
+      <CenterBoxWithSidebar fullwidth={false} mobileReverseOrder={true}>
+        <NotAside addClassName="inverse">item 2</NotAside>
+        <Aside addClassName="inverse">item 1</Aside>
+      </CenterBoxWithSidebar>
+      <HorizontalSeparator />
       <CenterBoxWithSidebar fullwidth={false}>
+        <Aside addClassName="inverse">item 1</Aside>
+        <NotAside addClassName="inverse">item 2</NotAside>
+      </CenterBoxWithSidebar>
+      <HorizontalSeparator />
+      <CenterBoxWithSidebar fullHeight={true}>
         <Aside addClassName="inverse">item 1</Aside>
         <NotAside addClassName="inverse">item 2</NotAside>
       </CenterBoxWithSidebar>
@@ -30,14 +53,14 @@ const Index: NextPage = () => {
       </CenterBoxWithSidebar>
       <HorizontalSeparator />
       <CenterBox>
-        <Typography component="h1" variant="h1">test</Typography>
-        <Typography component="h2" variant="h2">test</Typography>
-        <Typography component="h3" variant="h3">test</Typography>
-        <Typography component="h4" variant="h4">test</Typography>
-        <Typography component="p" variant="body1">test</Typography>
-        <Typography component="p" variant="body2">test</Typography>
-        <Typography component="p" variant="subtitle1">test</Typography>
-        <Typography component="p" variant="overline">test</Typography>
+        <Typography component="h1" variant="h1">H1</Typography>
+        <Typography component="h2" variant="h2">H2</Typography>
+        <Typography component="h3" variant="h3">H3</Typography>
+        <Typography component="h4" variant="h4">H4</Typography>
+        <Typography component="p" variant="body1">Body1</Typography>
+        <Typography component="p" variant="body2">Body2</Typography>
+        <Typography component="p" variant="subtitle1">Subtitle1</Typography>
+        <Typography component="p" variant="overline">Overline</Typography>
       </CenterBox>
       <HorizontalSeparator />
       <CenterBox>
