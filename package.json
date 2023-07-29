@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@codemirror/lang-css": "^6.2.0",
+    "@codemirror/lang-html": "^6.4.5",
+    "@codemirror/lang-javascript": "^6.1.9",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.1",
@@ -17,7 +20,9 @@
     "@types/node": "20.4.4",
     "@types/react": "18.2.15",
     "@types/react-dom": "18.2.7",
+    "@uiw/react-codemirror": "^4.21.9",
     "@uiw/react-textarea-code-editor": "^1.4.4",
+    "codemirror": "^6.0.1",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.12",
     "material-ui-popup-state": "^5.0.9",
