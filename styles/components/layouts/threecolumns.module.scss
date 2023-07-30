@@ -2,7 +2,14 @@
     width: 100%;
     display:flex;
     gap: 1.5em;
+    @media screen and (max-width: 936px) {
+        flex-direction: column;
+    }
     & > * {
-        width: calc(100% / 3);
+        max-width: calc(100% / 3);
+        width: 100%;
+        @media screen and (max-width: 936px) {
+            max-width: 100%;
+        }
     }
 }
