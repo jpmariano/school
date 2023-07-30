@@ -11,6 +11,7 @@ import { QuoteReviewSlice } from "@/store/features/quoteReviewSlice";
 import { ToggleSlice } from "@/store/features/toggleSlice";
 import { jkTabsSubtitleSlice } from "@/store/features/jkTabsSubtitleSlice";
 import { DisableZipStateSlice } from "@/store/features/disableZipState";
+import {HtmlCssJsCodeEditorSlice} from "@/store/features/htmlCssJsCodeEditorSlice";
 
 export const store = configureStore({
   reducer: {
@@ -24,7 +25,8 @@ export const store = configureStore({
     quotereview: QuoteReviewSlice.reducer,
     toggle: ToggleSlice.reducer,
     tabsubtitle: jkTabsSubtitleSlice.reducer,
-    disabledzipstate: DisableZipStateSlice.reducer
+    disabledzipstate: DisableZipStateSlice.reducer,
+    htmlcssjsstate: HtmlCssJsCodeEditorSlice.reducer,
   },
 });
 export type RootState = ReturnType<typeof store.getState>;

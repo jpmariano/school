@@ -76,10 +76,10 @@ const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', childre
       
 
   return (
-    <Box component="section" >
+    <Box component="section" sx={{overflow: 'hidden', height: '300px'}}>
          <CodeMirror
       value={code}
-      height="200px"
+      height="300px"
       width='100%'
       extensions={extensions}
       onChange={onChange}

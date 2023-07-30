@@ -27,9 +27,9 @@ const Index: NextPage = () => {
   return (
     <Main>
       <HorizontalSeparator />
-      <CenterBox>
+      <FullWidthBox>
         <CodePlayer html={html[0].html} css={css[0].css} javascript={jscode[0].code} /> 
-      </CenterBox>
+      </FullWidthBox>
       <HorizontalSeparator />
       <CenterBox>
         <CodeEditor>{jscode[1].code}</CodeEditor>
