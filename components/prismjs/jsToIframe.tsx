@@ -1,7 +1,7 @@
 
 import React, { ReactNode } from 'react';
 import { Box, Paper } from '@mui/material';
-import JkTabs from '@/components/tabs';
+import MuiTabs from '@/components/tabs';
 import js from '@/data/js.json';
 import css from '@/data/css.json';
 import html from '@/data/html.json';
@@ -14,7 +14,7 @@ export interface jsToIframeProps {
 
 const JsToIframe: React.FC = () => {
   return (
-    <JkTabs titles={['HTML', 'CSS', 'JS']}>
+    <MuiTabs titles={['HTML', 'CSS', 'JS']}>
             <Box component="div" sx={{ width: 1 }}>
                 <SuperEditor id="123" language='html'>{html[0].html}</SuperEditor>
             </Box>
@@ -24,7 +24,7 @@ const JsToIframe: React.FC = () => {
             <Box component="div" sx={{ width: 1 }}>
                 <SuperEditor id="6677" >{js[0].code}</SuperEditor>
             </Box>
-    </JkTabs>
+    </MuiTabs>
     );
 };
 

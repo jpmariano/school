@@ -13,6 +13,7 @@ import styles from '@/styles/components/tabs/jktabs.module.scss';
 
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import { addSubtitles } from '@/store/features/jkTabsSubtitleSlice';
+import { Children } from 'react';
 //import colors from '@/styles/colors.module.scss';
 
 export interface TabPanelProps {
@@ -25,7 +26,7 @@ export interface TabPanelProps {
 export interface TabsCustomProps {
     titles: string[];
     subtitles?: string[];
-    children?: React.ReactNode[];
+    children?: React.ReactNode;
     errorMessage?: string | null;
 }
 
@@ -54,7 +55,7 @@ const a11yProps = (index: number) => {
   };
 };
 
-const JkTabs: React.FC<TabsCustomProps> = ({
+const MuiTabs: React.FC<TabsCustomProps> = ({
   titles,
   subtitles,
   children,
@@ -154,7 +155,7 @@ const JkTabs: React.FC<TabsCustomProps> = ({
         {errorMessage}
       </Typography>
       {children &&
-        children.map((item: React.ReactNode, i: number) => {
+        Children.toArray(children).map((item: React.ReactNode, i: number) => {
           return (
             <TabPanel key={i} value={value} index={i} dir={theme.direction}>
               {item}
@@ -165,4 +166,4 @@ const JkTabs: React.FC<TabsCustomProps> = ({
   );
 };
 
-export default JkTabs;
+export default MuiTabs;

@@ -1,11 +1,12 @@
 
 'use client'
 import React, { ReactNode, createContext, useEffect, useState } from 'react';
-import { Box, Paper } from '@mui/material';
+import { Box, Paper, useMediaQuery, useTheme } from '@mui/material';
 import styles from "@/styles/components/layouts/aside.module.scss";
-import JkTabs from '@/components/tabs';
+import MuiTabs from '@/components/tabs';
 import CodeEditor from '@/components/codemirror/codeEditor';
 import CodeIframe from '@/components/codemirror/codeIframe';
+import ThreeColumns from '@/components/layouts/threeColumns';
 
 
 export interface contextProps {
@@ -38,6 +39,8 @@ const CodePlayer: React.FC<codePlayerProps> = ({html, javascript, css}) => {
     const [htmlCode, setHtmlCode] = useState(html);
     const [javascriptCode, setJavascriptCode] = useState(javascript);
     const [cssCode, setCssCode] = useState(css);
+    const theme = useTheme();
+    const isLg = useMediaQuery(theme.breakpoints.down('lg'));
   
 
   const upDateHtml = (htmlCodex: string) => {
@@ -57,17 +60,40 @@ const CodePlayer: React.FC<codePlayerProps> = ({html, javascript, css}) => {
 
   return (
     <CodePlayerContext.Provider value={{ htmlCode, upDateHtml, javascriptCode, updateJavascript, cssCode, updateCss }}>
-      <JkTabs titles={['HTML', 'CSS', 'JS']}>
-        <Box component="div" sx={{ width: 1 }}>
-          <CodeEditor language='html'>{htmlCode}</CodeEditor>
-        </Box>
-        <Box component="div" sx={{ width: 1 }}>
-          <CodeEditor language='css'>{cssCode}</CodeEditor>
-        </Box>
-        <Box component="div" sx={{ width: 1 }}>
-          <CodeEditor language='javascript'>{javascriptCode}</CodeEditor>
-        </Box>
-      </JkTabs>
+      {
+        isLg ? (
+          <MuiTabs titles={['HTML', 'CSS', 'JS']}>
+            <Box component="div" sx={{ width: 1 }}>
+              <CodeEditor language='html'>{htmlCode}</CodeEditor>
+            </Box>
+            <Box component="div" sx={{ width: 1 }}>
+              <CodeEditor language='css'>{cssCode}</CodeEditor>
+            </Box>
+            <Box component="div" sx={{ width: 1 }}>
+              <CodeEditor language='javascript'>{javascriptCode}</CodeEditor>
+            </Box>
+          </MuiTabs>
+          
+        ) : (
+          <ThreeColumns>
+            <MuiTabs titles={['HTML']}>
+            <Box component="div" sx={{ width: 1 }}>
+              <CodeEditor language='html'>{htmlCode}</CodeEditor>
+            </Box>
+          </MuiTabs>
+          <MuiTabs titles={['CSS']}>
+            <Box component="div" sx={{ width: 1 }}>
+              <CodeEditor language='css'>{cssCode}</CodeEditor>
+            </Box>
+            </MuiTabs><MuiTabs titles={['JS']}>
+            <Box component="div" sx={{ width: 1 }}>
+              <CodeEditor language='javascript'>{javascriptCode}</CodeEditor>
+            </Box>
+            </MuiTabs>
+          </ThreeColumns>
+          
+        )
+      }
     <CodeIframe html={html} css={css} javascript={javascript}></CodeIframe>
     </CodePlayerContext.Provider>
   );
