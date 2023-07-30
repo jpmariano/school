@@ -105,7 +105,7 @@ const MuiTabs: React.FC<TabsCustomProps> = ({
   }, [tabsubtitle]);
 
   return (
-    <Box id="jkTabs" sx={{ justifyContent: 'center' }}>
+    <Box className="Tabs" sx={{ justifyContent: 'center' }}>
       <AppBar position="static">
         <Tabs
           value={value}
@@ -147,13 +147,15 @@ const MuiTabs: React.FC<TabsCustomProps> = ({
         </Tabs>
       </AppBar>
       <Divider light className={styles.divider} />
-      <Typography
-        fontFamily={'Barlow'}
-        sx={{ color: "red", textAlign: 'center' }}
-        minHeight="24px"
-      >
-        {errorMessage}
-      </Typography>
+      {errorMessage && (
+        <Typography
+          fontFamily={'Barlow'}
+          sx={{ color: "red", textAlign: 'center' }}
+          minHeight="24px"
+        >
+          {errorMessage}
+        </Typography>
+      )} 
       {children &&
         Children.toArray(children).map((item: React.ReactNode, i: number) => {
           return (
