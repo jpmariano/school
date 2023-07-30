@@ -49,7 +49,7 @@ const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', childre
        }, []);
 
     const onChange = useCallback((value: string, viewUpdate: ViewUpdate) => {
-        //console.log('value:', value);
+       // console.log('value:', value);
         switch(language) { 
             case 'javascript': { 
                 updateJavascript && updateJavascript(value)

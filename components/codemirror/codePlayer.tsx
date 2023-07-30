@@ -1,6 +1,6 @@
 
 'use client'
-import React, { ReactNode, createContext, useState } from 'react';
+import React, { ReactNode, createContext, useEffect, useState } from 'react';
 import { Box, Paper } from '@mui/material';
 import styles from "@/styles/components/layouts/aside.module.scss";
 import JkTabs from '@/components/tabs';
@@ -35,35 +35,37 @@ const defaultState = {
 export const CodePlayerContext = createContext<Partial<contextProps>>(defaultState);
 
 const CodePlayer: React.FC<codePlayerProps> = ({html, javascript, css}) => {
-    const [htmlCode, setHtmlCode] = useState("");
-    const [javascriptCode, setJavascriptCode] = useState("");
-    const [cssCode, setCssCode] = useState("");
+    const [htmlCode, setHtmlCode] = useState(html);
+    const [javascriptCode, setJavascriptCode] = useState(javascript);
+    const [cssCode, setCssCode] = useState(css);
   
 
-  const upDateHtml = (html: string) => {
-    setHtmlCode(html);
+  const upDateHtml = (htmlCodex: string) => {
+    setHtmlCode(htmlCodex);
   };
 
-  const updateJavascript = (javascriptCode: string) => {
-    setJavascriptCode(javascriptCode);
+  const updateJavascript = (javascriptCodex: string) => {
+    setJavascriptCode(javascriptCodex);
   };
 
-  const updateCss = (cssCode: string) => {
-    setCssCode(cssCode);
+  const updateCss = (cssCodex: string) => {
+    setCssCode(cssCodex);
   };
+
+ 
 
 
   return (
     <CodePlayerContext.Provider value={{ htmlCode, upDateHtml, javascriptCode, updateJavascript, cssCode, updateCss }}>
       <JkTabs titles={['HTML', 'CSS', 'JS']}>
         <Box component="div" sx={{ width: 1 }}>
-          <CodeEditor language='html'>{html}</CodeEditor>
+          <CodeEditor language='html'>{htmlCode}</CodeEditor>
         </Box>
         <Box component="div" sx={{ width: 1 }}>
-          <CodeEditor language='css'>{css}</CodeEditor>
+          <CodeEditor language='css'>{cssCode}</CodeEditor>
         </Box>
         <Box component="div" sx={{ width: 1 }}>
-          <CodeEditor language='javascript'>{javascript}</CodeEditor>
+          <CodeEditor language='javascript'>{javascriptCode}</CodeEditor>
         </Box>
       </JkTabs>
     <CodeIframe html={html} css={css} javascript={javascript}></CodeIframe>

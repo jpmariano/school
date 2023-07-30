@@ -18,8 +18,9 @@ const CodeIframe: React.FC<codePlayerProps> = ({html, javascript, css}) => {
         htmlCode && setHtmlToIframe(htmlCode)
         cssCode && setCssToIframe(cssCode)
         javascriptCode && setJavascriptToIframe(javascriptCode)
-
+ 
         const timeOut = setTimeout(() => {
+            
             setSrcDoc(
               `
                 <html>
@@ -39,7 +40,7 @@ const CodeIframe: React.FC<codePlayerProps> = ({html, javascript, css}) => {
               `
             )
           }, 250);
-          return () => clearTimeout(timeOut)
+          return () => clearTimeout(timeOut);
 
        }, [cssCode, htmlCode, javascriptCode]);
       
