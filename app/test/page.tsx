@@ -15,6 +15,7 @@ import css from '@/data/css.json';
 import html from '@/data/html.json';
 import JsToIframe from '@/components/prismjs/jsToIframe';
 import CodeEditor from '@/components/codemirror/codeEditor';
+import CodePlayer from '@/components/codemirror/codePlayer';
 //import { useEffect } from 'react';
 
 
@@ -25,6 +26,10 @@ const Index: NextPage = () => {
   
   return (
     <Main>
+      <HorizontalSeparator />
+      <CenterBox>
+        <CodePlayer html={html[0].html} css={css[0].css} javascript={jscode[0].code} /> 
+      </CenterBox>
       <HorizontalSeparator />
       <CenterBox>
         <CodeEditor>{jscode[1].code}</CodeEditor>
