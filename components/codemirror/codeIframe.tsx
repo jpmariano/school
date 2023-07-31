@@ -29,6 +29,7 @@ const CodeIframe: React.FC<codeIframeProps> = ({html, javascript, css}) => {
               `
                 <html>
                 <head>
+                <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css" rel="stylesheet">
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css">
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css">
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">

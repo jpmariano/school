@@ -9,8 +9,7 @@ export interface cnterBoxProps {
 
 
 const SmartColumns: React.FC<cnterBoxProps> = ({children}) => {
-  let count = Children.count(children);
-
+  let count = Children.toArray(children).length;
   switch(count) { 
       case 1: { 
         return ( 
