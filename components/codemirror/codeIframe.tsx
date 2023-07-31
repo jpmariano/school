@@ -3,22 +3,36 @@
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import { Paper } from '@mui/material';
 import styles from "@/styles/components/layouts/aside.module.scss";
-import { CodePlayerContext} from '@/components/codemirror/codePlayer';
+import { CodePlayerContext, Editor, codePlayerProps} from '@/components/codemirror/codePlayer';
 
-export interface codeIframeProps {
-  html?: string;
-  javascript?: string;
-  css?: string;
-}
 
-const CodeIframe: React.FC<codeIframeProps> = ({html, javascript, css}) => {
+
+const CodeIframe: React.FC<codePlayerProps> = ({head, editors}) => {
     const { htmlCode, cssCode, javascriptCode} = useContext(CodePlayerContext);
     const [srcDoc, setSrcDoc] = useState(``);
-    const [htmlToIframe, setHtmlToIframe] = useState(html);
-    const [cssToIframe, setCssToIframe] = useState(css);
-    const [javascriptToIframe, setJavascriptToIframe] = useState(javascript);
+    const [headToIframe, setHeadToIframe] = useState('');
+    const [htmlToIframe, setHtmlToIframe] = useState('');
+    const [cssToIframe, setCssToIframe] = useState('');
+    const [javascriptToIframe, setJavascriptToIframe] = useState('');
 
     useEffect(() => {
+      let newHead = '';
+      head && 
+        head.map((item: String, i: number) => {
+          //setHeadToIframe(headToIframe + item);
+          newHead += item;
+        });
+        setHeadToIframe(newHead);
+      editors &&
+        editors.map((item: Editor, i: number) => {
+        item.language === 'html' && setHtmlToIframe(item.code);
+        item.language === 'css' && setCssToIframe(item.code);
+        item.language === 'javascript' && setJavascriptToIframe(item.code);
+      })
+       }, [editors]);
+
+    useEffect(() => {
+ 
         htmlCode && setHtmlToIframe(htmlCode)
         cssCode && setCssToIframe(cssCode)
         javascriptCode && setJavascriptToIframe(javascriptCode)
@@ -29,14 +43,7 @@ const CodeIframe: React.FC<codeIframeProps> = ({html, javascript, css}) => {
               `
                 <html>
                 <head>
-                <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css" rel="stylesheet">
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css">
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css">
-                <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.12/jquery.mousewheel.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.js"></script>
+                ${headToIframe}
                 </head> 
                   <body>${htmlToIframe}</body>
                   <style>${cssToIframe}</style>

@@ -18,7 +18,7 @@ export interface codeEditorProps {
     children?: string;
     language?: 'javascript' | 'css' | 'html';
     editable?: boolean;
-    answer?: string;
+    answer?: string | null;
     settings?: boolean;
 }
 

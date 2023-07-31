@@ -9,6 +9,13 @@ import CodeIframe from '@/components/codemirror/codeIframe';
 import SmartColumns from '@/components/layouts/smartColumns';
 
 
+export type Editor = {
+  language: 'html' | 'css' | 'javascript';
+  enable: string;
+  code: string;
+  answer: string | null;
+};
+
 export interface contextProps {
     htmlCode?: string;
     upDateHtml?: (html: string) => void;
@@ -19,12 +26,8 @@ export interface contextProps {
 }
 
 export interface codePlayerProps {
-    html?: string;
-    htmlAnswer?: string;
-    javascript?: string;
-    javascriptAnswer?: string;
-    css?: string;
-    cssAnswer?: string;
+    head: String [];
+    editors: Editor []
 }
 
 const defaultState = {
@@ -38,10 +41,10 @@ const defaultState = {
 
 export const CodePlayerContext = createContext<Partial<contextProps>>(defaultState);
 
-const CodePlayer: React.FC<codePlayerProps> = ({html, javascript, css, htmlAnswer, cssAnswer, javascriptAnswer}) => {
-    const [htmlCode, setHtmlCode] = useState(html);
-    const [javascriptCode, setJavascriptCode] = useState(javascript);
-    const [cssCode, setCssCode] = useState(css);
+const CodePlayer: React.FC<codePlayerProps> = ({editors, head}) => {
+    const [htmlCode, setHtmlCode] = useState('');
+    const [javascriptCode, setJavascriptCode] = useState('');
+    const [cssCode, setCssCode] = useState('');
     const theme = useTheme();
     const isLg = useMediaQuery(theme.breakpoints.down('lg'));
   
@@ -58,7 +61,15 @@ const CodePlayer: React.FC<codePlayerProps> = ({html, javascript, css, htmlAnswe
     setCssCode(cssCodex);
   };
 
- 
+  useEffect(() => {
+    {editors &&
+      editors.map((item: Editor, i: number) => {
+      item.language === 'html' && setHtmlCode(item.code);
+      item.language === 'css' && setCssCode(item.code);
+      item.language === 'javascript' && setJavascriptCode(item.code);
+    })}
+   }, [editors]);
+  
 
 
   return (
@@ -66,51 +77,34 @@ const CodePlayer: React.FC<codePlayerProps> = ({html, javascript, css, htmlAnswe
       {
         isLg ? (
           <MuiTabs>
-            { html && 
-              <Box component="div" sx={{ width: 1 }} title="HTML">
-                <CodeEditor language='html' answer={htmlAnswer}>{htmlCode}</CodeEditor>
-              </Box>
-            }
-            { css && 
-              <Box component="div" sx={{ width: 1 }} title="CSS">
-                <CodeEditor language='css' answer={cssAnswer}>{cssCode}</CodeEditor>
-              </Box>
-            }
-            { javascript && 
-              <Box component="div" sx={{ width: 1 }} title="JAVASCRIPT">
-                <CodeEditor language='javascript' answer={javascriptAnswer}>{javascriptCode}</CodeEditor>
-              </Box>
-            }
+            
+            {editors &&
+              editors.map((item: Editor, i: number) => {
+                return (<Box key={i} component="div" sx={{ width: 1 }} title={item.language.toUpperCase()}>
+                      <CodeEditor editable={item.enable === '1'? true : false} language={item.language} answer={item?.answer}>{item.code}</CodeEditor>
+                    </Box>)
+            })}
+         
           </MuiTabs>
           
         ) : (
           <SmartColumns>
-            { html && 
-              <MuiTabs>
-                <Box component="div" sx={{ width: 1 }} title="HTML">
-                  <CodeEditor language='html' answer={htmlAnswer}>{htmlCode}</CodeEditor>
-                </Box>
-              </MuiTabs>
-            }
-            { css && 
-              <MuiTabs>
-                <Box component="div" sx={{ width: 1 }} title="CSS">
-                  <CodeEditor language='css' answer={cssAnswer}>{cssCode}</CodeEditor>
-                </Box>
-              </MuiTabs>
-            }
-            { javascript && 
-              <MuiTabs>
-                <Box component="div" sx={{ width: 1 }} title="JAVASCRIPT">
-                  <CodeEditor language='javascript'  answer={javascriptAnswer}>{javascriptCode}</CodeEditor>
-                </Box>
-              </MuiTabs>
-            }
+            {editors &&
+            
+              editors.map((item: Editor, i: number) => {
+                return (<MuiTabs  key={i}>
+                  <Box component="div" sx={{ width: 1 }} title={item.language.toUpperCase()}>
+                    <CodeEditor editable={item.enable === '1'? true : false}  language={item.language} answer={item?.answer}>{item.code}</CodeEditor>
+                  </Box>
+                </MuiTabs>)
+             
+            })}
+
           </SmartColumns>
           
         )
       }
-    <CodeIframe html={html} css={css} javascript={javascript}></CodeIframe>
+    <CodeIframe head={head} editors={editors}></CodeIframe>
     </CodePlayerContext.Provider>
   );
 };

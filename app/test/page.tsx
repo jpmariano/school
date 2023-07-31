@@ -13,9 +13,10 @@ import SuperEditor from '@/components/prismjs/superEditor';
 import jscode from '@/data/js.json';
 import css from '@/data/css.json';
 import html from '@/data/html.json';
+import code from '@/data/code.json';
 import JsToIframe from '@/components/prismjs/jsToIframe';
 import CodeEditor from '@/components/codemirror/codeEditor';
-import CodePlayer from '@/components/codemirror/codePlayer';
+import CodePlayer, { Editor } from '@/components/codemirror/codePlayer';
 //import { useEffect } from 'react';
 
 
@@ -28,7 +29,7 @@ const Index: NextPage = () => {
     <Main>
       <HorizontalSeparator />
       <FullWidthBox>
-        <CodePlayer html={html[0].html} htmlAnswer={html[0].html} css={css[0].css} cssAnswer={css[0].css} javascript={jscode[0].code} javascriptAnswer={jscode[0].code} /> 
+        <CodePlayer head={code[0].head} editors={code[0].editors as Editor[]}/> 
       </FullWidthBox>
       <HorizontalSeparator />
       <CenterBox>
