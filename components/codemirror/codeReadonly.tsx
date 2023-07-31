@@ -10,27 +10,19 @@ import { css } from '@codemirror/lang-css';
 import { EditorView, ViewUpdate } from '@codemirror/view';
 import { EditorState, EditorStateConfig, Extension, StateField } from '@codemirror/state';
 import { CodePlayerContext } from '@/components/codemirror/codePlayer';
-import AnswerBtn from '@/components/iconbtns/answerBtn';
-import StackRightBtn from '@/components/layouts/stackRightBtn';
-import { Height } from '@mui/icons-material';
 
-export interface codeEditorProps {
+
+
+export interface codeReadOnlyProps {
     children?: string;
     language?: 'javascript' | 'css' | 'html';
-    editable?: boolean;
-    answer?: string;
-    settings?: boolean;
 }
 
-const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,  settings = false, editable = true, children = ''}) => {
-
-    const { upDateHtml, updateJavascript, updateCss} = useContext(CodePlayerContext);
-
+const CodeReadOnly: React.FC<codeReadOnlyProps> = ({language = 'javascript', children }) => {
     
     const [code, setCode] = useState('');
     const [extensions, setExtensions] = useState<Extension[]>([]);
     const codeInitialize = children?.toString();
-    const [showStack, setShowStack] = useState(settings);
     
 
     useEffect(() => {
@@ -54,51 +46,23 @@ const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,
                 break; 
              } 
           }
-          answer && setShowStack(true);
        }, []);
-
-    const onChange = useCallback((value: string, viewUpdate: ViewUpdate) => {
-       // console.log('value:', value);
-        switch(language) { 
-            case 'javascript': { 
-                updateJavascript && updateJavascript(value)
-               break; 
-            } 
-            case 'html': { 
-                upDateHtml && upDateHtml(value)
-               break; 
-            } 
-            case 'css': { 
-                updateCss && updateCss(value)
-               break; 
-            }
-            default: { 
-                updateJavascript && updateJavascript(value)
-               break; 
-            } 
-         }
-      }, [language, upDateHtml, updateCss, updateJavascript]);
-
-       
-
-
-      
-
+//#1aa8ff
   return (
-    <Box component="section" sx={{overflow: 'hidden', height: '335px'}}>
-        
+    <Box component="section" id='test' sx={{overflow: 'hidden', height: '100%', minHeight: '300px',  width: '100%' , minWidth: '500px'}}>
          <CodeMirror
       value={code}
-      height="300px"
+      minHeight='300px'
+      maxHeight='500px'
+      minWidth='500px'
+      height="100%"
       width='100%'
       extensions={extensions}
-      onChange={onChange}
       theme='dark'
-      editable={editable}
+      editable={false}
     />
-     {showStack && <StackRightBtn> {answer && <AnswerBtn language={language}>{answer}</AnswerBtn>}</StackRightBtn>}
     </Box> 
     );
 };
 
-export default CodeEditor;
+export default CodeReadOnly;

@@ -24,8 +24,6 @@ export interface TabPanelProps {
 }
 
 export interface TabsCustomProps {
-    titles: string[];
-    subtitles?: string[];
     children?: React.ReactNode;
     errorMessage?: string | null;
 }
@@ -56,18 +54,13 @@ const a11yProps = (index: number) => {
 };
 
 const MuiTabs: React.FC<TabsCustomProps> = ({
-  titles,
-  subtitles,
   children,
   errorMessage,
 }: TabsCustomProps) => {
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
-  const [arrSubtitles, setArrSubtitles] = React.useState<string[]>(
-    subtitles ? subtitles : []
-  );
   const dispatch = useAppDispatch();
-  const tabsubtitle = useAppSelector((state) => state.tabsubtitle);
+ 
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -91,18 +84,8 @@ const MuiTabs: React.FC<TabsCustomProps> = ({
     isScrollable = 'scrollable';
   }
 
-  React.useEffect(() => {
-    subtitles &&
-      subtitles.map((title: string, i: number) => {
-        return dispatch(addSubtitles({ subtitles: title }));
-      });
-    // eslint-disable-next-line
-  }, []);
 
-  React.useEffect(() => {
-    tabsubtitle.subtitles.length !== 0 &&
-      setArrSubtitles(tabsubtitle.subtitles);
-  }, [tabsubtitle]);
+
 
   return (
     <Box className="Tabs" sx={{ justifyContent: 'center' }}>
@@ -115,34 +98,26 @@ const MuiTabs: React.FC<TabsCustomProps> = ({
           variant="fullWidth"
           aria-label="tab list"
           sx={{
-            '& .Mui-selected': { bgcolor: "blue", color: "white" },
+            '& .Mui-selected': { bgcolor: "#1d2c55", color: "white" },
             '& .MuiTabs-flexContainer': { height: '57px' },
             bgcolor: "white",
             color: "blue",
           }}
           TabIndicatorProps={{ style: { background: 'none' } }}
         >
-          {subtitles
-            ? titles.map((title: string, i: number) => {
-                return (
-                  <Tab
-                    key={i}
-                    label={
-                      <span>
-                        <span>{title}</span>
-                        <span className={styles.subtitles}>
-                          {arrSubtitles[i]}
-                        </span>
-                      </span>
-                    }
-                    {...a11yProps(i)}
-                  />
-                );
-              })
-            : titles.map((title: string, i: number) => {
-                return (
-                  <Tab key={i} label={<span>{title}</span>} {...a11yProps(i)} />
-                );
+          {children &&
+                Children.toArray(children).map((item: React.ReactNode, i: number) => {
+                if (React.isValidElement(item)) {
+                  if (item.props.title) { 
+                    return (
+                      <Tab key={i} label={<span>{item.props.title}</span>} {...a11yProps(i)} />
+                    );
+                  } else {
+                      return (
+                        <Tab key={i} label={<span>No Title</span>} {...a11yProps(i)} />
+                      );
+                  }
+                }
               })}
         </Tabs>
       </AppBar>

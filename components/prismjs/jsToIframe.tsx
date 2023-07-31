@@ -14,7 +14,7 @@ export interface jsToIframeProps {
 
 const JsToIframe: React.FC = () => {
   return (
-    <MuiTabs titles={['HTML', 'CSS', 'JS']}>
+    <MuiTabs >
             <Box component="div" sx={{ width: 1 }}>
                 <SuperEditor id="123" language='html'>{html[0].html}</SuperEditor>
             </Box>

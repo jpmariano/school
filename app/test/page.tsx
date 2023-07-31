@@ -28,7 +28,7 @@ const Index: NextPage = () => {
     <Main>
       <HorizontalSeparator />
       <FullWidthBox>
-        <CodePlayer html={html[0].html} css={css[0].css} javascript={jscode[0].code} /> 
+        <CodePlayer html={html[0].html} htmlAnswer={html[0].html} css={css[0].css} cssAnswer={css[0].css} javascript={jscode[0].code} javascriptAnswer={jscode[0].code} /> 
       </FullWidthBox>
       <HorizontalSeparator />
       <CenterBox>

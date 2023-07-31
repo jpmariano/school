@@ -3,11 +3,15 @@
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import { Paper } from '@mui/material';
 import styles from "@/styles/components/layouts/aside.module.scss";
-import { CodePlayerContext, codePlayerProps } from '@/components/codemirror/codePlayer';
+import { CodePlayerContext} from '@/components/codemirror/codePlayer';
 
+export interface codeIframeProps {
+  html?: string;
+  javascript?: string;
+  css?: string;
+}
 
-
-const CodeIframe: React.FC<codePlayerProps> = ({html, javascript, css}) => {
+const CodeIframe: React.FC<codeIframeProps> = ({html, javascript, css}) => {
     const { htmlCode, cssCode, javascriptCode} = useContext(CodePlayerContext);
     const [srcDoc, setSrcDoc] = useState(``);
     const [htmlToIframe, setHtmlToIframe] = useState(html);

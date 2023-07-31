@@ -6,7 +6,7 @@ import styles from "@/styles/components/layouts/aside.module.scss";
 import MuiTabs from '@/components/tabs';
 import CodeEditor from '@/components/codemirror/codeEditor';
 import CodeIframe from '@/components/codemirror/codeIframe';
-import ThreeColumns from '@/components/layouts/threeColumns';
+import SmartColumns from '@/components/layouts/smartColumns';
 
 
 export interface contextProps {
@@ -20,8 +20,11 @@ export interface contextProps {
 
 export interface codePlayerProps {
     html?: string;
+    htmlAnswer?: string;
     javascript?: string;
+    javascriptAnswer?: string;
     css?: string;
+    cssAnswer?: string;
 }
 
 const defaultState = {
@@ -35,7 +38,7 @@ const defaultState = {
 
 export const CodePlayerContext = createContext<Partial<contextProps>>(defaultState);
 
-const CodePlayer: React.FC<codePlayerProps> = ({html, javascript, css}) => {
+const CodePlayer: React.FC<codePlayerProps> = ({html, javascript, css, htmlAnswer, cssAnswer, javascriptAnswer}) => {
     const [htmlCode, setHtmlCode] = useState(html);
     const [javascriptCode, setJavascriptCode] = useState(javascript);
     const [cssCode, setCssCode] = useState(css);
@@ -62,35 +65,48 @@ const CodePlayer: React.FC<codePlayerProps> = ({html, javascript, css}) => {
     <CodePlayerContext.Provider value={{ htmlCode, upDateHtml, javascriptCode, updateJavascript, cssCode, updateCss }}>
       {
         isLg ? (
-          <MuiTabs titles={['HTML', 'CSS', 'JS']}>
-            <Box component="div" sx={{ width: 1 }}>
-              <CodeEditor language='html'>{htmlCode}</CodeEditor>
-            </Box>
-            <Box component="div" sx={{ width: 1 }}>
-              <CodeEditor language='css'>{cssCode}</CodeEditor>
-            </Box>
-            <Box component="div" sx={{ width: 1 }}>
-              <CodeEditor language='javascript'>{javascriptCode}</CodeEditor>
-            </Box>
+          <MuiTabs>
+            { html && 
+              <Box component="div" sx={{ width: 1 }} title="HTML">
+                <CodeEditor language='html' answer={htmlAnswer}>{htmlCode}</CodeEditor>
+              </Box>
+            }
+            { css && 
+              <Box component="div" sx={{ width: 1 }} title="CSS">
+                <CodeEditor language='css' answer={cssAnswer}>{cssCode}</CodeEditor>
+              </Box>
+            }
+            { javascript && 
+              <Box component="div" sx={{ width: 1 }} title="JAVASCRIPT">
+                <CodeEditor language='javascript' answer={javascriptAnswer}>{javascriptCode}</CodeEditor>
+              </Box>
+            }
           </MuiTabs>
           
         ) : (
-          <ThreeColumns>
-            <MuiTabs titles={['HTML']}>
-            <Box component="div" sx={{ width: 1 }}>
-              <CodeEditor language='html'>{htmlCode}</CodeEditor>
-            </Box>
-          </MuiTabs>
-          <MuiTabs titles={['CSS']}>
-            <Box component="div" sx={{ width: 1 }}>
-              <CodeEditor language='css'>{cssCode}</CodeEditor>
-            </Box>
-            </MuiTabs><MuiTabs titles={['JS']}>
-            <Box component="div" sx={{ width: 1 }}>
-              <CodeEditor language='javascript'>{javascriptCode}</CodeEditor>
-            </Box>
-            </MuiTabs>
-          </ThreeColumns>
+          <SmartColumns>
+            { html && 
+              <MuiTabs>
+                <Box component="div" sx={{ width: 1 }} title="HTML">
+                  <CodeEditor language='html' answer={htmlAnswer}>{htmlCode}</CodeEditor>
+                </Box>
+              </MuiTabs>
+            }
+            { css && 
+              <MuiTabs>
+                <Box component="div" sx={{ width: 1 }} title="CSS">
+                  <CodeEditor language='css' answer={cssAnswer}>{cssCode}</CodeEditor>
+                </Box>
+              </MuiTabs>
+            }
+            { javascript && 
+              <MuiTabs>
+                <Box component="div" sx={{ width: 1 }} title="JAVASCRIPT">
+                  <CodeEditor language='javascript'  answer={javascriptAnswer}>{javascriptCode}</CodeEditor>
+                </Box>
+              </MuiTabs>
+            }
+          </SmartColumns>
           
         )
       }

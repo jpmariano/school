@@ -1,0 +1,66 @@
+.oneColumns {
+    width: 100%;
+    display:flex;
+    gap: 1.5em;
+    @media screen and (max-width: 936px) {
+        flex-direction: column;
+    }
+    & > * {
+        max-width: 100%;
+        width: 100%;
+        flex-shrink: 1;
+        min-width: 0;
+    }
+}
+
+.twoColumns {
+    width: 100%;
+    display:flex;
+    gap: 1.5em;
+    @media screen and (max-width: 936px) {
+        flex-direction: column;
+    }
+    & > * {
+        max-width: calc(100% / 2);
+        width: 100%;
+        flex-shrink: 1;
+        min-width: 0;
+        @media screen and (max-width: 936px) {
+            max-width: 100%;
+        }
+    }
+}
+.threeColumns {
+    width: 100%;
+    display:flex;
+    gap: 1.5em;
+    @media screen and (max-width: 936px) {
+        flex-direction: column;
+    }
+    & > * {
+        max-width: calc(100% / 3);
+        width: 100%;
+        flex-shrink: 1;
+        min-width: 0;
+        @media screen and (max-width: 936px) {
+            max-width: 100%;
+        }
+    }
+}
+.fourColumns {
+    width: 100%;
+    display:flex;
+    gap: 1.5em;
+    @media screen and (max-width: 936px) {
+        flex-direction: column;
+    }
+    & > * {
+        max-width: calc(100% / 4);
+        width: 100%;
+        flex-shrink: 1;
+        min-width: 0;
+        @media screen and (max-width: 936px) {
+            max-width: 100%;
+        }
+    }
+}
