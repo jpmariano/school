@@ -13,6 +13,7 @@ import { CodePlayerContext } from '@/components/codemirror/codePlayer';
 import AnswerBtn from '@/components/iconbtns/answerBtn';
 import StackRightBtn from '@/components/layouts/stackRightBtn';
 import { Height } from '@mui/icons-material';
+import useWindowDimensions from '@/utils/useWindowDimensions';
 
 export interface codeEditorProps {
     children?: string;
@@ -31,7 +32,9 @@ const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,
     const [extensions, setExtensions] = useState<Extension[]>([]);
     const codeInitialize = children?.toString();
     const [showStack, setShowStack] = useState(settings);
-    
+    const { height, width } = useWindowDimensions();
+    const containerHeight = height/1.67;
+    const codeMirrorHeight = height/1.67 - 35;
 
     useEffect(() => {
         children && setCode(codeInitialize ? codeInitialize : '');
@@ -85,11 +88,11 @@ const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,
       
 
   return (
-    <Box component="section" sx={{overflow: 'hidden', height: '335px'}}>
+    <Box component="section" sx={{overflow: 'hidden', height: `${containerHeight}px`}}>
         
          <CodeMirror
       value={code}
-      height="300px"
+      height={`${codeMirrorHeight}px`}
       width='100%'
       extensions={extensions}
       onChange={onChange}

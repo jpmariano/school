@@ -4,6 +4,7 @@ import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import { Paper } from '@mui/material';
 import styles from "@/styles/components/layouts/aside.module.scss";
 import { CodePlayerContext, Editor, codePlayerProps} from '@/components/codemirror/codePlayer';
+import useWindowDimensions from '@/utils/useWindowDimensions';
 
 
 interface codeIframeProps extends codePlayerProps {
@@ -18,7 +19,8 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
     const [htmlToIframe, setHtmlToIframe] = useState('');
     const [cssToIframe, setCssToIframe] = useState('');
     const [javascriptToIframe, setJavascriptToIframe] = useState('');
-
+    const { height, width } = useWindowDimensions();
+    const containerHeight = height/1.67;
     useEffect(() => {
       
 
@@ -72,7 +74,7 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
           sandbox="allow-scripts"
           frameBorder="1"
           width="100%"
-          height="500px"
+          height={`${containerHeight}px`}
         />
     </Paper> 
     );
