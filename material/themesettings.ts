@@ -3,7 +3,7 @@ import { ThemeOptions } from '@mui/material';
 //https://mui.com/material-ui/customization/default-theme/
 export const light: ThemeOptions = {
   breakpoints: {
-    values: {xs: 0, sm: 335, md: 744, lg: 936, xl: 1280}
+    values: {xs: 0, sm: 414, md: 744, lg: 936, xl: 1280}
   },
   palette: {
     mode: 'light',

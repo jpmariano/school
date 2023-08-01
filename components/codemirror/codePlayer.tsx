@@ -47,7 +47,7 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head}) => {
     const [cssCode, setCssCode] = useState('');
     const theme = useTheme();
     const isLg = useMediaQuery(theme.breakpoints.down('lg'));
-  
+    const isMd = useMediaQuery(theme.breakpoints.down('md'));
 
   const upDateHtml = (htmlCodex: string) => {
     setHtmlCode(htmlCodex);
@@ -74,37 +74,17 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head}) => {
 
   return (
     <CodePlayerContext.Provider value={{ htmlCode, upDateHtml, javascriptCode, updateJavascript, cssCode, updateCss }}>
-      {
-        isLg ? (
-          <MuiTabs>
-            
-            {editors &&
-              editors.map((item: Editor, i: number) => {
-                return (<Box key={i} component="div" sx={{ width: 1 }} title={item.language.toUpperCase()}>
-                      <CodeEditor editable={item.enable === '1'? true : false} language={item.language} answer={item?.answer}>{item.code}</CodeEditor>
-                    </Box>)
-            })}
-         
-          </MuiTabs>
-          
-        ) : (
-          <SmartColumns>
-            {editors &&
-            
-              editors.map((item: Editor, i: number) => {
-                return (<MuiTabs  key={i}>
-                  <Box component="div" sx={{ width: 1 }} title={item.language.toUpperCase()}>
-                    <CodeEditor editable={item.enable === '1'? true : false}  language={item.language} answer={item?.answer}>{item.code}</CodeEditor>
-                  </Box>
-                </MuiTabs>)
-             
-            })}
+      <MuiTabs>
 
-          </SmartColumns>
-          
-        )
-      }
-    <CodeIframe head={head} editors={editors}></CodeIframe>
+        {editors &&
+          editors.map((item: Editor, i: number) => {
+            return (<Box key={i} component="div" sx={{ width: 1 }} title={item.language === 'javascript' ? isMd ? 'JS': item.language.toUpperCase() : item.language.toUpperCase()}>
+              <CodeEditor editable={item.enable === '1' ? true : false} language={item.language} answer={item?.answer}>{item.code}</CodeEditor>
+            </Box>)
+          })}
+         <CodeIframe head={head} editors={editors} title="Results"></CodeIframe>
+      </MuiTabs>
+      
     </CodePlayerContext.Provider>
   );
 };

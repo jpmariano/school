@@ -1,0 +1,14 @@
+.morthan3Button {
+    :global(.MuiButtonBase-root.tab0){
+        @media screen and (max-width: 390px) {
+            margin-left: 75px;
+        }
+        @media screen and (max-width: 320px) {
+            margin-left: 125px;
+        }
+    }
+ 
+}
+.button {
+    
+}

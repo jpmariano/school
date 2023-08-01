@@ -6,13 +6,12 @@ import Tabs, { TabsProps } from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { Divider, Paper } from '@mui/material';
+import { Divider, Paper, useMediaQuery } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import useWindowDimensions from '@/utils/useWindowDimensions';
-import styles from '@/styles/components/tabs/jktabs.module.scss';
+import styles from '@/styles/components/tabs/tabs.module.scss';
 
-import { useAppDispatch, useAppSelector } from '@/store/store';
-import { addSubtitles } from '@/store/features/jkTabsSubtitleSlice';
+import { useAppDispatch} from '@/store/store';
 import { Children } from 'react';
 //import colors from '@/styles/colors.module.scss';
 
@@ -60,6 +59,8 @@ const MuiTabs: React.FC<TabsCustomProps> = ({
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
   const dispatch = useAppDispatch();
+  const isLg = useMediaQuery(theme.breakpoints.down('lg'));
+  const isSm = useMediaQuery(theme.breakpoints.down('sm'));
  
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -92,16 +93,20 @@ const MuiTabs: React.FC<TabsCustomProps> = ({
       <AppBar position="static">
         <Tabs
           value={value}
+          variant={isSm ? "scrollable" : "fullWidth"}
+          scrollButtons="auto"
+          allowScrollButtonsMobile
           onChange={handleChange}
           indicatorColor="secondary"
           textColor="inherit"
-          variant="fullWidth"
+          className={Children.count(children) > 3 ? styles.morthan3Button : styles.button}
           aria-label="tab list"
           sx={{
             '& .Mui-selected': { bgcolor: "#1d2c55", color: "white" },
-            '& .MuiTabs-flexContainer': { height: '57px' },
+            '& .MuiTabs-flexContainer': { height: '57px', justifyContent: isLg ? isSm ? 'center' : 'flex-end' : 'flex-start'},
+            '& .MuiButtonBase-root.MuiTab-root.MuiTab-fullWidth ': { flexGrow: isLg ? 0 : 1, minWidth: isLg ? '100px' : 'inherit'},
             bgcolor: "white",
-            color: "blue",
+            color:  "#1d2c55",
           }}
           TabIndicatorProps={{ style: { background: 'none' } }}
         >
@@ -110,11 +115,11 @@ const MuiTabs: React.FC<TabsCustomProps> = ({
                 if (React.isValidElement(item)) {
                   if (item.props.title) { 
                     return (
-                      <Tab key={i} label={<span>{item.props.title}</span>} {...a11yProps(i)} />
+                      <Tab key={i} className={`tab${i.toString()}`} sx={{}} label={<span>{item.props.title}</span>} {...a11yProps(i)} />
                     );
                   } else {
                       return (
-                        <Tab key={i} label={<span>No Title</span>} {...a11yProps(i)} />
+                        <Tab key={i} className={`tab${i.toString()}`}  label={<span>No Title</span>} {...a11yProps(i)} />
                       );
                   }
                 }

@@ -6,8 +6,12 @@ import styles from "@/styles/components/layouts/aside.module.scss";
 import { CodePlayerContext, Editor, codePlayerProps} from '@/components/codemirror/codePlayer';
 
 
-
-const CodeIframe: React.FC<codePlayerProps> = ({head, editors}) => {
+interface codeIframeProps extends codePlayerProps {
+  title: string;
+}
+const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
+  //console.log(head)
+  //console.log(editors)
     const { htmlCode, cssCode, javascriptCode} = useContext(CodePlayerContext);
     const [srcDoc, setSrcDoc] = useState(``);
     const [headToIframe, setHeadToIframe] = useState('');
@@ -16,6 +20,8 @@ const CodeIframe: React.FC<codePlayerProps> = ({head, editors}) => {
     const [javascriptToIframe, setJavascriptToIframe] = useState('');
 
     useEffect(() => {
+      
+
       let newHead = '';
       head && 
         head.map((item: String, i: number) => {
@@ -28,7 +34,9 @@ const CodeIframe: React.FC<codePlayerProps> = ({head, editors}) => {
         item.language === 'html' && setHtmlToIframe(item.code);
         item.language === 'css' && setCssToIframe(item.code);
         item.language === 'javascript' && setJavascriptToIframe(item.code);
-      })
+      });
+       
+      
        }, [editors]);
 
     useEffect(() => {
@@ -54,7 +62,7 @@ const CodeIframe: React.FC<codePlayerProps> = ({head, editors}) => {
           }, 250);
           return () => clearTimeout(timeOut);
 
-       }, [cssCode, htmlCode, javascriptCode]);
+       }, [cssCode, cssToIframe, headToIframe, htmlCode, htmlToIframe, javascriptCode, javascriptToIframe]);
       
   return (
     <Paper component="section" >
