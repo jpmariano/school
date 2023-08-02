@@ -11,7 +11,7 @@ import ProjectSettings from '@/components/codemirror/projectSettings';
 
 
 export type Editor = {
-  language: 'html' | 'css' | 'javascript';
+  language: 'html' | 'css' | 'javascript' | 'sass';
   enable: string;
   code: string;
   answer: string | null;
@@ -26,6 +26,8 @@ export interface contextProps {
     updateJavascript?: (javascript: string) => void;
     cssCode?: string;
     updateCss?: (css: string) => void;
+    sassCode?: string;
+    updateSass?: (sass: string) => void;
 }
 
 export interface codePlayerProps {
@@ -42,6 +44,8 @@ const defaultState = {
   updateJavascript: (javascript: string) => console.log(javascript),
   cssCode: '',
   updateCss: (css: string) => console.log(css),
+  sassCode: '',
+  updateSass: (sass: string) => console.log(sass),
 };
 
 export const CodePlayerContext = createContext<Partial<contextProps>>(defaultState);
@@ -50,6 +54,7 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head}) => {
     const [htmlCode, setHtmlCode] = useState('');
     const [javascriptCode, setJavascriptCode] = useState('');
     const [cssCode, setCssCode] = useState('');
+    const [sassCode, setSassCode] = useState('');
     const [headCode, setHeadCode] = useState<String[]>([]);
     const theme = useTheme();
     const isLg = useMediaQuery(theme.breakpoints.down('lg'));
@@ -66,6 +71,11 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head}) => {
   const updateCss = (cssCodex: string) => {
     setCssCode(cssCodex);
   };
+
+  const updateSass = (sassCodex: string) => {
+    setSassCode(sassCodex);
+  };
+
 
   const upDateHead = (headCodex: String[]) => {
     setHeadCode(headCodex);
@@ -84,12 +94,12 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head}) => {
 
 
   return (
-    <CodePlayerContext.Provider value={{ htmlCode, upDateHtml, javascriptCode, updateJavascript, cssCode, updateCss, headCode, upDateHead }}>
+    <CodePlayerContext.Provider value={{ htmlCode, upDateHtml, javascriptCode, updateJavascript, cssCode, updateCss, headCode, upDateHead, sassCode, updateSass }}>
       <ProjectSettings head={head} />
       <MuiTabs>
         {editors &&
           editors.map((item: Editor, i: number) => {
-            return (<Box key={i} component="div" sx={{ width: 1 }} title={item.language === 'javascript' ? isMd ? 'JS': item.language.toUpperCase() : item.language.toUpperCase()}>
+            return (<Box key={i} component="div" sx={{ width: 1 }} title={item.language === 'javascript' ? isMd ? 'JS': item.language.toUpperCase() : item.language === 'sass' ? 'SCSS' : item.language.toUpperCase()}>
               <CodeEditor editable={item.enable === '1' ? true : false} language={item.language} answer={item?.answer}>{item.code}</CodeEditor>
             </Box>)
           })}

@@ -5,6 +5,7 @@ import { Box, Paper, useTheme } from '@mui/material';
 import styles from "@/styles/components/layouts/aside.module.scss";
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
+import { sass } from '@codemirror/lang-sass';
 import { html } from '@codemirror/lang-html';
 import { css } from '@codemirror/lang-css';
 import { EditorView, ViewUpdate } from '@codemirror/view';
@@ -17,7 +18,7 @@ import useWindowDimensions from '@/utils/useWindowDimensions';
 
 export interface codeEditorProps {
     children?: string;
-    language?: 'javascript' | 'css' | 'html';
+    language?: 'javascript' | 'css' | 'html' | 'sass';
     editable?: boolean;
     answer?: string | null;
     settings?: boolean;
@@ -25,7 +26,7 @@ export interface codeEditorProps {
 
 const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,  settings = false, editable = true, children = ''}) => {
 
-    const { upDateHtml, updateJavascript, updateCss} = useContext(CodePlayerContext);
+    const { upDateHtml, updateJavascript, updateCss, updateSass} = useContext(CodePlayerContext);
 
     
     const [code, setCode] = useState('');
@@ -39,24 +40,28 @@ const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,
     useEffect(() => {
         children && setCode(codeInitialize ? codeInitialize : '');
          //setIsLoaded(true);
-         switch(language) { 
-             case 'javascript': { 
-                setExtensions([javascript({ jsx: true })]);
-                break; 
-             } 
-             case 'html': { 
-                 setExtensions([html({ matchClosingTags: true })]);
-                break; 
-             } 
-             case 'css': { 
-                 setExtensions([css()]);
-                break; 
-             }
-             default: { 
-                 setExtensions([javascript({ jsx: true })]);
-                break; 
-             } 
-          }
+         switch (language) {
+            case 'javascript': {
+               setExtensions([javascript({ jsx: true })]);
+               break;
+            }
+            case 'html': {
+               setExtensions([html({ matchClosingTags: true })]);
+               break;
+            }
+            case 'css': {
+               setExtensions([css()]);
+               break;
+            }
+            case 'sass': {
+               setExtensions([sass()]);
+               break;
+            }
+            default: {
+               setExtensions([javascript({ jsx: true })]);
+               break;
+            }
+         }
           answer && setShowStack(true);
        }, []);
 
@@ -75,12 +80,16 @@ const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,
                 updateCss && updateCss(value)
                break; 
             }
+            case 'sass': { 
+               updateSass && updateSass(value)
+              break; 
+           }
             default: { 
                 updateJavascript && updateJavascript(value)
                break; 
             } 
          }
-      }, [language, upDateHtml, updateCss, updateJavascript]);
+      }, [language, upDateHtml, updateCss, updateSass, updateJavascript]);
 
        
 
