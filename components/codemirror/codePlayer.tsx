@@ -18,6 +18,8 @@ export type Editor = {
 };
 
 export interface contextProps {
+    headCode?: String[];
+    upDateHead?: (head: String[]) => void;
     htmlCode?: string;
     upDateHtml?: (html: string) => void;
     javascriptCode?: string;
@@ -32,6 +34,8 @@ export interface codePlayerProps {
 }
 
 const defaultState = {
+  headCode: [],
+  upDateHead: (head: String[]) => console.log(head),
   htmlCode: '',
   upDateHtml: (html: string) => console.log(html),
   javascriptCode: '',
@@ -46,6 +50,7 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head}) => {
     const [htmlCode, setHtmlCode] = useState('');
     const [javascriptCode, setJavascriptCode] = useState('');
     const [cssCode, setCssCode] = useState('');
+    const [headCode, setHeadCode] = useState<String[]>([]);
     const theme = useTheme();
     const isLg = useMediaQuery(theme.breakpoints.down('lg'));
     const isMd = useMediaQuery(theme.breakpoints.down('md'));
@@ -62,19 +67,24 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head}) => {
     setCssCode(cssCodex);
   };
 
+  const upDateHead = (headCodex: String[]) => {
+    setHeadCode(headCodex);
+  };
+
   useEffect(() => {
-    {editors &&
+    editors &&
       editors.map((item: Editor, i: number) => {
       item.language === 'html' && setHtmlCode(item.code);
       item.language === 'css' && setCssCode(item.code);
       item.language === 'javascript' && setJavascriptCode(item.code);
-    })}
-   }, [editors]);
+    })
+    head && setHeadCode([...head]);
+   }, [editors, head]);
   
 
 
   return (
-    <CodePlayerContext.Provider value={{ htmlCode, upDateHtml, javascriptCode, updateJavascript, cssCode, updateCss }}>
+    <CodePlayerContext.Provider value={{ htmlCode, upDateHtml, javascriptCode, updateJavascript, cssCode, updateCss, headCode, upDateHead }}>
       <ProjectSettings head={head} />
       <MuiTabs>
         {editors &&

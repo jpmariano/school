@@ -1,6 +1,6 @@
 
 'use client'
-import React, { ChangeEvent, ReactHTMLElement, useEffect, useState } from 'react';
+import React, { ChangeEvent, ReactHTMLElement, useContext, useEffect, useState } from 'react';
 import { Box, Button, Card, FormControl, FormHelperText, IconButton, Input, Modal, Popover, Tab, Tabs, TextField, Typography, useTheme } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import FeedIcon from '@mui/icons-material/Feed';
@@ -11,6 +11,8 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import DeleteIcon from '@mui/icons-material/Delete';
 import useWindowDimensions from '@/utils/useWindowDimensions';
 import AddIcon from '@mui/icons-material/Add';
+import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
+import { CodePlayerContext } from '@/components/codemirror/codePlayer';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -51,6 +53,8 @@ export interface projectSettingsProps {
 }
 
 const ProjectSettings: React.FC<projectSettingsProps> = ({head}) => {
+
+    const { upDateHead } = useContext(CodePlayerContext);
    
     const [open, setOpen] = useState(false);
     const [tabValue, setTabValue] = useState(0);
@@ -67,6 +71,9 @@ const ProjectSettings: React.FC<projectSettingsProps> = ({head}) => {
     let data = [...inputFields];
         data[index] = event.target.value;
         setInputFields(data);
+    }
+    const updateHeadCode = () => {
+        upDateHead && upDateHead([...inputFields]);
     }
     const removeFields = (index: number) => {
         let data = [...inputFields];
@@ -138,11 +145,15 @@ const ProjectSettings: React.FC<projectSettingsProps> = ({head}) => {
                                                 <TextField placeholder="<meta>,<link><script>" inputProps={{style: {fontFamily: "Barlow"}}}  
                                                 onChange={(event: ChangeEvent<HTMLInputElement>) => handleFormChange(i, event)}
                                                 sx={{ fontFamily: "Barlow !important", flex: '0  100%' }} value={item} label="Tag" variant="outlined" />
-                                                <Button variant="outlined" sx={{ flex: '0 0 auto' }} startIcon={<DeleteIcon />} onClick={() => removeFields(i)}>Delete</Button>
+                                                <Button variant="outlined" sx={{ flex: '0 0 auto' }} title="Delete Tag" startIcon={<DeleteIcon />} onClick={() => removeFields(i)}>Delete</Button>
                                        </Box>
                                     })
                                 }
-                                <Button variant="outlined" sx={{ flex: '0 0 auto' }} startIcon={<AddIcon />} onClick={addFields}>Add More</Button>
+                                <Box component="div" sx={{display: 'flex', justifyContent: 'space-between'}}>
+                                    <Button variant="outlined" sx={{ flex: '0 0 auto' }} title="Add More Tag" startIcon={<AddIcon />} onClick={addFields}>Add More</Button>
+                                    <Button variant="outlined" sx={{ flex: '0 0 auto' }} title="Update Head" startIcon={<SystemUpdateAltIcon />} onClick={updateHeadCode}>Update</Button>
+                                </Box>
+                                
                             </FormControl>
                         </TabPanel>
                         <TabPanel value={tabValue} index={1}>

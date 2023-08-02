@@ -13,7 +13,7 @@ interface codeIframeProps extends codePlayerProps {
 const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
   //console.log(head)
   //console.log(editors)
-    const { htmlCode, cssCode, javascriptCode} = useContext(CodePlayerContext);
+    const { htmlCode, cssCode, javascriptCode, headCode} = useContext(CodePlayerContext);
     const [srcDoc, setSrcDoc] = useState(``);
     const [headToIframe, setHeadToIframe] = useState('');
     const [htmlToIframe, setHtmlToIframe] = useState('');
@@ -27,7 +27,6 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
       let newHead = '';
       head && 
         head.map((item: String, i: number) => {
-          //setHeadToIframe(headToIframe + item);
           newHead += item;
         });
         setHeadToIframe(newHead);
@@ -39,14 +38,15 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
       });
        
       
-       }, [editors]);
+       }, [editors, head]);
 
     useEffect(() => {
  
-        htmlCode && setHtmlToIframe(htmlCode)
-        cssCode && setCssToIframe(cssCode)
-        javascriptCode && setJavascriptToIframe(javascriptCode)
- 
+        htmlCode && setHtmlToIframe(htmlCode);
+        cssCode && setCssToIframe(cssCode);
+        javascriptCode && setJavascriptToIframe(javascriptCode);
+        let newHeadCode = '';
+        headCode && headCode.map((item: String, i: number) => { newHeadCode += item; }); setHeadToIframe(newHeadCode);
         const timeOut = setTimeout(() => {
             
             setSrcDoc(
@@ -64,7 +64,7 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
           }, 250);
           return () => clearTimeout(timeOut);
 
-       }, [cssCode, cssToIframe, headToIframe, htmlCode, htmlToIframe, javascriptCode, javascriptToIframe]);
+       }, [cssCode, cssToIframe, headCode, headToIframe, htmlCode, htmlToIframe, javascriptCode, javascriptToIframe]);
       
   return (
     <Paper component="section" sx={{ height: containerHeight }}>
