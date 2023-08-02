@@ -7,6 +7,7 @@ import MuiTabs from '@/components/tabs';
 import CodeEditor from '@/components/codemirror/codeEditor';
 import CodeIframe from '@/components/codemirror/codeIframe';
 import SmartColumns from '@/components/layouts/smartColumns';
+import ProjectSettings from '@/components/codemirror/projectSettings';
 
 
 export type Editor = {
@@ -74,8 +75,8 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head}) => {
 
   return (
     <CodePlayerContext.Provider value={{ htmlCode, upDateHtml, javascriptCode, updateJavascript, cssCode, updateCss }}>
+      <ProjectSettings head={head} />
       <MuiTabs>
-
         {editors &&
           editors.map((item: Editor, i: number) => {
             return (<Box key={i} component="div" sx={{ width: 1 }} title={item.language === 'javascript' ? isMd ? 'JS': item.language.toUpperCase() : item.language.toUpperCase()}>
@@ -84,7 +85,6 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head}) => {
           })}
          <CodeIframe head={head} editors={editors} title="Results"></CodeIframe>
       </MuiTabs>
-      
     </CodePlayerContext.Provider>
   );
 };

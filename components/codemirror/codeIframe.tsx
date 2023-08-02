@@ -20,7 +20,7 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
     const [cssToIframe, setCssToIframe] = useState('');
     const [javascriptToIframe, setJavascriptToIframe] = useState('');
     const { height, width } = useWindowDimensions();
-    const containerHeight = height/1.67;
+    const containerHeight = (height/1.67).toString() + 'px';
     useEffect(() => {
       
 
@@ -67,14 +67,15 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
        }, [cssCode, cssToIframe, headToIframe, htmlCode, htmlToIframe, javascriptCode, javascriptToIframe]);
       
   return (
-    <Paper component="section" >
+    <Paper component="section" sx={{ height: containerHeight }}>
          <iframe
           srcDoc={srcDoc}
           title="output"
           sandbox="allow-scripts"
           frameBorder="1"
           width="100%"
-          height={`${containerHeight}px`}
+          min-height={containerHeight}
+          height="100%"
         />
     </Paper> 
     );

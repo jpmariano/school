@@ -29,7 +29,7 @@ const Index: NextPage = () => {
     <Main>
       <HorizontalSeparator />
       <FullWidthBox>
-        <CodePlayer head={code[0].head} editors={code[0].editors as Editor[]}/> 
+        <CodePlayer head={code[0].head as String[]} editors={code[0].editors as Editor[]}/> 
       </FullWidthBox>
       <HorizontalSeparator />
       <CenterBox>
