@@ -1,6 +1,6 @@
 
 'use client'
-import React, { useEffect } from 'react';
+import React, { ChangeEvent, ReactHTMLElement, useEffect, useState } from 'react';
 import { Box, Button, Card, FormControl, FormHelperText, IconButton, Input, Modal, Popover, Tab, Tabs, TextField, Typography, useTheme } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import FeedIcon from '@mui/icons-material/Feed';
@@ -10,6 +10,7 @@ import CodeReadOnly from '@/components/codemirror/codeReadonly';
 import SettingsIcon from '@mui/icons-material/Settings';
 import DeleteIcon from '@mui/icons-material/Delete';
 import useWindowDimensions from '@/utils/useWindowDimensions';
+import AddIcon from '@mui/icons-material/Add';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -21,19 +22,20 @@ function TabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
 
     return (
-        <div
+        <Box
             role="tabpanel"
             hidden={value !== index}
             id={`vertical-tabpanel-${index}`}
             aria-labelledby={`vertical-tab-${index}`}
             {...other}
+            sx={{flex: '1 100%', overflow: 'scroll'}}
         >
             {value === index && (
                 <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
+                    <Box>{children}</Box>
                 </Box>
             )}
-        </div>
+        </Box>
     );
 }
 
@@ -50,8 +52,9 @@ export interface projectSettingsProps {
 
 const ProjectSettings: React.FC<projectSettingsProps> = ({head}) => {
    
-    const [open, setOpen] = React.useState(false);
-    const [tabValue, setTabValue] = React.useState(0);
+    const [open, setOpen] = useState(false);
+    const [tabValue, setTabValue] = useState(0);
+    const [inputFields, setInputFields] = useState<String[]>(head ? head : []);
     const { height, width } = useWindowDimensions();
     const containerHeight = height/1.67;
     const codeMirrorHeight = height/1.67 - 35;
@@ -59,6 +62,21 @@ const ProjectSettings: React.FC<projectSettingsProps> = ({head}) => {
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setTabValue(newValue);
     };
+
+    const handleFormChange = (index: number, event: ChangeEvent<HTMLInputElement>) => {
+    let data = [...inputFields];
+        data[index] = event.target.value;
+        setInputFields(data);
+    }
+    const removeFields = (index: number) => {
+        let data = [...inputFields];
+        data.splice(index, 1)
+        setInputFields(data)
+    }
+    const addFields = () => {
+        let newfield = '';
+        setInputFields([...inputFields, newfield])
+    }
 
     const theme = useTheme();
     let isLight: boolean = true;
@@ -113,15 +131,18 @@ const ProjectSettings: React.FC<projectSettingsProps> = ({head}) => {
                             <Tab label="Item Seven" {...a11yProps(6)} />
                         </Tabs>
                         <TabPanel value={tabValue} index={0} >
-                            <FormControl sx={{ width: 1}}>
-                                {head && 
-                                    head.map((item: String, i: number) => {
-                                       return <Box key={i.toString()}  component="div" sx={{display: 'flex', columnGap: '20px', marginBottom: '20px', width: '100%'}}>
-                                                <TextField placeholder="<meta>,<link><script>" inputProps={{style: {fontFamily: "Barlow"}}}  sx={{ fontFamily: "Barlow !important", flex: '0  100%' }} value={item} label="Tag" variant="outlined" />
-                                                <Button variant="outlined" sx={{ flex: '0 0 auto' }} startIcon={<DeleteIcon />}>Delete</Button>
+                            <FormControl sx={{ width: 1, flex: '1 100%'}}>
+                                {inputFields && 
+                                    inputFields.map((item: String, i: number) => {
+                                       return <Box key={i}  component="div" sx={{display: 'flex', columnGap: '20px', marginBottom: '20px', width: '100%'}}>
+                                                <TextField placeholder="<meta>,<link><script>" inputProps={{style: {fontFamily: "Barlow"}}}  
+                                                onChange={(event: ChangeEvent<HTMLInputElement>) => handleFormChange(i, event)}
+                                                sx={{ fontFamily: "Barlow !important", flex: '0  100%' }} value={item} label="Tag" variant="outlined" />
+                                                <Button variant="outlined" sx={{ flex: '0 0 auto' }} startIcon={<DeleteIcon />} onClick={() => removeFields(i)}>Delete</Button>
                                        </Box>
                                     })
                                 }
+                                <Button variant="outlined" sx={{ flex: '0 0 auto' }} startIcon={<AddIcon />} onClick={addFields}>Add More</Button>
                             </FormControl>
                         </TabPanel>
                         <TabPanel value={tabValue} index={1}>
