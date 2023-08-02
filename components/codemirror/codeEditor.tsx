@@ -63,6 +63,7 @@ const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,
             }
          }
           answer && setShowStack(true);
+          // eslint-disable-next-line
        }, []);
 
     const onChange = useCallback((value: string, viewUpdate: ViewUpdate) => {

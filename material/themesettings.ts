@@ -142,9 +142,6 @@ export const light: ThemeOptions = {
           },
         },
       },
-    },
-    tabpanel: {
-      styleOverrides: { root: { background: "#000", } }
     }
   },
 };

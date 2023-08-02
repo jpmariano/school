@@ -26,6 +26,7 @@ const SuperEditor: React.FC<notAsideProps> = ({id, children, language = 'js'}) =
   useEffect(() => {
     children && setCode(codeInitialize ? codeInitialize : '');
     setIsLoaded(true);
+    // eslint-disable-next-line
   }, []);
   useEffect(() => {
     if (isLoaded) {
@@ -34,6 +35,7 @@ const SuperEditor: React.FC<notAsideProps> = ({id, children, language = 'js'}) =
         lineNumbers.innerHTML = Array(countNumberofLines).fill('<span></span>').join('')
       }
     }
+    // eslint-disable-next-line
   }, [isLoaded]);
   return (
     <Box component="div" className="supereditor">

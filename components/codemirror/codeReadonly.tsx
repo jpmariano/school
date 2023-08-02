@@ -46,6 +46,7 @@ const CodeReadOnly: React.FC<codeReadOnlyProps> = ({language = 'javascript', chi
                 break; 
              } 
           }
+          // eslint-disable-next-line
        }, []);
 //#1aa8ff
   return (

@@ -8,13 +8,7 @@ import HorizontalSeparator from '@/components/layouts/horizontalSeparator';
 import CenterBoxWithSidebar from '@/components/layouts/centerBoxWithSidebar';
 import Aside from '@/components/layouts/aside';
 import NotAside from '@/components/layouts/notAside';
-import ShowCode from '@/components/prismjs/showcode';
-import SuperEditor from '@/components/prismjs/superEditor';
-import jscode from '@/data/js.json';
-import css from '@/data/css.json';
-import html from '@/data/html.json';
 import code from '@/data/code.json';
-import JsToIframe from '@/components/prismjs/jsToIframe';
 import CodeEditor from '@/components/codemirror/codeEditor';
 import CodePlayer, { Editor } from '@/components/codemirror/codePlayer';
 //import { useEffect } from 'react';
@@ -31,52 +25,6 @@ const Index: NextPage = () => {
       <FullWidthBox>
         <CodePlayer head={code[0].head as String[]} editors={code[0].editors as Editor[]}/> 
       </FullWidthBox>
-      <HorizontalSeparator />
-      <CenterBox>
-        <CodeEditor>{jscode[1].code}</CodeEditor>
-      </CenterBox>
-      <HorizontalSeparator />
-      <CenterBox>
-        <CodeEditor language='html'>{html[0].html}</CodeEditor>
-      </CenterBox>
-      <HorizontalSeparator />
-      <CenterBox>
-        <CodeEditor language='css'>{css[0].css}</CodeEditor>
-      </CenterBox>
-      <HorizontalSeparator />
-      <CenterBox>
-        <JsToIframe></JsToIframe>
-      </CenterBox>
-      <HorizontalSeparator />
-      <CenterBox>
-        <SuperEditor id="123">{jscode[1].code}</SuperEditor>
-      </CenterBox>
-      <HorizontalSeparator />
-      <CenterBox>
-        <ShowCode id="1234">
-          {jscode[1].code}
-        </ShowCode>
-      </CenterBox>
-      <HorizontalSeparator />
-      <CenterBox>
-        <SuperEditor id="12333" language='css'>{css[1].css}</SuperEditor>
-      </CenterBox>
-      <HorizontalSeparator />
-      <CenterBox>
-        <ShowCode id="2345" language='css'>
-          {css[1].css}
-        </ShowCode>
-      </CenterBox>
-      <HorizontalSeparator />
-      <CenterBox>
-        <SuperEditor id="8888" language='html'>{html[0].html}</SuperEditor>
-      </CenterBox>
-      <HorizontalSeparator />
-      <CenterBox>
-        <ShowCode id="99999" language='markup'>
-          {html[0].html}
-        </ShowCode>
-      </CenterBox>
       <HorizontalSeparator />
       <CenterBoxWithSidebar fullwidth={false} mobileReverseOrder={true}>
         <NotAside addClassName="inverse">item 2</NotAside>
@@ -125,8 +73,8 @@ const Index: NextPage = () => {
         <Typography component="h2" variant="h2">test</Typography>
         <Typography component="h3" variant="h3">test</Typography>
         <Typography component="h4" variant="h4">test</Typography>
-        <Typography component="p" variant="body1">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</Typography>
-        <Typography component="p" variant="body2">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</Typography>
+        <Typography component="p" variant="body1">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. </Typography>
+        <Typography component="p" variant="body2">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. </Typography>
         <Typography component="p" variant="subtitle1">test</Typography>
         <Typography component="p" variant="overline">test</Typography>
       </FullWidthBox>

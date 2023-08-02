@@ -60,9 +60,7 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
                 <head>
                 ${headToIframe}
          
-                <script src="
-https://cdn.jsdelivr.net/npm/browser-scss@1.0.3/dist/browser-scss.min.js
-"></script>
+                <script src="https://cdn.jsdelivr.net/npm/browser-scss@1.0.3/dist/browser-scss.min.js"></script>
 
                 </head> 
                   <body>${htmlToIframe}</body>

@@ -23,6 +23,7 @@ const ShowCode: React.FC<showCodeProps> = ({id, children, language = 'javascript
         children && setChildCode(children);
         Prism.highlightAll();
         setIsLoaded(true);
+        // eslint-disable-next-line
     }, []);
     useEffect(() => {
         if (isLoaded) {
@@ -32,6 +33,7 @@ const ShowCode: React.FC<showCodeProps> = ({id, children, language = 'javascript
                 lineNumbers.innerHTML = Array(countNumberofLines).fill('<span></span>').join('');
             }
         }
+        // eslint-disable-next-line
     }, [isLoaded]);
   return (
         <Box component="div" className={`${styles.showcode}`}>
