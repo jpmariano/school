@@ -5,8 +5,7 @@ import { Paper } from '@mui/material';
 import styles from "@/styles/components/layouts/aside.module.scss";
 import { CodePlayerContext, Editor, codePlayerProps} from '@/components/codemirror/codePlayer';
 import useWindowDimensions from '@/utils/useWindowDimensions';
-
-
+import scss from '@hai2007/algorithm/scss.js';
 
 interface codeIframeProps extends codePlayerProps {
   title: string;
@@ -26,6 +25,8 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
     const containerHeight = (height/1.67).toString() + 'px';
     useEffect(() => {
       
+      //scss(sassCode);
+
 
       let newHead = '';
       head && 
@@ -53,7 +54,7 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
         let newHeadCode = '';
         headCode && headCode.map((item: String, i: number) => { newHeadCode += item; }); setHeadToIframe(newHeadCode);
         const timeOut = setTimeout(() => {
-            
+        
             setSrcDoc(
               `
                 <html>
