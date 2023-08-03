@@ -8,6 +8,7 @@ import CodeEditor from '@/components/codemirror/codeEditor';
 import CodeIframe from '@/components/codemirror/codeIframe';
 import SmartColumns from '@/components/layouts/smartColumns';
 import ProjectSettings from '@/components/codemirror/projectSettings';
+import ScssToCssDisplay from '@/components/codemirror/scssToCssDisplay';
 
 
 export type Editor = {
@@ -96,6 +97,7 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head}) => {
       item.language === 'html' && setHtmlCode(item.code);
       item.language === 'css' && setCssCode(item.code);
       item.language === 'javascript' && setJavascriptCode(item.code);
+      item.language === 'sass' && setSassCode(item.code);
     })
     head && setHeadCode([...head]);
     updateInitialized(true);
@@ -109,9 +111,20 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head}) => {
       <MuiTabs>
         {editors &&
           editors.map((item: Editor, i: number) => {
-            return (<Box key={i} component="div" sx={{ width: 1 }} title={item.language === 'javascript' ? isMd ? 'JS': item.language.toUpperCase() : item.language === 'sass' ? 'SCSS' : item.language.toUpperCase()}>
+            return (
+            <Box key={i} component="div" sx={{ width: 1 }} title={item.language === 'javascript' ? isMd ? 'JS': item.language.toUpperCase() : item.language === 'sass' ? 'SCSS' : item.language.toUpperCase()}>
               <CodeEditor editable={item.enable === '1' ? true : false} language={item.language} answer={item?.answer}>{item.code}</CodeEditor>
-            </Box>)
+            </Box>
+            )
+          })}
+          {editors &&
+          editors.map((item: Editor, i: number) => {
+            return (
+              item.language === 'sass' &&
+              <Box key={`${i}-css`} component="div" sx={{ width: 1 }} title="CSS">
+                <ScssToCssDisplay>{item.code}</ScssToCssDisplay>
+              </Box>
+            )
           })}
          <CodeIframe head={head} editors={editors} title="Results"></CodeIframe>
       </MuiTabs>

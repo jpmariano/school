@@ -8,21 +8,29 @@ import { EditorView, ViewUpdate } from '@codemirror/view';
 import { EditorState, EditorStateConfig, Extension, StateField } from '@codemirror/state';
 import { CodePlayerContext } from '@/components/codemirror/codePlayer';
 import useWindowDimensions from '@/utils/useWindowDimensions';
+import scss from '@hai2007/algorithm/scss.js';
 
+export interface scssToCssDisplayProps {
+  children?: string;
+}
 
-const ScssToCssDisplay: React.FC = () => {
-
-    const {  sassCode} = useContext(CodePlayerContext);
+const ScssToCssDisplay: React.FC<scssToCssDisplayProps> = ({children}) => {
+  const { upDateHtml, updateJavascript, updateCss, updateSass,  initialized,  htmlCode, cssCode, javascriptCode, headCode, sassCode} = useContext(CodePlayerContext);
+    //const {  sassCode} = useContext(CodePlayerContext);
 
     
     const [code, setCode] = useState('');
+    const codeInitialize = children?.toString();
     const [extensions, setExtensions] = useState<Extension[]>([]);
     const { height, width } = useWindowDimensions();
     const containerHeight = height/1.67;
     const codeMirrorHeight = height/1.67 - 35;
 
     useEffect(() => {
-        sassCode && setCode(sassCode);
+        if(!initialized){
+          children && setCode(codeInitialize ? codeInitialize : '');
+        }
+        initialized && sassCode && setCode(scss(sassCode));
         setExtensions([css()]);
         // eslint-disable-next-line
        }, []);

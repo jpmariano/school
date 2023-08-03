@@ -24,9 +24,9 @@ export interface codeEditorProps {
     settings?: boolean;
 }
 
-const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,  settings = false, editable = true, children = ''}) => {
+const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,  settings = false, editable = true, children}) => {
 
-    const { upDateHtml, updateJavascript, updateCss, updateSass,  initialized,  htmlCode, cssCode, javascriptCode, headCode, sassCode} = useContext(CodePlayerContext);
+    const { upDateHtml, updateJavascript, updateCss, updateSass,  updateInitialized, initialized,  htmlCode, cssCode, javascriptCode, headCode, sassCode} = useContext(CodePlayerContext);
 
     
     const [code, setCode] = useState('');
@@ -36,13 +36,15 @@ const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,
     const { height, width } = useWindowDimensions();
     const containerHeight = height/1.67;
     const codeMirrorHeight = height/1.67 - 35;
+    const [sassCodeInit, setSassCodeInit] = useState(false);
 
     useEffect(() => {
-         //console.log(initialized)
+         
         //children && setCode(codeInitialize ? codeInitialize : '');
          //setIsLoaded(true);
          if(!initialized){
             children && setCode(codeInitialize ? codeInitialize : '');
+            //updateInitialized && updateInitialized(true);
          }
          switch (language) {
             case 'javascript': {
@@ -62,12 +64,15 @@ const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,
             }
             case 'sass': {
                setExtensions([sass()]);
+               console.log(initialized);
                initialized && sassCode && setCode(sassCode);
+               //sassCodeInit ? initialized && sassCode && setCode(sassCode) : children && setCode(codeInitialize ? codeInitialize : '');
+               
                break;
             }
             default: {
-               javascriptCode ? setCode(javascriptCode) : children && setCode(codeInitialize ? codeInitialize : '');
                setExtensions([javascript({ jsx: true })]);
+               initialized && javascriptCode && setCode(javascriptCode);
                break;
             }
          }
