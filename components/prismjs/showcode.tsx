@@ -11,7 +11,7 @@ import 'prismjs/themes/prism-okaidia.css';
 
 export interface showCodeProps {
     children?: string;
-    language?: 'javascript' | 'css' | 'markup';
+    language?: 'javascript' | 'css' | 'markup' | 'scss' | 'sass';
     id: string;
 }
 
