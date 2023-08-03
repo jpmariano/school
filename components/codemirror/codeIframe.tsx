@@ -5,8 +5,8 @@ import { Paper } from '@mui/material';
 import styles from "@/styles/components/layouts/aside.module.scss";
 import { CodePlayerContext, Editor, codePlayerProps} from '@/components/codemirror/codePlayer';
 import useWindowDimensions from '@/utils/useWindowDimensions';
-
-
+import {parser as sassParser} from "@lezer/sass"
+import dynamic from "next/dynamic";
 
 interface codeIframeProps extends codePlayerProps {
   title: string;
@@ -15,7 +15,8 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
   //console.log(head)
   //console.log(editors)
     const { htmlCode, cssCode, javascriptCode, headCode, sassCode} = useContext(CodePlayerContext);
-    
+    const DynamicSass = dynamic(() => import(('sass')));
+
     const [srcDoc, setSrcDoc] = useState(``);
     const [headToIframe, setHeadToIframe] = useState('');
     const [htmlToIframe, setHtmlToIframe] = useState('');
@@ -52,6 +53,8 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
         sassCode && setSassToIframe(sassCode);
         let newHeadCode = '';
         headCode && headCode.map((item: String, i: number) => { newHeadCode += item; }); setHeadToIframe(newHeadCode);
+        console.log(sassParser.configure)
+        //console.log(sassParser(sassCode));
         const timeOut = setTimeout(() => {
             
             setSrcDoc(
@@ -60,7 +63,7 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
                 <head>
                 ${headToIframe}
          
-                <script src="https://cdn.jsdelivr.net/npm/browser-scss@1.0.3/dist/browser-scss.min.js"></script>
+                <script src="/browser-scss/browser-scss.min.js"></script>
 
                 </head> 
                   <body>${htmlToIframe}</body>
