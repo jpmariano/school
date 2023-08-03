@@ -26,7 +26,7 @@ export interface codeEditorProps {
 
 const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,  settings = false, editable = true, children = ''}) => {
 
-    const { upDateHtml, updateJavascript, updateCss, updateSass} = useContext(CodePlayerContext);
+    const { upDateHtml, updateJavascript, updateCss, updateSass,  initialized,  htmlCode, cssCode, javascriptCode, headCode, sassCode} = useContext(CodePlayerContext);
 
     
     const [code, setCode] = useState('');
@@ -38,36 +38,46 @@ const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,
     const codeMirrorHeight = height/1.67 - 35;
 
     useEffect(() => {
-        children && setCode(codeInitialize ? codeInitialize : '');
+         //console.log(initialized)
+        //children && setCode(codeInitialize ? codeInitialize : '');
          //setIsLoaded(true);
+         if(!initialized){
+            children && setCode(codeInitialize ? codeInitialize : '');
+         }
          switch (language) {
             case 'javascript': {
                setExtensions([javascript({ jsx: true })]);
+               initialized && javascriptCode && setCode(javascriptCode);
                break;
             }
             case 'html': {
                setExtensions([html({ matchClosingTags: true })]);
+               initialized && htmlCode && setCode(htmlCode);
                break;
             }
             case 'css': {
                setExtensions([css()]);
+               initialized && cssCode && setCode(cssCode);
                break;
             }
             case 'sass': {
                setExtensions([sass()]);
+               initialized && sassCode && setCode(sassCode);
                break;
             }
             default: {
+               javascriptCode ? setCode(javascriptCode) : children && setCode(codeInitialize ? codeInitialize : '');
                setExtensions([javascript({ jsx: true })]);
                break;
             }
          }
           answer && setShowStack(true);
+          //console.log('children:', children);
           // eslint-disable-next-line
        }, []);
 
     const onChange = useCallback((value: string, viewUpdate: ViewUpdate) => {
-       // console.log('value:', value);
+        console.log('value:', value);
         switch(language) { 
             case 'javascript': { 
                 updateJavascript && updateJavascript(value)

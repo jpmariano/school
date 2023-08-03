@@ -1,6 +1,6 @@
 
 'use client'
-import React, { ReactNode, createContext, useEffect, useState } from 'react';
+import React, { ReactNode, SetStateAction, createContext, useEffect, useState } from 'react';
 import { Box, Paper, useMediaQuery, useTheme } from '@mui/material';
 import styles from "@/styles/components/layouts/aside.module.scss";
 import MuiTabs from '@/components/tabs';
@@ -28,6 +28,8 @@ export interface contextProps {
     updateCss?: (css: string) => void;
     sassCode?: string;
     updateSass?: (sass: string) => void;
+    initialized?: Boolean;
+    updateInitialized?: (init: SetStateAction<boolean>) => void;
 }
 
 export interface codePlayerProps {
@@ -46,6 +48,8 @@ const defaultState = {
   updateCss: (css: string) => console.log(css),
   sassCode: '',
   updateSass: (sass: string) => console.log(sass),
+  initialized: false,
+  updateInitialized: (init: SetStateAction<boolean>) => console.log(init),
 };
 
 export const CodePlayerContext = createContext<Partial<contextProps>>(defaultState);
@@ -55,6 +59,7 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head}) => {
     const [javascriptCode, setJavascriptCode] = useState('');
     const [cssCode, setCssCode] = useState('');
     const [sassCode, setSassCode] = useState('');
+    const [initialized, setInitialized] = useState(false);
     const [headCode, setHeadCode] = useState<String[]>([]);
     const theme = useTheme();
     const isLg = useMediaQuery(theme.breakpoints.down('lg'));
@@ -77,6 +82,10 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head}) => {
   };
 
 
+  const updateInitialized = (initCode: SetStateAction<boolean>) => {
+    setInitialized(initCode);
+  };
+
   const upDateHead = (headCodex: String[]) => {
     setHeadCode(headCodex);
   };
@@ -89,12 +98,13 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head}) => {
       item.language === 'javascript' && setJavascriptCode(item.code);
     })
     head && setHeadCode([...head]);
+    updateInitialized(true);
    }, [editors, head]);
   
 
 
   return (
-    <CodePlayerContext.Provider value={{ htmlCode, upDateHtml, javascriptCode, updateJavascript, cssCode, updateCss, headCode, upDateHead, sassCode, updateSass }}>
+    <CodePlayerContext.Provider value={{ htmlCode, upDateHtml, javascriptCode, updateJavascript, cssCode, updateCss, headCode, upDateHead, sassCode, updateSass, initialized, updateInitialized }}>
       <ProjectSettings head={head} />
       <MuiTabs>
         {editors &&
