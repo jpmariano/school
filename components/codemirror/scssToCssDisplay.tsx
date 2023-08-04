@@ -8,9 +8,12 @@ import { EditorView, ViewUpdate } from '@codemirror/view';
 import { EditorState, EditorStateConfig, Extension, StateField } from '@codemirror/state';
 import { CodePlayerContext } from '@/components/codemirror/codePlayer';
 import useWindowDimensions from '@/utils/useWindowDimensions';
-
+//import SassConverter from '@/api/sassconverter';
+import * as less from 'less';
+import * as lessplugin from 'less-plugin-clean-css';
 //import scss from '@hai2007/algorithm/scss.js';
-import * as sass from 'sass';
+//import * as sass from 'sass';
+
 
 export interface scssToCssDisplayProps {
   children?: string;
@@ -27,14 +30,31 @@ const ScssToCssDisplay: React.FC<scssToCssDisplayProps> = ({children}) => {
     const { height, width } = useWindowDimensions();
     const containerHeight = height/1.67;
     const codeMirrorHeight = height/1.67 - 35;
+
+    //const cleanCSSPlugin = new lessplugin({advanced: true});
     
     useEffect(() => {
         if(!initialized){
           children && setCode(codeInitialize ? codeInitialize : '');
         }
-        initialized && sassCode && setCode(sassCode); 
-  
-        console.log(sass.compileString(''))
+      initialized && sassCode && less.render(sassCode).then(function (output: any) {
+        setCode(output.css);
+      },
+        function (error: any) {
+          console.log(error)
+          setCode(sassCode);
+        });
+        
+        //console.log(lessplugin)
+       /*less.render(sassCode, { plugins: [] })
+   .then(function(output: any) {
+    console.log(output)
+   },
+   function(error: any) {
+    console.log(error)
+   });*/
+       // sassCode && SassConverter(sassCode).then((value) => (console.log(value)))
+        //console.log(sass.compileString(''))
         //const result = sass.compileString(sassCode ? sassCode : '');
         //const result = sass.compileString(input);
         //console.log(result.css)
