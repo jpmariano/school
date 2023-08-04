@@ -8,6 +8,7 @@ import { javascript } from '@codemirror/lang-javascript';
 import { sass } from '@codemirror/lang-sass';
 import { html } from '@codemirror/lang-html';
 import { css } from '@codemirror/lang-css';
+import { less } from '@codemirror/lang-less';
 import { EditorView, ViewUpdate } from '@codemirror/view';
 import { EditorState, EditorStateConfig, Extension, StateField } from '@codemirror/state';
 import { CodePlayerContext } from '@/components/codemirror/codePlayer';
@@ -18,7 +19,7 @@ import useWindowDimensions from '@/utils/useWindowDimensions';
 
 export interface codeEditorProps {
     children?: string;
-    language?: 'javascript' | 'css' | 'html' | 'sass';
+    language?: 'javascript' | 'css' | 'html' | 'sass' | 'less';
     editable?: boolean;
     answer?: string | null;
     settings?: boolean;
@@ -26,7 +27,7 @@ export interface codeEditorProps {
 
 const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,  settings = false, editable = true, children}) => {
 
-    const { upDateHtml, updateJavascript, updateCss, updateSass,  updateInitialized, initialized,  htmlCode, cssCode, javascriptCode, headCode, sassCode} = useContext(CodePlayerContext);
+    const { upDateHtml, updateJavascript, updateCss, updateSass,  updateInitialized, updateLess,  initialized,  htmlCode, cssCode, lessCode, javascriptCode, headCode, sassCode} = useContext(CodePlayerContext);
 
     
     const [code, setCode] = useState('');
@@ -36,15 +37,12 @@ const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,
     const { height, width } = useWindowDimensions();
     const containerHeight = height/1.67;
     const codeMirrorHeight = height/1.67 - 35;
-    const [sassCodeInit, setSassCodeInit] = useState(false);
+    //const [sassCodeInit, setSassCodeInit] = useState(false);
 
     useEffect(() => {
          
-        //children && setCode(codeInitialize ? codeInitialize : '');
-         //setIsLoaded(true);
          if(!initialized){
             children && setCode(codeInitialize ? codeInitialize : '');
-            //updateInitialized && updateInitialized(true);
          }
          switch (language) {
             case 'javascript': {
@@ -64,15 +62,15 @@ const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,
             }
             case 'sass': {
                setExtensions([sass()]);
-               console.log(initialized);
-               initialized && sassCode && setCode(sassCode);
-               //sassCodeInit ? initialized && sassCode && setCode(sassCode) : children && setCode(codeInitialize ? codeInitialize : '');
-               
+               initialized && sassCode && setCode(sassCode);               
+               break;
+            }
+            case 'less': {
+               setExtensions([less()]);
+               initialized && lessCode && setCode(lessCode);               
                break;
             }
             default: {
-               setExtensions([javascript({ jsx: true })]);
-               initialized && javascriptCode && setCode(javascriptCode);
                break;
             }
          }
@@ -99,13 +97,16 @@ const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,
             case 'sass': { 
                updateSass && updateSass(value)
               break; 
-           }
+            }
+            case 'less': { 
+               updateLess && updateLess(value)
+              break; 
+            }
             default: { 
-                updateJavascript && updateJavascript(value)
                break; 
             } 
          }
-      }, [language, upDateHtml, updateCss, updateSass, updateJavascript]);
+      }, [language, upDateHtml, updateCss, updateSass, updateJavascript, updateLess]);
 
        
 

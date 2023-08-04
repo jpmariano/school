@@ -10,17 +10,17 @@ import { CodePlayerContext } from '@/components/codemirror/codePlayer';
 import useWindowDimensions from '@/utils/useWindowDimensions';
 //import SassConverter from '@/api/sassconverter';
 import * as less from 'less';
-import * as lessplugin from 'less-plugin-clean-css';
 //import scss from '@hai2007/algorithm/scss.js';
 //import * as sass from 'sass';
 
 
 export interface scssToCssDisplayProps {
   children?: string;
+  language?: 'javascript' | 'css' | 'html' | 'sass' | 'less';
 }
 
-const ScssToCssDisplay: React.FC<scssToCssDisplayProps> = ({children}) => {
-  const { upDateHtml, updateJavascript, updateCss, updateSass,  initialized,  htmlCode, cssCode, javascriptCode, headCode, sassCode} = useContext(CodePlayerContext);
+const ScssToCssDisplay: React.FC<scssToCssDisplayProps> = ({language, children}) => {
+  const { upDateHtml, updateJavascript, updateCss, updateSass,  initialized,  htmlCode, cssCode, javascriptCode, headCode, sassCode, lessCode} = useContext(CodePlayerContext);
     //const {  sassCode} = useContext(CodePlayerContext);
 
 
@@ -37,13 +37,34 @@ const ScssToCssDisplay: React.FC<scssToCssDisplayProps> = ({children}) => {
         if(!initialized){
           children && setCode(codeInitialize ? codeInitialize : '');
         }
-      initialized && sassCode && less.render(sassCode).then(function (output: any) {
-        setCode(output.css);
-      },
-        function (error: any) {
-          console.log(error)
-          setCode(sassCode);
-        });
+        switch(language) { 
+          case 'sass': { 
+            initialized && sassCode && less.render(sassCode).then(function (output: any) {
+              setCode(output.css);
+            },
+              function (error: any) {
+                console.log(error)
+                setCode(sassCode);
+              });
+            break;
+          } 
+          case 'less': { 
+            initialized && lessCode && less.render(lessCode).then(function (output: any) {
+              console.log(output)
+              setCode(output.css);
+            },
+              function (error: any) {
+                console.log(error)
+                setCode(lessCode);
+              });
+             break; 
+          } 
+          default: { 
+             //statements; 
+             break; 
+          } 
+       }
+        
         
         //console.log(lessplugin)
        /*less.render(sassCode, { plugins: [] })
