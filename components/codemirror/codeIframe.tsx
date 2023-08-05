@@ -41,7 +41,15 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
         item.language === 'css' && setCssToIframe(item.code);
         item.language === 'javascript' && setJavascriptToIframe(item.code);
         item.language === 'sass' && setSassToIframe(item.code);
-        item.language === 'less' && setLessToIframe(item.code);
+        if(item.language === 'less'){
+          less.render(item.code).then(function (output: any) {
+            setLessToIframe(output.css);
+          },
+            function (error: any) {
+              setLessToIframe(item.code);
+            });
+          //setLessToIframe(item.code);
+        } 
       });
        
       
@@ -60,6 +68,15 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
         javascriptCode && setJavascriptToIframe(javascriptCode);
         sassCode && setSassToIframe(sassCode);
         lessCode && setLessToIframe(lessCode);
+        if(lessCode){
+          less.render(lessCode).then(function (output: any) {
+            setLessToIframe(output.css);
+          },
+            function (error: any) {
+              setLessToIframe(lessCode);
+            });
+          //setLessToIframe(item.code);
+        } 
         let newHeadCode = '';
         headCode && headCode.map((item: String, i: number) => { newHeadCode += item; }); setHeadToIframe(newHeadCode);
         const timeOut = setTimeout(() => {
