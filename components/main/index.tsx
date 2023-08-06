@@ -22,7 +22,7 @@ const Main: React.FC<Props> = ({ children }) => {
     //const { height, width } = useWindowDimensions(); 
     //const heightPx = `${String(height)}px`;
     //console.log(theme) minHeight: `${String(height)}px`
-    console.log(theme);
+    //console.log(theme);
     return (
     
     <Box component="main" className={`${styles.main} ${theme.palette.mode}`} sx={{ backgroundColor: isLight ? '#F3F3F3'  : '#121212' }} >
