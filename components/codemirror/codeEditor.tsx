@@ -75,7 +75,6 @@ const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,
             }
          }
           answer && setShowStack(true);
-          //console.log('children:', children);
           // eslint-disable-next-line
        }, []);
 

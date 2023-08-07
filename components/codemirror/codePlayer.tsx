@@ -117,7 +117,7 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head}) => {
 
   return (
     <CodePlayerContext.Provider value={{ htmlCode, upDateHtml, javascriptCode, updateJavascript, cssCode, updateCss, headCode, upDateHead, sassCode, updateSass, lessCode, updateLess, initialized, updateInitialized }}>
-      <ProjectSettings head={head} />
+      {!(!cssCode && !lessCode && !javascriptCode && !sassCode && headCode?.length === 0) &&  <ProjectSettings head={head} />}
       <MuiTabs>
         {editors &&
           editors.map((item: Editor, i: number) => {

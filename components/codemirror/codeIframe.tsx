@@ -79,8 +79,11 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
         } 
         let newHeadCode = '';
         headCode && headCode.map((item: String, i: number) => { newHeadCode += item; }); setHeadToIframe(newHeadCode);
+
         const timeOut = setTimeout(() => {
-        
+          if((!cssCode) && (!lessCode) && (!javascriptCode) && (!sassCode) && (headCode?.length === 0)){
+            htmlCode && setSrcDoc(htmlCode);
+          } else {
             setSrcDoc(
               `
                 <html>
@@ -90,18 +93,22 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
                 <script src="https://cdn.jsdelivr.net/npm/browser-scss@1.0.3/dist/browser-scss.min.js"></script>
 
                 </head> 
-                  <body>${htmlToIframe}</body>
-                  <style type="text/css">${cssToIframe}</style>
-                  <script>${javascriptToIframe}</script>
-                  <style type="text/scss">${sassToIframe}</style>
-                  <style type="text/css">${lessToIframe}</style>
+                  <body>
+                    ${htmlToIframe}
+                    <style type="text/css">${cssToIframe}</style>
+                    <script>${javascriptToIframe}</script>
+                    <style type="text/scss">${sassToIframe}</style>
+                    <style type="text/css">${lessToIframe}</style>
+                  </body>
                 </html>
               `
-            )
+            );
+          }
+            
           }, 250);
           return () => clearTimeout(timeOut);
 
-       }, [cssCode, cssToIframe, headCode, headToIframe, lessToIframe,  htmlCode, htmlToIframe, javascriptCode, javascriptToIframe, sassCode, sassToIframe]);
+       }, [cssCode, cssToIframe, headCode, headToIframe, lessToIframe, htmlCode, htmlToIframe, javascriptCode, javascriptToIframe, sassCode, sassToIframe, lessCode]);
       
   return (
     <Paper component="section" sx={{ height: containerHeight }}>

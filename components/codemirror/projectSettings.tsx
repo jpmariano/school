@@ -54,7 +54,8 @@ export interface projectSettingsProps {
 
 const ProjectSettings: React.FC<projectSettingsProps> = ({head}) => {
 
-    const { upDateHead } = useContext(CodePlayerContext);
+    const { upDateHead} = useContext(CodePlayerContext);
+    
    
     const [open, setOpen] = useState(false);
     const [tabValue, setTabValue] = useState(0);
@@ -99,6 +100,7 @@ const ProjectSettings: React.FC<projectSettingsProps> = ({head}) => {
     };
 
     return (
+
         <Box className="answer-icon-btn" title="Project Settings">
             <IconButton onClick={handleOpen} sx={{ color: open ? "#FCB61C" : isLight ? '#121212' : '#ffffff', float: 'right', marginRight: '25px'}} aria-label="Solution">
                 <SettingsIcon fontSize="medium" /> <Typography component="p" variant='body1'>Settings</Typography> 
