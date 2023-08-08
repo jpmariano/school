@@ -9,8 +9,10 @@ import CenterBoxWithSidebar from '@/components/layouts/centerBoxWithSidebar';
 import Aside from '@/components/layouts/aside';
 import NotAside from '@/components/layouts/notAside';
 import code from '@/data/code.json';
+import codeJsx from '@/data/code_jsx.json';
 import CodeEditor from '@/components/codemirror/codeEditor';
 import CodePlayer, { Editor } from '@/components/codemirror/codePlayer';
+import CodeExplanation from '@/components/codemirror/codeExplanation';
 //import { useEffect } from 'react';
 
 
@@ -24,6 +26,10 @@ const Index: NextPage = () => {
       <HorizontalSeparator />
       <FullWidthBox>
         <CodePlayer head={code[0].head as String[]} editors={code[0].editors as Editor[]}/> 
+      </FullWidthBox>
+      <HorizontalSeparator />
+      <FullWidthBox>
+        <CodeExplanation title="Javascript" description="lorem ipsum dolor">{codeJsx[0].editors[0].code as string}</CodeExplanation>
       </FullWidthBox>
       <HorizontalSeparator />
       <CenterBoxWithSidebar fullwidth={false} mobileReverseOrder={true}>

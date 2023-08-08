@@ -88,3 +88,120 @@ main.dark {
         }
     }
 }
+
+
+.fade-in-image{
+    opacity: 0;
+    animation-name: fadeIn;
+    animation-duration: 3s;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+  
+  
+  
+  .opacity{
+    opacity: 0;
+  }
+  
+  .fade-in-image{
+    opacity: 0;
+    animation-name: fadeIn;
+    animation-duration: 3s;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;;
+  }
+  
+  .fade-in-line{
+    opacity: 0;
+    animation-name: fadeIn;
+    animation-duration: 3s;
+    animation-delay: .5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;;
+  }
+  
+  
+  @keyframes fadeIn {
+    0%   {opacity: 0}
+    100% {opacity: 1}
+   }
+  
+   .slide-over{
+    animation-name: slideOver;
+    animation-duration: 1s;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+   }
+  
+   @keyframes slideOver {
+    0%   {transform: translateX(30%)}
+    100% {transform: translateX(0)}
+   }
+  
+   .slide-up{
+    animation-name: slideUp;
+    animation-duration: .5s;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+   }
+  
+   @keyframes slideUp {
+    0%   {transform: translateY(-10vh)}
+    100% {transform: translateY(0)}
+   }
+  
+   .slide-down{
+    animation-name: slideDown;
+    animation-duration: 2s;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+   }
+  
+  
+   .slide-down-line{
+    animation-name: slideDown;
+    animation-duration: 2s;
+    animation-delay: .5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+   }
+  
+   @keyframes slideDown {
+    0%   {transform: translateY(-10vh)}
+    100% {transform: translateY(0)}
+   }
+  
+   .scale-image-up{
+    animation-name: scaleUp;
+    animation-duration: 1s;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+   }
+  
+   @keyframes scaleUp {
+    0%   {transform: scale(1)}
+    100% {transform: scale(1.1)}
+   }
+  
+   .scale-image-down{
+    animation-name: scaleDown;
+    animation-duration: 1s;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+   }
+  
+   @keyframes scaleDown {
+    0%   {transform: scale(1.1)}
+    100% {transform: scale(1)}
+   }
+  
