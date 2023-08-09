@@ -26,6 +26,7 @@ const LightDarkModeBtn: React.FC<lightDarkModeProps> = ({ toggleId }) => {
 
     const toggleMode = () => {
         const isDark = toggle.toggleArr.find((content) => content?.id === toggleId );
+        
         if(isDark){
             dispatch(setToggle({ open: !isDark?.open, id: toggleId }));
         } else {
@@ -34,7 +35,7 @@ const LightDarkModeBtn: React.FC<lightDarkModeProps> = ({ toggleId }) => {
     };
     return (
 
-        <IconButton onClick={toggleMode} sx={{ color: mode ? "inherit": "#FCB61C"}}  aria-label="light and dark mode toggle">
+        <IconButton onClick={toggleMode} sx={{ color: mode ? "#000000": "#FCB61C", float: 'left', marginTop: '14px', marginLeft: '3px', padding: '3px'}}  aria-label="light and dark mode toggle">
             <LightModeIcon />
         </IconButton>
 

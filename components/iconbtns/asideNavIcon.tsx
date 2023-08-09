@@ -8,39 +8,34 @@ import { setToggle } from '@/store/features/toggleSlice';
 import LightIcon from '@mui/icons-material/Light';
 import MenuIcon from '@mui/icons-material/Menu';
 
-export interface asideNaveIconProps {
+export interface asideNavIconProps {
     toggleId: number;
 }
 
-const AsideNaveIcon: React.FC<asideNaveIconProps> = ({ toggleId }) => {
+const AsideNavIcon: React.FC<asideNavIconProps> = ({ toggleId }) => {
     const toggle = useAppSelector((state) => state.toggle);
     const [mode, setMode] = React.useState(false);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        const showAside = toggle.toggleArr.find((content) => content.id === toggleId );
-        
+        const showAside = toggle.toggleArr.find((content) => content?.id === toggleId );
         if (showAside) {
             setMode(showAside.open);
         } 
-        console.log(toggle)
     }, [toggleId, toggle]);
 
 
     const toggleMode = () => {
-        console.log('test')
         const showAside = toggle.toggleArr.find((content) => content?.id === toggleId );
         if(showAside){
-            console.log('test')
             dispatch(setToggle({ open: !showAside?.open, id: toggleId }));
         } else {
-            console.log('test')
             dispatch(setToggle({ open: !mode, id: toggleId }));
         } 
     };
     return (
 
-        <IconButton onClick={toggleMode} sx={{ color: mode ? "inherit": "#FCB61C"}}  aria-label="Sidebar Navigation Toggle Button Test">
+        <IconButton onClick={toggleMode} sx={{ color: "inherit", float: 'left', marginTop: '2px'}}  aria-label="Sidebar Navigation Toggle Button">
             <MenuIcon />
         </IconButton>
 
@@ -48,4 +43,4 @@ const AsideNaveIcon: React.FC<asideNaveIconProps> = ({ toggleId }) => {
     );
 };
 
-export default AsideNaveIcon;
+export default AsideNavIcon;

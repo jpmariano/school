@@ -15,7 +15,7 @@ export interface cnterBoxProps {
 const CenterBoxWithSidebar: React.FC<cnterBoxProps> = ({fullwidth = true, mobileReverseOrder = false, fullHeight = false, addClassName, children}) => {
   const { height, width } = useWindowDimensions();
   return (
-    <Paper component="section" sx={{ minHeight: fullHeight ? `${height}px` : 'auto'}} className={`${fullwidth ? styles.sectionFull : styles.section} ${mobileReverseOrder && styles.mobileReverseOrder}  ${addClassName}`}>
+    <Paper component="section" sx={{ minHeight: fullHeight ? `${height - 56}px` : 'auto' }} className={`${fullwidth ? styles.sectionFull : styles.section} ${mobileReverseOrder && styles.mobileReverseOrder}  ${addClassName}`}>
          {children}
     </Paper> 
     );
