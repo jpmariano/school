@@ -2,9 +2,10 @@
  
 
 import {  useAppSelector } from '@/store/store'
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 import {darkTheme, lightTheme} from '@/material/thememode'
 import {  ThemeProvider } from '@mui/material'
+import { toggle } from '@/store/features/toggleSlice'
 
 
 export interface ThemeProviderProps {
@@ -14,8 +15,11 @@ export interface ThemeProviderProps {
 const ThemeProviders: React.FC<ThemeProviderProps> = ({children}) =>  {
 
     const toggle = useAppSelector((state) => state.toggle);
+    //const [isDark, setsDark] = useState(false);
+    const isDark = toggle.toggleArr.find((content) => content?.id === 0 );
+   
     return (
-        <ThemeProvider theme={toggle.open ? darkTheme : lightTheme}>{children}</ThemeProvider>
+        <ThemeProvider theme={isDark?.open ? darkTheme : lightTheme}>{children}</ThemeProvider>
           
       );
   };

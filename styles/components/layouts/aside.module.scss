@@ -7,5 +7,12 @@
     padding: 10px;
     @media screen and (max-width: 1300px) {
         width: 100%;
-     }
+    }
+}
+
+.hideOnMobile {
+   @media screen and (max-width: 1300px) { 
+      display: none;
+   }
+
 }

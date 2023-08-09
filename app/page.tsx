@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <Main>
       <CenterBoxWithSidebar fullHeight={true}>
-        <Aside addClassName="inverse">item 1</Aside>
+        <Aside hideOnMobile={true}>item 1</Aside>
         <NotAside addClassName="inverse">item 2</NotAside>
       </CenterBoxWithSidebar>
     </Main>

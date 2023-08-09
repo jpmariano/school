@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from '@/store/store';
 import LightDarkModeBtn from '@/components/iconbtns/lightDarkModeBtn';
 import LoginDropdown from '@/components/iconbtns/loginDropdown';
 import IsMobileProvider from '@/components/provider/ismobileProvider';
+import AsideNaveIcon from '@/components/iconbtns/AsideNaveIcon';
 
 /*
 export const getStaticProps: GetStaticProps = async () => {
@@ -24,8 +25,9 @@ const Header: React.FC = () => {
   return (
    <Box component="header" px={2} sx={{display: "flex", justifyContent: 'space-between', background: "#1d2c55", color: "#ffffff"}} >
         <Box  sx={{position: "relative"}}>
-        <Logo /> 
-        <LightDarkModeBtn toggleId='lightanddark'/>
+            <AsideNaveIcon toggleId={1}/>
+            <Logo /> 
+            <LightDarkModeBtn toggleId={0}/>
         </Box>
         <Box  sx={{}}>
        
