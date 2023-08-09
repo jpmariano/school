@@ -22,7 +22,7 @@ const Header: React.FC = () => {
     
  
   return (
-   <Box component="header" p={2} sx={{display: "flex", justifyContent: 'space-between', background: "#1d2c55", color: "#ffffff"}} >
+   <Box component="header" px={2} sx={{display: "flex", justifyContent: 'space-between', background: "#1d2c55", color: "#ffffff"}} >
         <Box  sx={{position: "relative"}}>
         <Logo /> 
         <LightDarkModeBtn toggleId='lightanddark'/>

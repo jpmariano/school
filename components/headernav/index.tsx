@@ -18,7 +18,7 @@ const HeaderNav: React.FC = () => {
          <List sx={{ display: 'flex', direction: 'row', color: "#ffffff"}}>
               <ListItem><Link href="/" >Home</Link></ListItem>
               <ListItem><Link href="/test" >Test</Link></ListItem>
-              <ListItem><Link href="/" className={styles.link} >Home2</Link></ListItem>
+              <ListItem><Link href="/font" className={styles.link} >font</Link></ListItem>
               <ListItem><Link href="/" className={styles.link} >Home3</Link></ListItem>
               <ListItem><Link href="/"className={styles.link} >Home4</Link></ListItem>
          </List>

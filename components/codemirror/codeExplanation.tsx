@@ -43,8 +43,8 @@ const CodeExplanation: React.FC<CodeExplanationProps> = ({title, description, ch
     <Paper component="section" >
         <ReactVisibilitySensor partialVisibility={true} onChange={slideUpText}>
             <Box ref={text}>
-                {title && <Typography  component={'h2'} variant={'body1'} >{title}</Typography>}
-                {description && <Typography component={'h2'} variant={'body2'} >{description}</Typography> }         
+                {title && <Typography  component={'h2'} variant={'h2'} >{title}</Typography>}
+                {description && <Typography component={'p'} variant={'body2'} >{description}</Typography> }         
             </Box>
         </ReactVisibilitySensor>
         <ReactVisibilitySensor partialVisibility={true} onChange={fadeDown}>

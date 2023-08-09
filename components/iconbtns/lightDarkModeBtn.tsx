@@ -28,7 +28,7 @@ const LightDarkModeBtn: React.FC<lightDarkModeProps> = ({ toggleId }) => {
     };
     return (
 
-        <IconButton onClick={toggleMode} sx={{ color: mode ? "inherit": "#FCB61C", position: "absolute", top: "27px", left: "228px"}}  aria-label="light and dark mode toggle">
+        <IconButton onClick={toggleMode} sx={{ color: mode ? "inherit": "#FCB61C", position: "absolute", top: "8px", left: "150px"}}  aria-label="light and dark mode toggle">
             <LightModeIcon />
         </IconButton>
 

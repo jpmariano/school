@@ -5,7 +5,7 @@ import styles from "@/styles/components/layouts/aside.module.scss";
 
 export interface asideProps {
     children?: ReactNode;
-    addClassName?: string | null;
+    addClassName?: 'inverse';
 }
 
 const Aside: React.FC<asideProps> = ({addClassName, children}) => {

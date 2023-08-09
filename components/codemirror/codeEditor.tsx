@@ -113,11 +113,11 @@ const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,
       
 
   return (
-    <Box component="section" sx={{overflow: 'hidden', height: `${containerHeight}px`}}>
+    <Box component="section" sx={{overflow: 'hidden', minHeight: `${containerHeight}px`}}>
         
          <CodeMirror
       value={code}
-      height={`${codeMirrorHeight}px`}
+      height={`${containerHeight}px`}
       width='100%'
       extensions={extensions}
       onChange={onChange}

@@ -6,7 +6,7 @@ import styles from "@/styles/components/layouts/notaside.module.scss";
 export interface notAsideProps {
     children?: ReactNode;
     component?: any;
-    addClassName?: string | null;
+    addClassName?: 'inverse';
 }
 
 const NotAside: React.FC<notAsideProps> = ({component = "section", addClassName, children}) => {
