@@ -9,6 +9,7 @@ import { Box, StyledEngineProvider, ThemeProvider } from '@mui/material'
 import { Providers } from '@/components/provider';
 import { useAppSelector } from '@/store/store';
 import ThemeProviders from '@/components/provider/themeprovider';
+import TemporaryDrawer from '@/components/layouts/temporaryDrawer';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -34,6 +35,7 @@ export default function RootLayout({
           <ThemeProviders>
             <Header />
             {children}
+            <TemporaryDrawer>test</TemporaryDrawer>
           </ThemeProviders>
         </StyledEngineProvider>
         </Providers>

@@ -8,18 +8,14 @@ import Logo from "@/components/logo";
 import { IsMobileContext } from '@/components/provider/ismobileProvider';
 import styles from "@/styles/components/headernav/index.module.scss";
 import { usePathname } from 'next/navigation';
-
+import navItems from '@/data/mainnav.json';
 
 const HeaderNav: React.FC = () => {
  // const { isMobile } = useContext(IsMobileContext);
   const theme = useTheme();
   const pathname = usePathname();
   const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
-  const navItems = [
-    { name: 'Home', link: '/' },
-    { name: 'Test', link: '/test' },
-    { name: 'font', link: '/font' }
-  ];
+
 
 
   if(!isMobile){
