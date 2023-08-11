@@ -1,11 +1,13 @@
 import React from 'react';
 import Image from 'next/image';
 import styles from '@/styles/components/icons/icons.module.scss';
+import { SxProps } from '@mui/material';
 
 interface IconProps {
   svg: string;
   alt: string;
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'xxxl';
+  //sx?: SxProps;
 }
 
 const Icon: React.FC<IconProps> = ({ svg, alt, size }) => {
