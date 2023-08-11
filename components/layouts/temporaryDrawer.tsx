@@ -16,6 +16,7 @@ const TemporaryDrawer: React.FC<temporaryDrawerProps> = ({children}) => {
   const theme = useTheme();
   const showSidebar = toggle.toggleArr.find((content) => content?.id === 1);
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
   if (isMobile) {
     return (
         <Drawer
@@ -27,7 +28,7 @@ const TemporaryDrawer: React.FC<temporaryDrawerProps> = ({children}) => {
             sx={{
                 width: '100vw',
                 '& .MuiDrawer-paper': {
-                    backgroundColor: 'red',
+                    backgroundColor: 'background.paper',
                     color: '#ffffff',
                     padding: '32px, 24px, 32px, 24px',
                     width: isMobile ? '50vw' : '375px',
@@ -36,9 +37,9 @@ const TemporaryDrawer: React.FC<temporaryDrawerProps> = ({children}) => {
                 },
             }}
         >
-            <Box>
-            <AsideNavIcon toggleId={1}/>
-            <Logo /> 
+            <Box sx={{background: "#1d2c55"}}>
+                <AsideNavIcon toggleId={1}/>
+                <Logo /> 
             </Box>
             {children}
         </Drawer>
