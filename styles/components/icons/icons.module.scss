@@ -1,0 +1,74 @@
+.sm {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    flex-shrink: 0;
+    font-size: 1.25rem;
+    @media screen and (max-width: 744px) {
+        font-size: 1rem;
+    }
+}
+.md {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    flex-shrink: 0;
+    font-size: 1.5rem;
+    @media screen and (max-width: 744px) {
+        font-size: 1.25rem;
+    }
+}
+.lg {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    flex-shrink: 0;
+    font-size: 2.1875rem;
+    @media screen and (max-width: 744px) {
+        font-size: 1.5rem;
+    }
+    @media screen and (max-width: 414px) {
+        font-size: 1.35rem;
+    }
+}
+
+.xl {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    flex-shrink: 0;
+    font-size: 3rem;
+    @media screen and (max-width: 744px) {
+        font-size: 2.1875rem;
+    }
+    @media screen and (max-width: 414px) {
+        font-size: 1.5rem;
+    }
+}
+
+.xxl {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    flex-shrink: 0;
+    font-size: 3.25rem;
+    @media screen and (max-width: 744px) {
+        font-size: 3rem;
+    }
+    @media screen and (max-width: 414px) {
+        font-size: 2.1875rem;
+    }
+}
+.xxxl {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    flex-shrink: 0;
+    font-size: 3.5rem;
+    @media screen and (max-width: 744px) {
+        font-size: 3.25rem;
+    }
+    @media screen and (max-width: 414px) {
+        font-size: 3rem;
+    }
+}

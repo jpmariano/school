@@ -8,7 +8,7 @@
     //align-items: stretch;
     padding: 20px;
     gap: 0 20px;
-    @media screen and (max-width: 1300px) {
+    @media screen and (max-width: 944px) {
        max-width: 95%;
        gap: 20px 0;
        flex-direction: column;
@@ -20,7 +20,7 @@
 
 .mobileReverseOrder {
     *:first-child {
-        @media screen and (max-width: 1300px) {
+        @media screen and (max-width: 744px) {
             order: 2;
         }
     }
@@ -28,7 +28,7 @@
 
 .fullHeight {
     height: 100%;
-    min-height: 89vh;
+    min-height: 93vh;
 }
 
 .sectionFull {
@@ -40,7 +40,7 @@
     //align-items: stretch;
     padding: 20px;
     gap: 0 20px;
-    @media screen and (max-width: 1300px) {
+    @media screen and (max-width: 744px) {
        gap: 20px 0;
        flex-direction: column;
     }

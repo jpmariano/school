@@ -1,13 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface toggle {
+export type toggle = {
   open: boolean;
-  id: string;
+  id: number;
 }
 
-const initialState: toggle = {
-  open: false,
-  id: '',
+export interface toggleArr {
+  toggleArr: toggle [];
+}
+
+const initialState: toggleArr = {
+  toggleArr: []
 };
 
 export const ToggleSlice = createSlice({
@@ -16,12 +19,14 @@ export const ToggleSlice = createSlice({
   reducers: {
     setToggle: (
       state,
-      action: PayloadAction<{ open: boolean, id: string }>
+      action: PayloadAction<{ open: boolean, id: number }>
     ) => {
+      
+      const newToggleArr = [...state.toggleArr];
+      newToggleArr[action.payload.id] = action.payload;
       return {
         ...state,
-        open: action.payload.open,
-        id: action.payload.id,
+        toggleArr: newToggleArr
       };
     },
   },

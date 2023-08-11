@@ -1,8 +1,14 @@
-.link {
+.navlink {
     color: #ffffff;
     text-decoration: none;
-    &:hover{
-     text-decoration: underline;
-     text-underline-offset: 5px;
+    border-bottom: 1px transparent solid;
+    &__isActive {
+        border-bottom: 1px solid #ffffff;
+    }
+    &:hover {
+        border-bottom: 1px solid #ffffff;
+    }
+    &:focus {
+        border-bottom: 1px solid #ffffff;
     }
 }

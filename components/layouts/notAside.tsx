@@ -6,12 +6,13 @@ import styles from "@/styles/components/layouts/notaside.module.scss";
 export interface notAsideProps {
     children?: ReactNode;
     component?: any;
-    addClassName?: string | null;
+    addClassName?: 'inverse';
+    showBoxShadow?: boolean;
 }
 
-const NotAside: React.FC<notAsideProps> = ({component = "section", addClassName, children}) => {
+const NotAside: React.FC<notAsideProps> = ({component = "section", addClassName, showBoxShadow = true,  children}) => {
   return (
-    <Paper component={component} className={`${styles.content} ${addClassName}`}>
+    <Paper component={component} sx={{boxShadow: showBoxShadow ? 'inherit' : 'none'}} className={`${styles.content} ${addClassName}`}>
          {children}
     </Paper> 
     );

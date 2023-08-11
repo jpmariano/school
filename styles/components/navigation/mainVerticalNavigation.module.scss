@@ -1,0 +1,22 @@
+.navlink {
+    &__isActive {
+        background-color: rgba(0, 0, 0, 0.04);
+    }
+}
+.navlinkDark {
+    &__isActive {
+        background-color: rgba(255, 255, 255, 0.08);
+    }
+}
+.ListItemIcon {
+    @media screen and (max-width: 936px) {
+        margin: 0 auto;
+        min-width: auto;
+        
+    }
+    @media screen and (max-width: 744px) {
+        margin: inherit;
+        min-width: 56px;
+    }
+}
+

@@ -3,9 +3,16 @@
     //width: 30%;
     //min-width: 300px;
     //width: 100%;
-    width: 25em;
+    width: auto;
+    max-width: 15em;
     padding: 10px;
-    @media screen and (max-width: 1300px) {
+    @media screen and (max-width: 744px) {
         width: 100%;
-     }
+    }
+}
+
+.hideOnMobile {
+   @media screen and (max-width: 744px) { 
+      display: none;
+   }
 }

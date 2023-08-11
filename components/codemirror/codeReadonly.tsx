@@ -50,10 +50,10 @@ const CodeReadOnly: React.FC<codeReadOnlyProps> = ({language = 'javascript', chi
        }, []);
 //#1aa8ff
   return (
-    <Box component="section" id='test' sx={{overflow: 'hidden', height: '100%', minHeight: '300px',  width: '100%' , minWidth: '500px'}}>
+    <Box component="section" id='test' sx={{overflow: 'hidden', height: '100%', minHeight: '100px',  width: '100%' , minWidth: '500px'}}>
          <CodeMirror
       value={code}
-      minHeight='300px'
+      minHeight='100px'
       maxHeight='500px'
       minWidth='500px'
       height="100%"
