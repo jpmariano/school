@@ -1,6 +1,6 @@
 
 import { GetServerSideProps, NextPage } from 'next';
-import { Typography, useTheme } from '@mui/material';
+import { CircularProgress, Typography, useTheme } from '@mui/material';
 import Main from '@/components/main';
 import CenterBox from '@/components/layouts/centerBox';
 import FullWidthBox from '@/components/layouts/fullWidth';
@@ -13,6 +13,7 @@ import codeJsx from '@/data/code_jsx.json';
 import CodeEditor from '@/components/codemirror/codeEditor';
 import CodePlayer, { Editor } from '@/components/codemirror/codePlayer';
 import CodeExplanation from '@/components/codemirror/codeExplanation';
+import { Suspense } from 'react';
 //import { useEffect } from 'react';
 
 
@@ -25,7 +26,9 @@ const Index: NextPage = () => {
     <Main>
       <HorizontalSeparator />
       <FullWidthBox>
-        <CodePlayer head={code[0].head as String[]} editors={code[0].editors as Editor[]}/> 
+        <Suspense fallback={  <CircularProgress />}>
+          <CodePlayer head={code[0].head as String[]} editors={code[0].editors as Editor[]}/> 
+        </Suspense>
       </FullWidthBox>
       <HorizontalSeparator />
       <FullWidthBox>
