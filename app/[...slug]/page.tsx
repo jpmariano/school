@@ -85,7 +85,7 @@ export default async function slug() {
   const pageDetails = await getPage(pathname);
   const nodeLesson = await getNode(pageDetails.entity.uuid, 'lesson');
   const nodeLessonInt = nodeLesson as node_lesson;
-  console.log(nodeLessonInt.data.attributes.body)
+  
   
 
   switch(pageDetails.entity.type) { 
@@ -117,7 +117,7 @@ export default async function slug() {
         </Aside>
         <NotAside addClassName="inverse" showBoxShadow={false}>
           <Box component='article'>
-            <Typography component='h1' variant='h1'>{pageDetails.label}</Typography>
+            <Typography component='h1' variant='h1' className="">{pageDetails.label}</Typography>
             {pageDetails.entity.type == 'taxonomy_term' && listOfAllLessonPerChapter.map((chapter: string, index: number) => {
               return (
                 <List key={index}>
