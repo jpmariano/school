@@ -2,7 +2,7 @@ import Header from '@/components/header'
 import "the-new-css-reset/css/reset.css";
 import '@/styles/index.scss';
 import '@/styles/fonts.scss';
-import type { Metadata } from 'next'
+import type { GetServerSideProps, Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import {darkTheme, lightTheme} from '@/material/thememode'
 import { Box, StyledEngineProvider, ThemeProvider } from '@mui/material'
@@ -11,6 +11,7 @@ import { useAppSelector } from '@/store/store';
 import ThemeProviders from '@/components/provider/themeprovider';
 import TemporaryDrawer from '@/components/layouts/temporaryDrawer';
 import MainVerticalNavigation from '@/components/navigation/mainVerticalNavigation';
+
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -48,5 +49,10 @@ export default function RootLayout({
     
   )
 }
-
-
+/*
+export async function getServerSideProps: GetServerSideProps<Props> = async (
+  context: any
+) => {
+ console.log(context)
+  return { props: {} }
+}*/
