@@ -9,20 +9,19 @@ import { headers } from "next/headers";
 import { BASE_URL } from '@/api/config';
 import { Box, List, ListItem, ListItemText, Typography } from '@mui/material'
 import Link from 'next/link'
-import {node_lesson} from '@/types'
+import {breadcrumbPath, lesson, listOfLessons, node_lesson} from '@/types'
 import BodyContent from '@/components/bodyContent'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import CircleIcon from '@mui/icons-material/Circle';
+import LessonsPerChapter from '@/components/lessonsPerChapter'
+import Breadcrumb from '@/components/breadCrumb';
+import { useState } from 'react'
 //import stripJsonComments from 'strip-json-comments'
 //import { getPage } from '@/api/drupal';
 
-export type lesson = {
-  term_node_tid: string;
-  draggableviews: string;
-  view_node: string;
-  title: string;
-  field_subject_of_lesson: string;
-};
 
-export type listOfLessons = lesson[];
+
+
 
 export async function generateMetadata(): Promise<Metadata> {
 
@@ -85,8 +84,35 @@ export default async function slug() {
   const pageDetails = await getPage(pathname);
   const nodeLesson = await getNode(pageDetails.entity.uuid, 'lesson');
   const nodeLessonInt = nodeLesson as node_lesson;
+  //let routes: breadcrumbPath[] = [{path: '/', breadcrumb: 'Home'}];
+  let routes: breadcrumbPath[] = [];
+  const splitPath = (path: string) => {
+    const array = path.split('/');
+    let i = 1;
+    let final = []
+    while (i < array.length) {
+      final.push(`/${array.slice(1,i+1).join('/').toString()}` )
+      i++;
+    }
+    return final
+  }
+  const arrOfPaths: string[] =  splitPath(pathname);
   
-  
+  (async function() {
+    
+    const promises = arrOfPaths.map(async (url, idx) => {
+        const pageDetails = await getPage(`${url}`);
+        if(idx === 0){
+          routes = [];
+          routes.push( {path: '/', breadcrumb: 'Home'});
+          routes.push( {path: url, breadcrumb: pageDetails.label});
+        } else {
+          routes.push( {path: url, breadcrumb: pageDetails.label});
+        }
+        
+    });
+    await Promise.all(promises); 
+  })();
 
   switch(pageDetails.entity.type) { 
     case 'taxonomy_term': { 
@@ -107,7 +133,7 @@ export default async function slug() {
 
  const allLessons = await getListofLessonByTaxId(pageDetails.entity.id);
  const arrayOfAllLesson = allLessons as listOfLessons;
- const listOfAllLessonPerChapter = arrayOfAllLesson.map((item: lesson, index) => { return item.field_subject_of_lesson}).filter((value, index, array) => array.indexOf(value) === index);  
+ const listOfAllLessonPerChapter:string[] = arrayOfAllLesson.map((item: lesson, index) => { return item.field_subject_of_lesson}).filter((value, index, array) => array.indexOf(value) === index);  
 
   return (
     <Main>
@@ -117,24 +143,10 @@ export default async function slug() {
         </Aside>
         <NotAside addClassName="inverse" showBoxShadow={false}>
           <Box component='article'>
+            <Breadcrumb route={routes} />
             <Typography component='h1' variant='h1' className="">{pageDetails.label}</Typography>
-            {pageDetails.entity.type == 'taxonomy_term' && listOfAllLessonPerChapter.map((chapter: string, index: number) => {
-              return (
-                <List key={index}>
-                  <ListItem><ListItemText primary={chapter} /></ListItem>
-                  {arrayOfAllLesson.map((item: lesson, index1: number) => {
-                    if (item.field_subject_of_lesson === chapter) {
-                      return (
-                        <List key={index1} sx={{ ml: 2}}>
-                          <ListItem> <Link href={item.view_node}>{item.title}</Link></ListItem>
-                        </List>
-                      );
-                    }
-                  })}
-                </List>
-              );
-            })}
-            {pageDetails.entity.type == 'node' && BodyContent(nodeLessonInt.data.attributes.body.value)}
+            {pageDetails.entity.type == 'taxonomy_term' && <LessonsPerChapter chapters={listOfAllLessonPerChapter} listOfLessons={arrayOfAllLesson} />}
+            {pageDetails.entity.type == 'node' && <BodyContent value={nodeLessonInt.data.attributes.body.value} />}
           </Box>
         </NotAside>
       </CenterBoxWithSidebar>

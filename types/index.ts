@@ -19,6 +19,18 @@ export type ReactNodes = {
 children: ReactNode;
 };
 //Node Lesson
+
+export type lesson = {
+  term_node_tid: string;
+  draggableviews: string;
+  view_node: string;
+  title: string;
+  field_subject_of_lesson: string;
+  field_completed: string;
+};
+
+export type listOfLessons = lesson[];
+
 export interface node_lesson {
   jsonapi: Jsonapi;
   data: Data;
@@ -107,3 +119,26 @@ export interface Meta2 {
   drupal_internal__target_id: number;
 }
 //End Node Lesson
+
+//Breadcrumb
+export interface BreadcrumbItem {
+  breadcrumb: React.ElementType | string | null;
+  path: string;
+}
+export interface Options {
+  // disable all default generation of breadcrumbs
+  disableDefaults?: boolean;
+  // exclude certain paths fom generating breadcrumbs
+  excludePaths?: string[];
+  // optionally define a default formatter for generating breadcrumbs from URL segments
+  defaultFormatter?: (arg0: string) => string;
+}
+
+export interface breadcrumbPath {
+  path: string;
+  breadcrumb: string;
+}
+
+
+
+//End Breadcrumb
