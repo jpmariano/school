@@ -1,5 +1,6 @@
 import Header from '@/components/header'
 import "the-new-css-reset/css/reset.css";
+import 'tailwindcss/tailwind.css';
 import '@/styles/index.scss';
 import '@/styles/fonts.scss';
 import type { GetServerSideProps, Metadata } from 'next'
