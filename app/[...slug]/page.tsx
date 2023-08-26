@@ -47,7 +47,7 @@ async function getPage(slug: string){
 } 
 
 async function getListofLessonByTaxId(taxid: string){
-  const response = await fetch(`${BASE_URL}/api/v1/${taxid}?_format=json`);
+  const response = await fetch(`${BASE_URL}/api/v1/lesson/${taxid}?_format=json`);
 
   const result = await response.json();
 
