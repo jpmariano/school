@@ -10,9 +10,14 @@ import Aside from '@/components/layouts/aside';
 import NotAside from '@/components/layouts/notAside';
 import code from '@/data/code.json';
 import codeJsx from '@/data/code_jsx.json';
+import knowledgeCheckJson from '@/data/knowledgeCheck.json';
 import CodeEditor from '@/components/codemirror/codeEditor';
 import CodePlayer, { Editor } from '@/components/codemirror/codePlayer';
 import CodeExplanation from '@/components/codemirror/codeExplanation';
+import {KnowledgeCheckProvider } from '@/components/knowledgeCheck';
+import KCQuestions from '@/components/knowledgeCheck/KCQuestions';
+import {RadioQuestion} from '@/components/knowledgeCheck/KCForm';
+import KCStepper from '@/components/knowledgeCheck/KCStepper';
 import { Suspense } from 'react';
 //import { useEffect } from 'react';
 
@@ -25,6 +30,14 @@ const Index: NextPage = () => {
   return (
     <Main>
       <HorizontalSeparator />
+      <HorizontalSeparator />
+      <FullWidthBox>
+        <KnowledgeCheckProvider>
+          <KCStepper>
+            <KCQuestions questions={knowledgeCheckJson as RadioQuestion[]} />
+          </KCStepper>
+        </KnowledgeCheckProvider>
+      </FullWidthBox>
       <FullWidthBox>
         <Suspense fallback={  <CircularProgress />}>
           <CodePlayer head={code[0].head as String[]} editors={code[0].editors as Editor[]}/> 

@@ -1,0 +1,54 @@
+[
+    {
+      "question": "what is the use of DOCTYPE?",
+      "answers": [
+        {
+          "answer": "DOCTYPE tells the browser what version of HTML will need it to render.",
+          "value": "1"
+        },
+        {
+          "answer": "DOCTYPE tells browser what Type of Document.",
+          "value": "0"
+        },
+        {
+          "answer": "DOCTYPE tells the browser that the file is HTML.",
+          "value": "0"
+        }
+      ]
+    }, 
+    {
+        "question": "what is the acronym of HTML?",
+        "answers": [
+          {
+            "answer": "Hyper Text Mode Language",
+            "value": "0"
+          },
+          {
+            "answer": "Html Text Markup Language",
+            "value": "0"
+          },
+          {
+            "answer": "Hyper Text Markup Language",
+            "value": "1"
+          }
+        ]
+      },
+      {
+        "question": "Select Text editor is best for HTML",
+        "answers": [
+          {
+            "answer": "Browser",
+            "value": "0"
+          },
+          {
+            "answer": "Html Text Markup Language",
+            "value": "0"
+          },
+          {
+            "answer": "Hyper Text Markup Language",
+            "value": "1"
+          }
+        ]
+      }
+]
+    
