@@ -23,14 +23,11 @@ const KCForm: React.FC<RadioQuestion> = ({ question, answers }) => {
     const [value, setValue] = useState('');
     const [correctAnswer, setCorrectAnswer] = useState('');
     const [isAnswerCorrect, setIsAnswerCorrect] = useState<null | boolean>(null);
-    const [displayReset, setDisplayReset] = useState(false);
-    const [disableSubmit, setDisableSubmit] = useState(true);
-    const [displayNext, setDisplayNext] = useState(false);
     const questionFormRef = useRef<HTMLFormElement>(null);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setValue((event.target as HTMLInputElement).value);
-        setDisableSubmit(false);
+        setIsAnswerCorrect(true);
     };
 
     useEffect(() => {
@@ -46,15 +43,6 @@ const KCForm: React.FC<RadioQuestion> = ({ question, answers }) => {
     }, []);
 
 
-    const reset = (e: React.FormEvent) => {
-        e.preventDefault();
-        questionFormRef?.current?.reset();
-        setValue('');
-        setIsAnswerCorrect(null);
-        setDisplayReset(false);
-        setDisplayNext(false);
-        setDisableSubmit(true);
-    };
 
     const nextItem = (e: React.MouseEvent<HTMLButtonElement>, i: number) => {
         kCContext.setDisplayItem(i + 1);
@@ -82,25 +70,16 @@ const KCForm: React.FC<RadioQuestion> = ({ question, answers }) => {
             </FormControl>
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             
-                {displayReset ? <Button onClick={reset} variant='kcbutton'>Reset</Button> :
-                    <Button variant="kcbutton" onClick={() => {
+                <Button variant="kcbutton" onClick={() => {
                         if (value === correctAnswer) {
                             setIsAnswerCorrect(true);
-                            setDisplayNext(true);
-                            setDisableSubmit(true);
+                            kCContext.setDisplayItem(kCContext.displayItem + 1);
                         } else {
                             setIsAnswerCorrect(false);
-                            setDisplayNext(false);
-                            setDisplayReset(true);
                         }
 
                     }}
-
-                        
-                        disabled={disableSubmit}>Submit</Button>}
-
-
-                {displayNext && <Button variant='kcbutton' onClick={(e) => nextItem(e, kCContext.displayItem)}>{kCContext.totalCount - 1 > kCContext.displayItem ? 'Next' : 'Finish'}</Button>}
+                    >Submit</Button>
             </Box>
 
 
