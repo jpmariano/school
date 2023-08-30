@@ -1,0 +1,11 @@
+.button {
+    background-color: '#1d2c55 !important';
+    
+    color: #ffffff;
+    &:hover {
+        background-color: #005293;
+    }
+    &.Mui-disabled {
+        background-color: gray;
+    }
+}

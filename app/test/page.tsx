@@ -15,9 +15,13 @@ import CodeEditor from '@/components/codemirror/codeEditor';
 import CodePlayer, { Editor } from '@/components/codemirror/codePlayer';
 import CodeExplanation from '@/components/codemirror/codeExplanation';
 import {KnowledgeCheckProvider } from '@/components/knowledgeCheck';
+import {QuizProvider } from '@/components/quiz';
 import KCQuestions from '@/components/knowledgeCheck/KCQuestions';
+import Quizquestion from '@/components/quiz/Quizquestion';
 import {RadioQuestion} from '@/components/knowledgeCheck/KCForm';
+import {QRadioQuestion} from '@/components/quiz/QuizForm';
 import KCStepper from '@/components/knowledgeCheck/KCStepper';
+import QuizSlider from '@/components/quiz/QuizSlider';
 import { Suspense } from 'react';
 //import { useEffect } from 'react';
 
@@ -29,7 +33,15 @@ const Index: NextPage = () => {
   
   return (
     <Main>
+      
       <HorizontalSeparator />
+      <FullWidthBox>
+        <QuizProvider>
+          <QuizSlider>
+            <Quizquestion questions={knowledgeCheckJson as QRadioQuestion[]} />
+          </QuizSlider>
+        </QuizProvider>
+      </FullWidthBox>
       <HorizontalSeparator />
       <FullWidthBox>
         <KnowledgeCheckProvider>
@@ -38,6 +50,7 @@ const Index: NextPage = () => {
           </KCStepper>
         </KnowledgeCheckProvider>
       </FullWidthBox>
+      <HorizontalSeparator />
       <FullWidthBox>
         <Suspense fallback={  <CircularProgress />}>
           <CodePlayer head={code[0].head as String[]} editors={code[0].editors as Editor[]}/> 
