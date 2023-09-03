@@ -9,13 +9,13 @@ import { headers } from "next/headers";
 import { BASE_URL } from '@/api/config';
 import { Box, List, ListItem, ListItemText, Typography } from '@mui/material'
 import Link from 'next/link'
-import {breadcrumbPath, lesson, listOfLessons, node_lesson} from '@/types'
+import {breadcrumbPath, lesson, listOfLessons, node_lesson, lessonid} from '@/types'
 import BodyContent from '@/components/bodyContent'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CircleIcon from '@mui/icons-material/Circle';
 import LessonsPerChapter from '@/components/lessonsPerChapter'
 import Breadcrumb from '@/components/breadCrumb';
-import { useState } from 'react'
+
 //import stripJsonComments from 'strip-json-comments'
 //import { getPage } from '@/api/drupal';
 
@@ -54,6 +54,18 @@ async function getListofLessonByTaxId(taxid: string){
   return result;
 } 
 
+async function getListofCompletedLessonsbySubject(uid: string, taxid: string){
+  const response = await fetch(`${BASE_URL}/api/v1/subject/completed/${uid}/${taxid}?_format=json`);
+  const result = await response.json();
+  return result;
+} 
+
+async function getLessonCompletion(uid: string, field_lesson_ref: string) {
+  const response = await fetch(`${BASE_URL}/api/v1/lesson/completed/${uid}/${field_lesson_ref}?_format=json`);
+  const result = await response.json();
+  return result;
+} 
+
 async function getNode(uuid = '', bundle = '') {
   let params = {};
 	switch (bundle) {
@@ -82,8 +94,9 @@ export default async function slug() {
   const headersList = headers();
   const pathname = headersList.get("x-invoke-path") || "Webupps";
   const pageDetails = await getPage(pathname);
-  const nodeLesson = await getNode(pageDetails.entity.uuid, 'lesson');
-  const nodeLessonInt = nodeLesson as node_lesson;
+  const nodeLesson:node_lesson = pageDetails.entity.type == 'node' && await getNode(pageDetails.entity.uuid, 'lesson');
+  const nodeLessonCompletion:lessonid = pageDetails.entity.type == 'node' && await getLessonCompletion(pageDetails.entity.uuid, pageDetails.entity.id);
+  //const nodeLessonInt = nodeLesson as node_lesson;
   //let routes: breadcrumbPath[] = [{path: '/', breadcrumb: 'Home'}];
   let routes: breadcrumbPath[] = [];
   const splitPath = (path: string) => {
@@ -131,10 +144,9 @@ export default async function slug() {
     } 
  } 
 
- const allLessons = await getListofLessonByTaxId(pageDetails.entity.id);
- const arrayOfAllLesson = allLessons as listOfLessons;
- const listOfAllLessonPerChapter:string[] = arrayOfAllLesson.map((item: lesson, index) => { return item.field_subject_of_lesson}).filter((value, index, array) => array.indexOf(value) === index);  
-
+ const allLessons: listOfLessons = pageDetails.entity.type == 'taxonomy_term' ? await getListofLessonByTaxId(pageDetails.entity.id) : [];
+ const listOfAllLessonPerChapter:string[] = allLessons.map((item: lesson, index) => { return item.field_subject_of_lesson}).filter((value, index, array) => array.indexOf(value) === index);  
+ const listofCompletedLessonsbySubject: lessonid[] = pageDetails.entity.type == 'taxonomy_term' ? await getListofCompletedLessonsbySubject('1', pageDetails.entity.id) : [];
   return (
     <Main>
       <CenterBoxWithSidebar fullHeight={true}>
@@ -145,8 +157,8 @@ export default async function slug() {
           <Box component='article'>
             <Breadcrumb route={routes} />
             <Typography component='h1' variant='h1' className="">{pageDetails.label}</Typography>
-            {pageDetails.entity.type == 'taxonomy_term' && <LessonsPerChapter chapters={listOfAllLessonPerChapter} listOfLessons={arrayOfAllLesson} />}
-            {pageDetails.entity.type == 'node' && <BodyContent value={nodeLessonInt.data.attributes.body.value} />}
+            {pageDetails.entity.type == 'taxonomy_term' && <LessonsPerChapter chapters={listOfAllLessonPerChapter} listOfLessons={allLessons} listofCompletedLessonsbySubject={listofCompletedLessonsbySubject} />}
+            {pageDetails.entity.type == 'node' && <BodyContent value={nodeLesson.data.attributes.body.value} />}
           </Box>
         </NotAside>
       </CenterBoxWithSidebar>

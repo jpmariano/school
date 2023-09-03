@@ -1,0 +1,7 @@
+[
+    { "term": "<!DOCTYPE html>", "definition": "A document type declaration" },
+    { "term": "<h1>", "definition": "Heading tag" },
+    { "term": "<img>", "definition": "An image tag" },
+    { "term": "<a>", "definition": "A link tag  " },
+    { "term": "<body>", "definition": "A body tag" }
+]

@@ -44,7 +44,10 @@ const QuizForm: React.FC<QRadioQuestion> = ({ question, answers }) => {
    
 
     const nextItem = (e: React.MouseEvent<HTMLButtonElement>, i: number) => {
-        quizContext.setDisplayItem(i + 1);
+        if(value !== ''){
+            quizContext.setDisplayItem(i + 1);
+        }
+        
         if(value === correctAnswer){
             quizContext.setTotalScore(quizContext.totalScore + 1);
         }

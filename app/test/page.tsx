@@ -9,6 +9,7 @@ import CenterBoxWithSidebar from '@/components/layouts/centerBoxWithSidebar';
 import Aside from '@/components/layouts/aside';
 import NotAside from '@/components/layouts/notAside';
 import code from '@/data/code.json';
+import sortable from '@/data/sortable.json';
 import codeJsx from '@/data/code_jsx.json';
 import knowledgeCheckJson from '@/data/knowledgeCheck.json';
 import CodeEditor from '@/components/codemirror/codeEditor';
@@ -23,6 +24,8 @@ import {QRadioQuestion} from '@/components/quiz/QuizForm';
 import KCStepper from '@/components/knowledgeCheck/KCStepper';
 import QuizSlider from '@/components/quiz/QuizSlider';
 import { Suspense } from 'react';
+import { SortableProvider } from '@/components/sortable';
+import SortableTerms, { TermType } from '@/components/sortable/SortableTerms';
 //import { useEffect } from 'react';
 
 
@@ -33,7 +36,12 @@ const Index: NextPage = () => {
   
   return (
     <Main>
-      
+      <HorizontalSeparator />
+      <FullWidthBox>
+        <SortableProvider>
+          <SortableTerms terms={sortable as TermType[]} />
+        </SortableProvider>
+      </FullWidthBox>
       <HorizontalSeparator />
       <FullWidthBox>
         <QuizProvider>

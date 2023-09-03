@@ -27,6 +27,7 @@ export type lesson = {
   title: string;
   field_subject_of_lesson: string;
   field_completed: string;
+  nid: string;
 };
 
 export type listOfLessons = lesson[];
@@ -139,6 +140,10 @@ export interface breadcrumbPath {
   breadcrumb: string;
 }
 
-
-
 //End Breadcrumb
+
+export type lessonid = {
+  field_lesson_ref: string;
+  field_score: string;
+  field_pass: string;
+};
