@@ -17,8 +17,6 @@ export interface lessonsPerChapterProps {
 
 const LessonsPerChapter: React.FC<lessonsPerChapterProps> = ({chapters, listOfLessons, listofCompletedLessonsbySubject}) => {
 
-console.log(listOfLessons)
-console.log(listofCompletedLessonsbySubject)
 const getCompletion = (lessonid: lessonid[], nid: string): lessonid | null => {
   //let completedLesson = lessonid.some( el => el.field_lesson_ref === nid);
   const result = lessonid.find(item => item.field_lesson_ref === nid);

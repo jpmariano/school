@@ -84,15 +84,15 @@ const SortableTerms: React.FC<SortableTermsProps> = ({ terms, id }) => {
                 <Box className='terms'>
                     {terms.map((item: TermType, i: number) => {
                         return (
-                            <Box key={i.toString()}><Typography variant='body1'>{item.term}</Typography></Box>
+                            <Box key={i.toString()}><Typography variant='body1' sx={{lineHeight: '2.25rem'}}>{item.term}</Typography></Box>
                         );
                     })}
                 </Box>
-                <Box id={id ? id : 'simpleList'} className="list-group" sx={{ flexGrow: 1 }}>
+                <Box id={id ? id : 'simpleList'} className="list-group" sx={{ flexGrow: 1, ml: 2}}>
                     {randomTerms.map((item: TermTypeID, i: number) => {
                         return (
                             <Box id={item.id.toString()} key={i.toString()} className='list-group-item' sx={{ display: 'flex', backgroundColor: `${isLight? 'rgba(243, 243, 243, 1)' : 'rgba(29, 44, 85, .5)'}`, marginY: 1 }}>
-                                <Box component='span' className={`drag-move ${disableSort && 'hidden'}`}><Icon svg={isLight ? dragLight : dragDark} alt={'Drag Icon'} size='md' /></Box>
+                                <Box component='span' className={` ${!disableSort && 'drag-move'}`}><Icon svg={isLight ? dragLight : dragDark} alt={'Drag Icon'} size='md' /></Box>
                                 <Typography variant='body2'>{item.definition}</Typography>
                             </Box>
                         );
