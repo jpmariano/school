@@ -15,6 +15,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CircleIcon from '@mui/icons-material/Circle';
 import LessonsPerChapter from '@/components/lessonsPerChapter'
 import Breadcrumb from '@/components/breadCrumb';
+import LessonCompleted from '@/components/lessonCompleted'
 
 //import stripJsonComments from 'strip-json-comments'
 //import { getPage } from '@/api/drupal';
@@ -90,63 +91,17 @@ async function getTaxonomyTerm(uuid: string){
   return data;
 } 
 
-export default async function slug() {
+export default async function slug({ params }: { params: { slug: string } }) {
   const headersList = headers();
   const pathname = headersList.get("x-invoke-path") || "Webupps";
   const pageDetails = await getPage(pathname);
+  console.log(pageDetails)
   const nodeLesson:node_lesson = pageDetails.entity.type == 'node' && await getNode(pageDetails.entity.uuid, 'lesson');
-  const nodeLessonCompletion:lessonid = pageDetails.entity.type == 'node' && await getLessonCompletion(pageDetails.entity.uuid, pageDetails.entity.id);
-  //const nodeLessonInt = nodeLesson as node_lesson;
-  //let routes: breadcrumbPath[] = [{path: '/', breadcrumb: 'Home'}];
-  let routes: breadcrumbPath[] = [];
-  const splitPath = (path: string) => {
-    const array = path.split('/');
-    let i = 1;
-    let final = []
-    while (i < array.length) {
-      final.push(`/${array.slice(1,i+1).join('/').toString()}` )
-      i++;
-    }
-    return final
-  }
-  const arrOfPaths: string[] =  splitPath(pathname);
-  
-  (async function() {
-    
-    const promises = arrOfPaths.map(async (url, idx) => {
-        const pageDetails = await getPage(`${url}`);
-        if(idx === 0){
-          routes = [];
-          routes.push( {path: '/', breadcrumb: 'Home'});
-          routes.push( {path: url, breadcrumb: pageDetails.label});
-        } else {
-          routes.push( {path: url, breadcrumb: pageDetails.label});
-        }
-        
-    });
-    await Promise.all(promises); 
-  })();
+  const nodeLessonCompletion:lessonid = pageDetails.entity.type == 'node' && await getLessonCompletion('1', pageDetails.entity.id);
 
-  switch(pageDetails.entity.type) { 
-    case 'taxonomy_term': { 
-       const taxonomyPage = await getTaxonomyTerm(pageDetails.entity.uuid);
-       //console.log(taxonomyPage)
-       break; 
-    } 
-    case 'node': { 
-      const lessonPage = await getNode(pageDetails.entity.uuid, pageDetails.entity.bundle);
 
-      break; 
-   } 
-    default: { 
-       //statements; 
-       break; 
-    } 
- } 
+  const routes: breadcrumbPath[] = [{path: '/', breadcrumb: 'Home'},{path: '/html', breadcrumb: 'HTML'}, {path: params.slug, breadcrumb: pageDetails.label}];
 
- const allLessons: listOfLessons = pageDetails.entity.type == 'taxonomy_term' ? await getListofLessonByTaxId(pageDetails.entity.id) : [];
- const listOfAllLessonPerChapter:string[] = allLessons.map((item: lesson, index) => { return item.field_subject_of_lesson}).filter((value, index, array) => array.indexOf(value) === index);  
- const listofCompletedLessonsbySubject: lessonid[] = pageDetails.entity.type == 'taxonomy_term' ? await getListofCompletedLessonsbySubject('1', pageDetails.entity.id) : [];
   return (
     <Main>
       <CenterBoxWithSidebar fullHeight={true}>
@@ -156,8 +111,7 @@ export default async function slug() {
         <NotAside addClassName="inverse" showBoxShadow={false}>
           <Box component='article'>
             <Breadcrumb route={routes} />
-            <Typography component='h1' variant='h1' className="">{pageDetails.label}</Typography>
-            {pageDetails.entity.type == 'taxonomy_term' && <LessonsPerChapter chapters={listOfAllLessonPerChapter} listOfLessons={allLessons} listofCompletedLessonsbySubject={listofCompletedLessonsbySubject} />}
+            <Box id="title" ><Typography component='h1' variant='h1' className="" sx={{display: 'inline-block'}}>{pageDetails.label}</Typography><LessonCompleted nodeLessonCompletion={nodeLessonCompletion} /></Box>
             {pageDetails.entity.type == 'node' && <BodyContent value={nodeLesson.data.attributes.body.value} />}
           </Box>
         </NotAside>

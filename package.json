@@ -40,11 +40,13 @@
     "react-redux": "^8.1.1",
     "react-visibility-sensor": "^5.1.1",
     "scss-to-css": "^0.1.0",
+    "sortablejs": "^1.15.0",
     "the-new-css-reset": "^1.9.0",
     "typescript": "5.1.6"
   },
   "devDependencies": {
     "@types/prismjs": "^1.26.0",
+    "@types/sortablejs": "^1.15.2",
     "autoprefixer": "^10.4.15",
     "postcss": "^8.4.28",
     "sass": "^1.64.1",

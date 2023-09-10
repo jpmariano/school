@@ -142,6 +142,38 @@ export const light: ThemeOptions = {
           },
         },
       },
+    },
+    MuiButton: {
+      variants: [
+        {
+          props: { variant: 'kcbutton' },
+          style: {
+            color: '#ffffff',
+            backgroundColor: '#1d2c55',
+            // add variant styles like so
+            '&:hover': {
+              backgroundColor: '#005293',
+            },
+            '&:disabled': {
+              color: '#ffffff',
+              backgroundColor: 'gray',
+            },
+          },
+        }
+      ],
+      styleOverrides: {
+
+        // Name of the slot
+        root: {
+          // Some CSS
+          color: '#ffffff',
+          backgroundColor: '#1d2c55',
+          // add variant styles like so
+          '&.hover': {
+            backgroundColor: '#005293',
+          },
+        },
+      },
     }
   },
 };
@@ -284,5 +316,37 @@ export const dark: ThemeOptions = {
         },
       },
     },
+    MuiButton: {
+      variants: [
+        {
+          props: { variant: 'kcbutton' },
+          style: {
+            color: '#ffffff',
+            backgroundColor: '#1d2c55',
+            // add variant styles like so
+            '&:hover': {
+              backgroundColor: '#005293',
+            },
+            '&:disabled': {
+              color: '#ffffff',
+              backgroundColor: 'gray',
+            },
+          },
+        }
+      ],
+      styleOverrides: {
+
+        // Name of the slot
+        root: {
+          // Some CSS
+          color: '#ffffff',
+          backgroundColor: '#1d2c55',
+          // add variant styles like so
+          '&.hover': {
+            backgroundColor: '#005293',
+          },
+        },
+      },
+    }
   },
 };
