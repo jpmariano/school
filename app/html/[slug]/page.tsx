@@ -15,6 +15,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CircleIcon from '@mui/icons-material/Circle';
 import LessonsPerChapter from '@/components/lessonsPerChapter'
 import Breadcrumb from '@/components/breadCrumb';
+import LessonCompleted from '@/components/lessonCompleted'
 
 //import stripJsonComments from 'strip-json-comments'
 //import { getPage } from '@/api/drupal';
@@ -94,8 +95,9 @@ export default async function slug({ params }: { params: { slug: string } }) {
   const headersList = headers();
   const pathname = headersList.get("x-invoke-path") || "Webupps";
   const pageDetails = await getPage(pathname);
+  console.log(pageDetails)
   const nodeLesson:node_lesson = pageDetails.entity.type == 'node' && await getNode(pageDetails.entity.uuid, 'lesson');
-  const nodeLessonCompletion:lessonid = pageDetails.entity.type == 'node' && await getLessonCompletion(pageDetails.entity.uuid, pageDetails.entity.id);
+  const nodeLessonCompletion:lessonid = pageDetails.entity.type == 'node' && await getLessonCompletion('1', pageDetails.entity.id);
 
 
   const routes: breadcrumbPath[] = [{path: '/', breadcrumb: 'Home'},{path: '/html', breadcrumb: 'HTML'}, {path: params.slug, breadcrumb: pageDetails.label}];
@@ -109,7 +111,7 @@ export default async function slug({ params }: { params: { slug: string } }) {
         <NotAside addClassName="inverse" showBoxShadow={false}>
           <Box component='article'>
             <Breadcrumb route={routes} />
-            <Typography component='h1' variant='h1' className="">{pageDetails.label}</Typography>
+            <Box id="title" ><Typography component='h1' variant='h1' className="" sx={{display: 'inline-block'}}>{pageDetails.label}</Typography><LessonCompleted nodeLessonCompletion={nodeLessonCompletion} /></Box>
             {pageDetails.entity.type == 'node' && <BodyContent value={nodeLesson.data.attributes.body.value} />}
           </Box>
         </NotAside>

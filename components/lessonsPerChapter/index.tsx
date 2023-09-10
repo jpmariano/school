@@ -45,7 +45,7 @@ const getCompletion = (lessonid: lessonid[], nid: string): lessonid | null => {
                               {listofCompletedLessonsbySubject ? 
                                 getCompletion(listofCompletedLessonsbySubject, item.nid) ? 
                                   getCompletion(listofCompletedLessonsbySubject, item.nid)?.field_pass === "On"  ? 
-                                    <Tooltip title="Lesson Quiz Passed">
+                                    <Tooltip title="Lesson Quiz Pass">
                                       <CircleIcon sx={{color: 'green', verticalAlign: 'top',  marginLeft: 2}}/>
                                     </Tooltip>: 
                                     <Tooltip title="Re-Take Lesson Quiz">

@@ -15,7 +15,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CircleIcon from '@mui/icons-material/Circle';
 import LessonsPerChapter from '@/components/lessonsPerChapter'
 import Breadcrumb from '@/components/breadCrumb';
-
+import ChapterCompleted from '@/components/chapterCompleted';
 //import stripJsonComments from 'strip-json-comments'
 //import { getPage } from '@/api/drupal';
 
@@ -94,8 +94,8 @@ export default async function slug() {
   const headersList = headers();
   const pathname = headersList.get("x-invoke-path") || "Webupps";
   const pageDetails = await getPage(pathname);
-  const nodeLesson:node_lesson = pageDetails.entity.type == 'node' && await getNode(pageDetails.entity.uuid, 'lesson');
-  const nodeLessonCompletion:lessonid = pageDetails.entity.type == 'node' && await getLessonCompletion(pageDetails.entity.uuid, pageDetails.entity.id);
+  //const nodeLesson:node_lesson = pageDetails.entity.type == 'node' && await getNode(pageDetails.entity.uuid, 'lesson');
+  //const nodeLessonCompletion:lessonid = pageDetails.entity.type == 'node' && await getLessonCompletion(pageDetails.entity.uuid, pageDetails.entity.id);
   //const nodeLessonInt = nodeLesson as node_lesson;
   //let routes: breadcrumbPath[] = [{path: '/', breadcrumb: 'Home'}];
   const routes: breadcrumbPath[] = [{path: '/', breadcrumb: 'Home'},{path: '/html', breadcrumb: 'HTML'}];
@@ -104,6 +104,7 @@ export default async function slug() {
  const allLessons: listOfLessons = pageDetails.entity.type == 'taxonomy_term' ? await getListofLessonByTaxId(pageDetails.entity.id) : [];
  const listOfAllLessonPerChapter:string[] = allLessons.map((item: lesson, index) => { return item.field_subject_of_lesson}).filter((value, index, array) => array.indexOf(value) === index);  
  const listofCompletedLessonsbySubject: lessonid[] = pageDetails.entity.type == 'taxonomy_term' ? await getListofCompletedLessonsbySubject('1', pageDetails.entity.id) : [];
+
   return (
     <Main>
       <CenterBoxWithSidebar fullHeight={true}>
@@ -113,7 +114,7 @@ export default async function slug() {
         <NotAside addClassName="inverse" showBoxShadow={false}>
           <Box component='article'>
             <Breadcrumb route={routes} />
-            <Typography component='h1' variant='h1' className="">{pageDetails.label}</Typography>
+            <Box id="title" ><Typography component='h1' variant='h1' className="" sx={{display: 'inline-block'}}>{pageDetails.label}</Typography><ChapterCompleted listOfLessons={allLessons} listofCompletedLessonsbySubject={listofCompletedLessonsbySubject}/></Box>
             {pageDetails.entity.type == 'taxonomy_term' && <LessonsPerChapter chapters={listOfAllLessonPerChapter} listOfLessons={allLessons} listofCompletedLessonsbySubject={listofCompletedLessonsbySubject} />}
           </Box>
         </NotAside>
