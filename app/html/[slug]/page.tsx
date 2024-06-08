@@ -9,13 +9,14 @@ import { headers } from "next/headers";
 import { BASE_URL } from '@/api/config';
 import { Box, List, ListItem, ListItemText, Typography } from '@mui/material'
 import Link from 'next/link'
-import {breadcrumbPath, lesson, listOfLessons, node_lesson, lessonid} from '@/types'
+import {breadcrumbPath, lesson, listOfLessons, node, lessonid, Relationships} from '@/types'
 import BodyContent from '@/components/bodyContent'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CircleIcon from '@mui/icons-material/Circle';
 import LessonsPerChapter from '@/components/lessonsPerChapter'
 import Breadcrumb from '@/components/breadCrumb';
 import LessonCompleted from '@/components/lessonCompleted'
+import Slices from '@/components/slices'
 
 //import stripJsonComments from 'strip-json-comments'
 //import { getPage } from '@/api/drupal';
@@ -47,6 +48,12 @@ async function getPage(slug: string){
   return data;
 } 
 
+async function getParagraph(paragraphType: string, paragraphId: string){
+  const response = await fetch(`${BASE_URL}/paragraph/${paragraphType}/${paragraphId}`);
+  const data = await response.json();
+  return data;
+} 
+
 async function getListofLessonByTaxId(taxid: string){
   const response = await fetch(`${BASE_URL}/api/v1/lesson/${taxid}?_format=json`);
 
@@ -68,9 +75,10 @@ async function getLessonCompletion(uid: string, field_lesson_ref: string) {
 } 
 
 async function getNode(uuid = '', bundle = '') {
-  let params = {};
+  let params:string = ``;
 	switch (bundle) {
 		case 'lesson': {
+      params = `include=field_paragraph_lesson.field_image`;
 			break;
 		}
 		default: {
@@ -79,7 +87,9 @@ async function getNode(uuid = '', bundle = '') {
 	}
   ///jsonapi/node/lesson/4b8e32c1-2b60-4753-a3a1-8ba77fd44088
   //const response = await fetch(`${BASE_URL}/jsonapi/node/${bundle}/${uuid}, ${params}`);
-  const response = await fetch(`${BASE_URL}/jsonapi/node/${bundle}/${uuid}`);
+  const response = await fetch(`${BASE_URL}/jsonapi/node/${bundle}/${uuid}?${params}`);
+
+
 	const data = await response.json();
 	
 	return data;
@@ -95,12 +105,43 @@ export default async function slug({ params }: { params: { slug: string } }) {
   const headersList = headers();
   const pathname = headersList.get("x-invoke-path") || "Webupps";
   const pageDetails = await getPage(pathname);
-  console.log(pageDetails)
-  const nodeLesson:node_lesson = pageDetails.entity.type == 'node' && await getNode(pageDetails.entity.uuid, 'lesson');
-  const nodeLessonCompletion:lessonid = pageDetails.entity.type == 'node' && await getLessonCompletion('1', pageDetails.entity.id);
 
+  const node:node = pageDetails.entity.type == 'node' && await getNode(pageDetails.entity.uuid, 'lesson');
+  const nodeLessonCompletion:lessonid = pageDetails.entity.type == 'node' && await getLessonCompletion('1', pageDetails.entity.id);
+  
+  //type RelationshipsKey = keyof typeof Relationships;
 
   const routes: breadcrumbPath[] = [{path: '/', breadcrumb: 'Home'},{path: '/html', breadcrumb: 'HTML'}, {path: params.slug, breadcrumb: pageDetails.label}];
+ //console.log(node);
+  
+  const paragraphType: any = Object.keys(node.data.relationships).filter((s) => s.indexOf('paragraph') !== -1)[0]
+		? Object.keys(node.data.relationships).filter((s) => s.indexOf('paragraph') !== -1)[0]
+		: '';
+  const RelationshipsKey: keyof Relationships = paragraphType; 
+
+
+  //type RelationshipsKey = keyof typeof nodeLesson.data.relationships;
+  //let strRelationshipsKey: RelationshipsKey = paragraphType;
+  //console.log(node);
+  //console.log(nodeLesson.data.relationships[RelationshipsKey]);
+
+  //https://stackoverflow.com/questions/62438346/how-to-dynamically-access-object-property-in-typescript
+	
+  const hasComponents = paragraphType.length > 0;
+  
+  const content = hasComponents && (
+		<Slices
+			data={node.data.relationships[RelationshipsKey].data}
+			included={node.included}
+			nodetype={node.data.type}
+		/>
+	); 
+  
+  //console.log(Object.keys(nodeLesson.data.relationships).filter((s) => s.indexOf(paragraphType)))
+  //console.log(Object.keys(nodeLesson.data.relationships).filter((s) => s.indexOf(paragraphType)))
+  
+  //[ 'node_type', 'revision_uid', 'uid', 'field_subject_of_lesson' ]
+  
 
   return (
     <Main>
@@ -112,7 +153,8 @@ export default async function slug({ params }: { params: { slug: string } }) {
           <Box component='article'>
             <Breadcrumb route={routes} />
             <Box id="title" ><Typography component='h1' variant='h1' className="" sx={{display: 'inline-block'}}>{pageDetails.label}</Typography><LessonCompleted nodeLessonCompletion={nodeLessonCompletion} /></Box>
-            {pageDetails.entity.type == 'node' && <BodyContent value={nodeLesson.data.attributes.body.value} />}
+            {pageDetails.entity.type == 'node' && <BodyContent value={node.data.attributes.body.value} />}
+            {content}
           </Box>
         </NotAside>
       </CenterBoxWithSidebar>
