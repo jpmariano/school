@@ -16,18 +16,20 @@ const ParaImage: React.FC<paragraphProps> = ({key, data, index, included}) => {
     return obj.id == data.relationships.field_image.data.id
   }) : null;
 
-  return <Box key={key} component="div" className='body-content'>
-    {
-      imageId ? <Image
-      objectFit='cover'
-        src={imageId ? BASE_URL + imageId[0].attributes.uri.url : ''}
-        alt={data.relationships.field_image.data.meta.alt}
-        width={data.relationships.field_image.data.meta.width}
-        height={data.relationships.field_image.data.meta.height}
-      /> : null
-    }
-    
-  </Box>
+  return (
+    imageId ? (
+      <Box key={key} component="div" className='para-image'>
+        <Image
+          objectFit='cover'
+          src={`${BASE_URL}${imageId[0].attributes.uri.url}`}
+          alt={data.relationships.field_image.data.meta.alt}
+          width={data.relationships.field_image.data.meta.width}
+          height={data.relationships.field_image.data.meta.height}
+        /> 
+    </Box>
+     ) : null
+ );
+
 };
 
 export default ParaImage;
