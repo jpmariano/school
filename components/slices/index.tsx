@@ -10,12 +10,12 @@ import styles from "@/styles/components/headernav/index.module.scss";
 import { usePathname } from 'next/navigation';
 import navItems from '@/data/mainnav.json';
 import BodyContent from '@/components/bodyContent';
-import { Data, Included, RevisionUidOrUidOrFieldSubjectOfLesson } from '@/types';
+import { Data, Included, Links, NodeType, Parent, RevisionUidOrUidOrFieldSubjectOfLesson } from '@/types';
 import ParaText from "@/components/paraText";
 import ParaImage from '@/components/paraImage';
 
 export interface slicesProps {
-    data: Data;
+    data: NodeType | Parent | Links |  Data | null;
     included: Included;
     nodetype: string | null;
 }
@@ -43,7 +43,6 @@ const Slices: React.FC <slicesProps> = ({data, included = [], nodetype = null})=
           case 'paragraph--paragraph_text':
             return (
               <ParaText
-                key={i.toString()}
                 data={item}
                 index={i}
                 included={included}
@@ -52,7 +51,6 @@ const Slices: React.FC <slicesProps> = ({data, included = [], nodetype = null})=
             case 'paragraph--paragraph_image':
               return (
                 <ParaImage
-                  key={i.toString()}
                   data={item}
                   index={i}
                   included={included}

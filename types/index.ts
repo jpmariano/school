@@ -41,7 +41,28 @@ export type node = {
 export type Jsonapi = {
   version: string;
   meta: Meta;
+  individual: string;
+  resourceName: string;
+  pathPrefix: string;
+  basePath: string;
+  entryPoint: string;
 }
+
+export type Deprecated = { 
+  "jsonapi.pathPrefix": string;
+}
+
+export type PathDetails = { 
+  resolved: string;
+  isHomePath: boolean;
+  entity: Entity;
+  label: string;
+  jsonapi: Jsonapi;
+  meta: Meta;
+}
+
+
+
 
 
 
@@ -53,6 +74,15 @@ export type Meta = {
   title: string;
   width: number;
   height: number;
+  deprecated: Deprecated;
+}
+
+export type Entity = {
+  canonical: string;
+  type: string;
+  bundle: string;
+  id: string;
+  uuid: string;
 }
 
 export interface paragraphProps {
@@ -62,7 +92,6 @@ export interface paragraphProps {
     links: Links;
     attributes: Attributes;
     relationships: Relationships; }
-  key: string;
   index: number;
   included: Included;
 }
@@ -76,6 +105,11 @@ export type href = {
 }
 export type FieldImage = {
   data: Data;
+  links: Links;
+}
+
+export type Parent = {
+  data: Data[];
   links: Links;
 }
 
@@ -145,6 +179,18 @@ export type ParagraphType =  {
   links: Links;
 }
 
+export type Vid =  {
+  data: Data;
+  links: Links;
+}
+
+export type Revision_user =  {
+  data: Data;
+  links: Links;
+}
+
+
+
 export type Relationships = {
   node_type: NodeType;
   revision_uid: RevisionUidOrUidOrFieldSubjectOfLesson;
@@ -153,6 +199,10 @@ export type Relationships = {
   field_paragraph_lesson: RevisionUidOrUidOrFieldSubjectOfLesson;
   paragraph_type: ParagraphType;
   field_image: FieldImage;
+  vid: Vid;
+  revision_user: Revision_user;
+  parent: Parent;
+  links: Links;
 }
 
 export type IncludeItem = {

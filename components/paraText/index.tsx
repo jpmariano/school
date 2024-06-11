@@ -10,8 +10,8 @@ import { Included, paragraphProps, Body } from '@/types';
 
 
 
-const ParaText: React.FC<paragraphProps> = ({key, data, index, included}) => {
-  return <Box key={key} component="div" className='para-text'>
+const ParaText: React.FC<paragraphProps> = ({ data, index, included}) => {
+  return <Box key={index.toString()} component="div" className='para-text'>
     {parse(data.attributes.field_text.value)}
   </Box>
 };

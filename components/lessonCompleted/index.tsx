@@ -12,13 +12,17 @@ const LessonCompleted: React.FC<lessonCompletedProps> = ({nodeLessonCompletion})
     const [complete, setComplete] = useState(false);
     const [started, setStarted] = useState(false);
 
+  
     useEffect(() => {
-        if(nodeLessonCompletion.length !== 0){
-            setStarted(true);
-            if(nodeLessonCompletion[0].field_pass === 'On'){
-                setComplete(true);
+        if (nodeLessonCompletion ){
+            if(nodeLessonCompletion.length !== 0){
+                setStarted(true);
+                if(nodeLessonCompletion[0].field_pass === 'On'){
+                    setComplete(true);
+                } 
             } 
-        } 
+        }
+        
         
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
