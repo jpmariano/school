@@ -72,13 +72,13 @@ Authorization: Basic jmariano:lI33y#&#U7hcHSSN
 GET http://[::1]:8084/session/token
 
 ###
-POST http://[::1]:8084/user/login?_format=json
-Content-Type: application/ecmascript
-X-CSRF-Token: ZMJqbvmVUH90Ww9DLusq7WzODa6qxisEkUpEThfGM0E
+POST http://localhost:8084/user/login?_format=json HTTP/1.1
+Content-Type: application/json
+X-CSRF-Token: DzChdCIxry8NHFI1ptmUzDwDVXDK69Zzgpid_DKObus
 
 {
-    "name": "jmariano",
-    "pass": "lI33y#&#U7hcHSSN"
+    "name": {{username}},
+    "pass": {{password}}
 }
 
 ###

@@ -156,6 +156,7 @@ export type Attributes = {
   field_text: field_text;
   filename: string;
   uri: uri;
+  field_image_styles: ObjectFit;
 }
 export type Path = {
   alias: string;
@@ -189,7 +190,39 @@ export type Revision_user =  {
   links: Links;
 }
 
+export enum Role {
+  authenticated = "authenticated",
+  administrator = "administrator",
+  student = "student",
+  teacher = "teacher",
+}
 
+export type Roles = Role[]
+
+export type CurrentUser = {
+  uid: string;
+  roles: Roles;
+  name: string;
+}
+
+export type UserAccount = {
+  current_user: CurrentUser;
+  csrf_token: string;
+  logout_token: string;
+}
+
+export enum ObjectFit {
+  contain = "contain",
+  cover = "cover",
+  fill = "fill",
+  none = "none",
+  "scale-down" = "scale-down",
+  inherit = "inherit",
+  initial = "initial",
+  revert = "revert",
+  "revert-layer" = "revert",
+  unset= "unset"
+}
 
 export type Relationships = {
   node_type: NodeType;
