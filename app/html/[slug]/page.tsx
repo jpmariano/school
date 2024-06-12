@@ -60,9 +60,7 @@ const getParagraph  = async (paragraphType: string, paragraphId: string): Promis
 
 const getListofLessonByTaxId = async (taxid: string): Promise<listOfLessons> => {
   const response = await fetch(`${BASE_URL}/api/v1/lesson/${taxid}?_format=json`);
-
   const result = await response.json();
-
   return result;
 } 
 
@@ -98,7 +96,7 @@ const getNode = async (uuid = '', bundle = ''): Promise<node> => {
 	return data;
 }
 
-async function getTaxonomyTerm(uuid: string){
+const getTaxonomyTerm = async (uuid: string): Promise<node> => {
   const response = await fetch(`${BASE_URL}/jsonapi/taxonomy_term/subject/${uuid}`);
   const data = await response.json();
   return data;
