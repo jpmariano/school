@@ -9,13 +9,14 @@ import { headers } from "next/headers";
 import { BASE_URL } from '@/api/config';
 import { Box, List, ListItem, ListItemText, Typography } from '@mui/material'
 import Link from 'next/link'
-import {breadcrumbPath, lesson, listOfLessons, node_lesson, lessonid, PathDetails, node} from '@/types'
+import {breadcrumbPath, lesson, listOfLessons,  lessonid, PathDetails, node} from '@/types'
 import BodyContent from '@/components/bodyContent'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CircleIcon from '@mui/icons-material/Circle';
 import LessonsPerChapter from '@/components/lessonsPerChapter'
 import Breadcrumb from '@/components/breadCrumb';
 import { notFound } from 'next/navigation'
+import { getPage, getNode, getLessonCompletion, getTaxonomyTerm, getListofLessonByTaxId, getListofCompletedLessonsbySubject } from '@/api/drupal'
 
 //import stripJsonComments from 'strip-json-comments'
 //import { getPage } from '@/api/drupal';
@@ -42,54 +43,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }  // Example: "/home/profile" turns to "Home › Profile"
 
 
-const getPage = async (slug: string ): Promise<PathDetails> => {
-  const response = await fetch(`${BASE_URL}/router/translate-path?path=${slug}`);
-  const data = await response.json();
-  return data;
-}
 
-const getListofLessonByTaxId = async (taxid: string): Promise<listOfLessons> => {
-  const response = await fetch(`${BASE_URL}/api/v1/lesson/${taxid}?_format=json`);
-  const result = await response.json();
-  return result;
-} 
-
-
-const getListofCompletedLessonsbySubject = async (uid: string, taxid: string): Promise<lessonid[]> => {
-  const response = await fetch(`${BASE_URL}/api/v1/subject/completed/${uid}/${taxid}?_format=json`);
-  const result = await response.json();
-  return result;
-}
-
-
-const getLessonCompletion = async (uid: string, field_lesson_ref: string): Promise<lessonid[]> => {
-  const response = await fetch(`${BASE_URL}/api/v1/lesson/completed/${uid}/${field_lesson_ref}?_format=json`);
-  const result = await response.json();
-  return result;
-} 
-
-const getNode = async (uuid = '', bundle = ''): Promise<node> => {
-  let params:string = ``;
-	switch (bundle) {
-		case 'lesson': {
-      params = `include=field_paragraph_lesson.field_image`;
-			break;
-		}
-		default: {
-			break;
-		}
-	}
-  const response = await fetch(`${BASE_URL}/jsonapi/node/${bundle}/${uuid}?${params}`);
-	const data = await response.json();
-	
-	return data;
-}
-
-const getTaxonomyTerm = async (uuid: string): Promise<node> => {
-  const response = await fetch(`${BASE_URL}/jsonapi/taxonomy_term/subject/${uuid}`);
-  const data = await response.json();
-  return data;
-}
 
 export default async function slug() {
   const headerList = headers();

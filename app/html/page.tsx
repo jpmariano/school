@@ -17,6 +17,7 @@ import LessonsPerChapter from '@/components/lessonsPerChapter'
 import Breadcrumb from '@/components/breadCrumb';
 import ChapterCompleted from '@/components/chapterCompleted';
 import { NextRequest } from "next/server";
+import { getListofCompletedLessonsbySubject, getListofLessonByTaxId, getPage } from '@/api/drupal'
 //import stripJsonComments from 'strip-json-comments'
 //import { getPage } from '@/api/drupal';
 
@@ -45,57 +46,6 @@ async function getPage(slug: string): Promise<PathDetails>{
   const data = await response.json();
   return data;
 } */
-
-const getPage = async (slug: string): Promise<PathDetails> => {
-  const response = await fetch(`${BASE_URL}/router/translate-path?path=${slug}`);
-  const data = await response.json();
-  return data;
-}
-
-const getListofLessonByTaxId = async (taxid: string): Promise<listOfLessons> => {
-  const response = await fetch(`${BASE_URL}/api/v1/lesson/${taxid}?_format=json`);
-
-  const result = await response.json();
-
-  return result;
-} 
-
-const getListofCompletedLessonsbySubject = async (uid: string, taxid: string): Promise<lessonid[]> => {
-  const response = await fetch(`${BASE_URL}/api/v1/subject/completed/${uid}/${taxid}?_format=json`);
-  const result = await response.json();
-  return result;
-} 
-
-const getLessonCompletion = async (uid: string, field_lesson_ref: string): Promise<lessonid[]> => {
-  const response = await fetch(`${BASE_URL}/api/v1/lesson/completed/${uid}/${field_lesson_ref}?_format=json`);
-  const result = await response.json();
-  return result;
-} 
-
-const getNode = async (uuid = '', bundle = ''): Promise<node> => {
-  let params:string = ``;
-	switch (bundle) {
-		case 'lesson': {
-      params = `include=field_paragraph_lesson.field_image`;
-			break;
-		}
-		default: {
-			break;
-		}
-	}
-  ///jsonapi/node/lesson/4b8e32c1-2b60-4753-a3a1-8ba77fd44088
-  //const response = await fetch(`${BASE_URL}/jsonapi/node/${bundle}/${uuid}, ${params}`);
-  const response = await fetch(`${BASE_URL}/jsonapi/node/${bundle}/${uuid}?${params}`);
-	const data = await response.json();
-	
-	return data;
-}
-
-const getTaxonomyTerm = async (uuid: string): Promise<node> => {
-  const response = await fetch(`${BASE_URL}/jsonapi/taxonomy_term/subject/${uuid}`);
-  const data = await response.json();
-  return data;
-} 
 
 
 
