@@ -2,12 +2,13 @@
 import React from 'react';
 import Image from 'next/image'
 import Link from 'next/link';
-import {lesson, lessonid, listOfLessons, node_lesson} from '@/types';
+import {lesson, lessonid, listOfLessons} from '@/types';
 import { Box, List, ListItem, ListItemText, Tooltip } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CircleIcon from '@mui/icons-material/Circle';
 import styles from '@/components/lessonsPerChapter/index.module.scss';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
+import LinkColor from '@/components/linkColor';
 
 export interface lessonsPerChapterProps {
   chapters: string[];
@@ -40,8 +41,8 @@ const getCompletion = (lessonid: lessonid[], nid: string): lessonid | null => {
                     return (
                         <Box key={index1} sx={{display: 'flex', flexDirection: 'column', minWidth: '250px', mt: 1}}> 
                             <Box component='span'>
-                              <Link href={item.view_node} >{item.title}</Link>
-                         
+                              <LinkColor href={item.view_node}>{item.title}</LinkColor>
+                              
                               {listofCompletedLessonsbySubject ? 
                                 getCompletion(listofCompletedLessonsbySubject, item.nid) ? 
                                   getCompletion(listofCompletedLessonsbySubject, item.nid)?.field_pass === "On"  ? 

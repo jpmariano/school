@@ -1,4 +1,13 @@
 
+html {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    body {
+        flex:1;
+    }
+}
+
 header {
     nav {
         ul {

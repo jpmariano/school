@@ -17,7 +17,7 @@ const ThemeProviders: React.FC<ThemeProviderProps> = ({children}) =>  {
     const toggle = useAppSelector((state) => state.toggle);
     //const [isDark, setsDark] = useState(false);
     const isDark = toggle.toggleArr.find((content) => content?.id === 0 );
-   
+  
     return (
         <ThemeProvider theme={isDark?.open ? darkTheme : lightTheme}>{children}</ThemeProvider>
           

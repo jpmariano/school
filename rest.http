@@ -1,0 +1,95 @@
+GET http://[::1]:8084/jsonapi HTTP/1.1
+
+###
+
+GET http://[::1]:8084/jsonapi/node/article?page[limit]=1
+
+###
+
+GET http://[::1]:8084/router/translate-path?path=/html
+
+
+###
+
+GET http://[::1]:8084/router/translate-path?path=/html/introduction-html
+
+###
+
+GET http://[::1]:8084/jsonapi/node/lesson
+
+###
+
+GET http://[::1]:8084/jsonapi/node/lesson/7e89aa0d-073e-4de1-80f6-7d609631ebbc
+
+###
+
+GET http://[::1]:8084/jsonapi/node/lesson/7e89aa0d-073e-4de1-80f6-7d609631ebbc?include=field_paragraph_lesson.field_image
+###
+
+
+GET http://[::1]:8084/jsonapi/node/lesson/7e89aa0d-073e-4de1-80f6-7d609631ebbc/field_paragraph_body_content
+
+###
+
+
+GET http://[::1]:8084/jsonapi/paragraph/paragraph_image/
+
+###
+
+GET http://[::1]:8084/jsonapi/paragraph/paragraph_image/2b2484e6-352d-4bbc-bede-fb8e5340ee5c
+
+###
+
+GET http://[::1]:8084/jsonapi/node/completed_lessons
+
+###
+
+GET http://[::1]:8084/jsonapi/node/lesson?filter[field_subject_of_lesson.meta.drupal_internal__target_id]=7
+
+###
+GET http://[::1]:8084/jsonapi/api/v1/html?_format=json
+
+###
+GET http://[::1]:8084/jsonapi/taxonomy_term/subject
+
+###
+GET http://[::1]:8084/jsonapi/taxonomy_term/subject/f3282593-c751-482e-82a2-0c05e1356871
+
+###
+GET http://[::1]:8084/router/translate-path?path=/html
+
+###
+GET http://[::1]:8084/node/1
+Content-Type:: application/json
+Authorization: Basic jmariano:lI33y#&#U7hcHSSN
+
+###
+GET http://[::1]:8084/user/login?_format=json
+Content-Type:: application/json
+Authorization: Basic jmariano:lI33y#&#U7hcHSSN
+
+###
+GET http://[::1]:8084/session/token
+
+###
+POST http://localhost:8084/user/login?_format=json HTTP/1.1
+Content-Type: application/json
+X-CSRF-Token: DzChdCIxry8NHFI1ptmUzDwDVXDK69Zzgpid_DKObus
+
+{
+    "name": {{username}},
+    "pass": {{password}}
+}
+
+###
+GET http://[::1]:8084/api/v1/lesson/1?_format=json
+
+###
+GET http://[::1]:8084/api/v1/subject/completed/1/1?_format=json
+
+
+###
+GET http://[::1]:8084/api/v1/lesson/completed/1/1?_format=json
+
+
+

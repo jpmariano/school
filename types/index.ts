@@ -32,32 +32,108 @@ export type lesson = {
 
 export type listOfLessons = lesson[];
 
-export interface node_lesson {
+export type node = {
   jsonapi: Jsonapi;
   data: Data;
   links: Links;
+  included: Included;
 }
-export interface Jsonapi {
+export type Jsonapi = {
   version: string;
   meta: Meta;
+  individual: string;
+  resourceName: string;
+  pathPrefix: string;
+  basePath: string;
+  entryPoint: string;
 }
-export interface Meta {
+
+export type Deprecated = { 
+  "jsonapi.pathPrefix": string;
+}
+
+export type PathDetails = { 
+  resolved: string;
+  isHomePath: boolean;
+  entity: Entity;
+  label: string;
+  jsonapi: Jsonapi;
+  meta: Meta;
+}
+
+
+
+
+
+
+export type Meta = {
   links: Links;
+  target_revision_id: number;
+  drupal_internal__target_id: number;
+  alt: string;
+  title: string;
+  width: number;
+  height: number;
+  deprecated: Deprecated;
 }
-export interface Links {
-  self: SelfOrRelated;
+
+export type Entity = {
+  canonical: string;
+  type: string;
+  bundle: string;
+  id: string;
+  uuid: string;
 }
-export interface SelfOrRelated {
+
+export interface paragraphProps {
+  data: {
+    type: string;
+    id: string;
+    links: Links;
+    attributes: Attributes;
+    relationships: Relationships; }
+  index: number;
+  included: Included;
+}
+
+export type Links = {
+  self: href;
+  related: href;
+}
+export type href = {
   href: string;
 }
-export interface Data {
+export type FieldImage = {
+  data: Data;
+  links: Links;
+}
+
+export type Parent = {
+  data: Data[];
+  links: Links;
+}
+
+export type Data = {
   type: string;
   id: string;
   links: Links;
   attributes: Attributes;
   relationships: Relationships;
+  meta: Meta;
 }
-export interface Attributes {
+
+export type field_text = {
+  value: string;
+  format: string;
+  processed: string;
+}
+
+export type uri = {
+  value: string;
+  url: string;
+}
+
+export type Attributes = {
   drupal_internal__nid: number;
   drupal_internal__vid: number;
   langcode: string;
@@ -69,28 +145,112 @@ export interface Attributes {
   changed: string;
   promote: boolean;
   sticky: boolean;
+  parent_id: string;
+  parent_type: string;
   default_langcode: boolean;
+  parent_field_name: string;
+  behavior_settings: any[];
   revision_translation_affected: boolean;
   path: Path;
   body: Body;
+  field_text: field_text;
+  filename: string;
+  uri: uri;
+  field_image_styles: ObjectFit;
 }
-export interface Path {
+export type Path = {
   alias: string;
   pid: number;
   langcode: string;
 }
-export interface Body {
+export type Body = {
   value: string;
   format: string;
   processed: string;
   summary: string;
 }
-export interface Relationships {
+
+export type NodeType =  {
+  data: Data;
+  links: Links;
+}
+
+export type ParagraphType =  {
+  data: Data;
+  links: Links;
+}
+
+export type Vid =  {
+  data: Data;
+  links: Links;
+}
+
+export type Revision_user =  {
+  data: Data;
+  links: Links;
+}
+
+export enum Role {
+  authenticated = "authenticated",
+  administrator = "administrator",
+  student = "student",
+  teacher = "teacher",
+}
+
+export type Roles = Role[]
+
+export type CurrentUser = {
+  uid: string;
+  roles: Roles;
+  name: string;
+}
+
+export type UserAccount = {
+  current_user: CurrentUser;
+  csrf_token: string;
+  logout_token: string;
+}
+
+export enum ObjectFit {
+  contain = "contain",
+  cover = "cover",
+  fill = "fill",
+  none = "none",
+  "scale-down" = "scale-down",
+  inherit = "inherit",
+  initial = "initial",
+  revert = "revert",
+  "revert-layer" = "revert",
+  unset= "unset"
+}
+
+export type Relationships = {
   node_type: NodeType;
   revision_uid: RevisionUidOrUidOrFieldSubjectOfLesson;
   uid: RevisionUidOrUidOrFieldSubjectOfLesson;
   field_subject_of_lesson: RevisionUidOrUidOrFieldSubjectOfLesson;
+  field_paragraph_lesson: RevisionUidOrUidOrFieldSubjectOfLesson;
+  paragraph_type: ParagraphType;
+  field_image: FieldImage;
+  vid: Vid;
+  revision_user: Revision_user;
+  parent: Parent;
+  links: Links;
 }
+
+export type IncludeItem = {
+  type: string;
+  id: string;
+  links: Links;
+  attributes: Attributes;
+  relationships: Relationships;
+}
+
+export type Included = IncludeItem[]
+
+//export type Included = IncludedObj[]
+
+/*
 export interface NodeType {
   data: Data1;
   links: Links1;
@@ -100,25 +260,30 @@ export interface Data1 {
   id: string;
   meta: Meta1;
 }
+
 export interface Meta1 {
   drupal_internal__target_id: string;
 }
-export interface Links1 {
+
+export type Meta2 = {
+  target_revision_id: number;
+  drupal_internal__target_id: number;
+}
+
+export type Links1 = {
   related: SelfOrRelated;
   self: SelfOrRelated;
 }
-export interface RevisionUidOrUidOrFieldSubjectOfLesson {
-  data: Data2;
-  links: Links1;
+*/
+
+
+
+
+export type RevisionUidOrUidOrFieldSubjectOfLesson = {
+  data: Data;
+  links: Links;
 }
-export interface Data2 {
-  type: string;
-  id: string;
-  meta: Meta2;
-}
-export interface Meta2 {
-  drupal_internal__target_id: number;
-}
+
 //End Node Lesson
 
 //Breadcrumb
