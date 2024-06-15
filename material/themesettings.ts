@@ -16,6 +16,9 @@ export const light: ThemeOptions = {
     primary: {
       main: '#005293',
     },
+    secondary: {
+      main: '#256cac',
+    },
     background: {
       paper: '#ffffff',
       default: '#ffffff'
@@ -126,7 +129,7 @@ export const light: ThemeOptions = {
       lineHeight: '175%',
       letterSpacing: '0.5px',
       fontStyle: 'inherit',
-    },
+    }
   },
   components: {
     // Name of the component
@@ -190,6 +193,9 @@ export const dark: ThemeOptions = {
     },
     primary: {
       main: '#005293',
+    },
+    secondary: {
+      main: '#fcb520',
     },
     background: {
       paper: '#121212',
