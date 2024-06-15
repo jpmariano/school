@@ -68,7 +68,7 @@ export default async function slug() {
  const allLessons: listOfLessons = await getListofLessonByTaxId(pageDetails.entity.id);
  const listOfAllLessonPerChapter:string[] = allLessons.map((item: lesson, index) => { return item.field_subject_of_lesson}).filter((value, index, array) => array.indexOf(value) === index);  
  const listofCompletedLessonsbySubject: lessonid[] = await getListofCompletedLessonsbySubject('1', pageDetails.entity.id);
- const routes: breadcrumbPath[] = [{path: '/', breadcrumb: 'Home'},{path: '/html', breadcrumb: 'HTML'}];
+ const routes: breadcrumbPath[] = [{path: '/', breadcrumb: 'Home'},{path: '/courses', breadcrumb: 'Courses'},{path: '/courses/html', breadcrumb: 'HTML'}];
 
   return (
     <Main>
