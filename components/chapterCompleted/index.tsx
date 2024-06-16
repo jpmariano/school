@@ -12,7 +12,7 @@ export interface chapterCompletedProps {
 const ChapterCompleted: React.FC<chapterCompletedProps> = ({listOfLessons, listofCompletedLessonsbySubject}) => {
     const [complete, setComplete] = useState(false);
     const [started, setStarted] = useState(false);
-    console.log(listofCompletedLessonsbySubject)
+    //console.log(listofCompletedLessonsbySubject)
     useEffect(() => {
         if(listofCompletedLessonsbySubject?.length !== 0){
             setStarted(true);

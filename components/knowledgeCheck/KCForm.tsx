@@ -38,7 +38,7 @@ const KCForm: React.FC<RadioQuestion> = ({ question, answers }) => {
                 }
             })
         }
-        console.log(kCContext)
+       //console.log(kCContext)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

@@ -1,3 +1,4 @@
+import { UUID } from 'crypto';
 import {
     ReactElement,
     ReactPortal,
@@ -312,3 +313,94 @@ export type lessonid = {
   field_score: string;
   field_pass: string;
 };
+
+export type Default_langcodes = Default_langcode[];
+
+export type Default_langcode = {
+  value: boolean;
+};
+export type Field_registered_lesson = {
+  target_id: number;
+  target_type: string;
+  target_uuid: string;
+  url: string;
+};
+
+export type Field_registered_lessons = Field_registered_lesson[];
+
+export type AccountRole = {
+  target_id: string;
+  target_type: string;
+  target_uuid: string;
+};
+
+export type AccountRoles = AccountRole[];
+
+export type StringObject = {
+  value: string;
+};
+
+
+
+export type AccountInit = StringObject[];
+export type Mail = StringObject[];
+export type Name = StringObject[];
+export type Preferred_admin_langcode = StringObject[];
+export type Preferred_langcode = StringObject[];
+export type Langcode = StringObject[];
+export type Useruid = StringObject[];
+
+export type NumberObject = {
+  value: string;
+};
+export type Uid = NumberObject[];
+
+export type Timestamp = {
+  value: string;
+  format: string;
+};
+
+export type Login = Timestamp[];
+export type Access = Timestamp[];
+export type Changed = Timestamp[];
+export type Created = Timestamp[];
+export type Timezone = Timestamp[];
+
+export type OneStatus = {
+  value: boolean;
+};
+
+export type Status = OneStatus[];
+
+export type Picture = {
+  target_id: number;
+  alt: string;
+  title: string;
+  width: number;
+  height: number;
+  target_type: string;
+  target_uuid: string;
+  url: string
+};
+
+export type UserAccountDetails = {
+  uid: Uid;
+  uuid: Useruid;
+  langcode: Langcode;
+  preferred_langcode: Preferred_langcode;
+  preferred_admin_langcode: Preferred_admin_langcode;
+  name: Name;
+  mail: Mail;
+  timezone: Timezone;
+  status: Status;
+  created: Created;
+  change: Changed;
+  access: Access;
+  login: Login;
+  init: AccountInit;
+  roles: AccountRoles;
+  default_langcode: Default_langcodes;
+  path: Path;
+  field_registered_lesson: Field_registered_lessons;
+  user_picture: Picture[];
+}
