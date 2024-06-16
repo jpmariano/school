@@ -48,14 +48,9 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function slug({ params }: { params: { slug: string } }) {
   const headerList = headers();
   const pathname = headerList.get("x-current-path");
-
   const pageDetails: PathDetails = await getPage(pathname ? pathname : '/');
   const node:node =  await getNode(pageDetails.entity.uuid, 'lesson');
   const nodeLessonCompletion:lessonid[] =  await getLessonCompletion('1', pageDetails.entity.id);
-  
-
-  const routes: breadcrumbPath[] = [{path: '/', breadcrumb: 'Home'},{path: '/html', breadcrumb: 'HTML'}, {path: params.slug, breadcrumb: pageDetails.label}];
-
   const paragraphType: keyof Relationships | null =  await node ? Object.keys(node.data.relationships).filter((s) => s.indexOf('paragraph') !== -1)[0] as keyof Relationships : null;
   const hasComponents = paragraphType !== null;
   
@@ -67,7 +62,6 @@ export default async function slug({ params }: { params: { slug: string } }) {
 		/>
 	); 
   
-
   return (
     <Main>
       <CenterBoxWithSidebar fullHeight={true}>
@@ -76,7 +70,7 @@ export default async function slug({ params }: { params: { slug: string } }) {
         </Aside>
         <NotAside addClassName="inverse" showBoxShadow={false}>
           <Box component='article'>
-            <Breadcrumb route={routes} />
+            <Breadcrumb pathname={pathname} />
             <Box id="title" ><Typography component='h1' variant='h1' className="" sx={{display: 'inline-block'}}>{pageDetails.label}</Typography><LessonCompleted nodeLessonCompletion={nodeLessonCompletion} /></Box>
             {"entity" in pageDetails && "type" in pageDetails.entity &&  pageDetails.entity.type == 'node' && <BodyContent value={node.data.attributes.body.value} />}
             {content}

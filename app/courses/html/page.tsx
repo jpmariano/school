@@ -53,8 +53,6 @@ async function getPage(slug: string): Promise<PathDetails>{
 export default async function slug() {
   const headerList = headers();
   const pathname = headerList.get("x-current-path");
-  
-
 
   const pageDetails: PathDetails =   await getPage(pathname ? pathname : '/');
 
@@ -78,7 +76,7 @@ export default async function slug() {
         </Aside>
         <NotAside addClassName="inverse" showBoxShadow={false}>
           <Box component='article'>
-            <Breadcrumb route={routes} />
+            <Breadcrumb pathname={pathname} />
             <Box id="title" ><Typography component='h1' variant='h1' className="" sx={{display: 'inline-block'}}>{pageDetails.label}</Typography><ChapterCompleted listOfLessons={allLessons} listofCompletedLessonsbySubject={listofCompletedLessonsbySubject}/></Box>
             {"entity" in pageDetails && "type" in pageDetails.entity && pageDetails.entity.type == 'taxonomy_term' && <LessonsPerChapter chapters={listOfAllLessonPerChapter} listOfLessons={allLessons} listofCompletedLessonsbySubject={listofCompletedLessonsbySubject} />}
           </Box>
