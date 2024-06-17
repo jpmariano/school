@@ -12,8 +12,10 @@ yarn dev
 pnpm dev
 ```
 
-##/course/<course_title>/
-##/course/<course_title>/learn/lesson
+## Routes
+- /course/<course_title>/ 
+- /course/<course_title>/<lesson>
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
