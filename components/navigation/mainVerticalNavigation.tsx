@@ -83,7 +83,7 @@ const MainVerticalNavigation: React.FC = () => {
         </ListItemIcon>
         <ListItemText primary="GIT" sx={{display: { md: 'none', lg: 'block' }}}/>
       </ListItemButton>
-      <ListItemButton onClick={(event) => { router.push('/html') }} className={ pathname === '/html' ? isLight ? styles.navlink__isActive : styles.navlinkDark__isActive : styles.navlink }>
+      <ListItemButton onClick={(event) => { router.push('/courses/html') }} className={ pathname === '/courses/html' ? isLight ? styles.navlink__isActive : styles.navlinkDark__isActive : styles.navlink }>
         <ListItemIcon className={styles.ListItemIcon}>
           <Icon svg={isLight ? htmlSvg : htmlSvgDark} alt={'HTML Icon'} size='md'/>
         </ListItemIcon>

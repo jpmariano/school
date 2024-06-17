@@ -1,6 +1,6 @@
 [
     { "name": "HOME", "link": "/" },
-    { "name": "HTML", "link": "/html" },
+    { "name": "HTML", "link": "/courses/html" },
     { "name": "TEST", "link": "/test" },
     { "name": "FONT", "link": "/font" }
 ]
