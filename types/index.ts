@@ -334,6 +334,13 @@ export type AccountRole = {
   target_uuid: string;
 };
 
+export type Token = {
+  token_type: string;
+  expires_in: number;
+  access_token: string;
+  refresh_token: string;
+};
+
 export type AccountRoles = AccountRole[];
 
 export type StringObject = {
@@ -403,4 +410,17 @@ export type UserAccountDetails = {
   path: Path;
   field_registered_lesson: Field_registered_lessons;
   user_picture: Picture[];
+}
+
+export type userinfo = {
+  sub: string;
+  name: string;
+  preferred_username: string;
+  email: string;
+  email_verified: boolean;
+  profile: string;
+  locale: string;
+  zoneinfo: string;
+  updated_at: number;
+  roles: string[];
 }

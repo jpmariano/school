@@ -54,7 +54,8 @@ export default async function slug() {
   const headerList = headers();
   const pathname = headerList.get("x-current-path");
 
-  const pageDetails: PathDetails =   await getPage(pathname ? pathname : '/');
+  const pageDetails: PathDetails = await getPage(pathname ? pathname : '/');
+
 
   //const nodeLesson:node_lesson = pageDetails.entity.type == 'node' && await getNode(pageDetails.entity.uuid, 'lesson');
   //const nodeLessonCompletion:lessonid = pageDetails.entity.type == 'node' && await getLessonCompletion(pageDetails.entity.uuid, pageDetails.entity.id);
