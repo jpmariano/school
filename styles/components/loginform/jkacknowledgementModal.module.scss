@@ -1,0 +1,69 @@
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  
+  }
+  
+  .modalContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 500px;
+    background-color: #ffffff;
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.16);
+    padding: 0px 16px 32px 16px;
+    margin: 16px;
+  
+  }
+  
+  .closeButtonBox {
+    margin: 0;
+    padding: 11px 0px 0px 0px;
+    width: 100%;
+    text-align: right;
+  }
+  
+  .closeButton {
+    padding: 0;
+  }
+  
+  .modalTitleBox {
+   width: 100%;
+   text-align: left;
+   padding-bottom: 16px;
+  }
+  
+  .modalTitle {
+  }
+  
+  .divider {
+    margin-top: 40px;
+    @media screen and (max-width: 744px) {
+      margin-top: 32px;
+    }
+  }
+  
+  .buttonStack{
+    width: 100%;
+  }
+  
+  .buttonBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+  }
+  
+  .linkBox {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+  }
+  

@@ -1,10 +1,32 @@
 import { BASE_URL } from '@/api/config';
-import { PathDetails, lessonid, listOfLessons, node } from '@/types';
+import { PathDetails, lessonid, listOfLessons, node, AccountCredentials } from '@/types';
+import userData from '@/data/userLogin.json';
 
 export const jsonapi = '/jsonapi';
 export const router = '/router';
 
+export const userSignup= async  (credentials: AccountCredentials) => {
+	if (
+	  userData.email === credentials.email &&
+	  userData.password === credentials.password
+	) {
+	  return { status: 409 };
+	}
+  
+	return { status: 200 };
+  }
+  
+  export const passwordReset = async (credentials: AccountCredentials) => {
+	return { status: 200 };
+  }
+  
 
+  
+  export const resetPassword = async (emailAddress: string) => {
+	return { status: 200 };
+  }
+  
+  
 
 export const getPage = async (slug: string ): Promise<PathDetails> => {
 	const response = await fetch(`${BASE_URL}/router/translate-path?path=${slug}`);

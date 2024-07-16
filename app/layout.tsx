@@ -12,6 +12,7 @@ import { useAppSelector } from '@/store/store';
 import ThemeProviders from '@/components/provider/themeprovider';
 import TemporaryDrawer from '@/components/layouts/temporaryDrawer';
 import MainVerticalNavigation from '@/components/navigation/mainVerticalNavigation';
+import { headers } from 'next/headers';
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -26,8 +27,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const headerList = headers();
+  const pathname = headerList.get("x-current-path");
 
-  
   return (
     
       <html lang={'en'}>
@@ -35,7 +37,7 @@ export default function RootLayout({
       <Providers>
         <StyledEngineProvider injectFirst>
           <ThemeProviders>
-            <Header />
+            {pathname !== '/login' && <Header/>}
             {children}
             <TemporaryDrawer>
               <MainVerticalNavigation />

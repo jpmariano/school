@@ -424,3 +424,8 @@ export type userinfo = {
   updated_at: number;
   roles: string[];
 }
+
+export type AccountCredentials = {
+  email: string;
+  password: string;
+};

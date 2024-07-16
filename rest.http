@@ -68,8 +68,9 @@ Authorization: Basic testuser1:loremipsum1!
     "name": {"value": {{test_username}}},
     "mail": {"value":{{test_email}}}
 }
+### mailsystem + smtp
 
-###
+### rest_register_verify_email 1 
 POST http://[::1]:8084/rest/create-account?_format=json HTTP/1.1
 Content-Type: application/json
 
@@ -78,7 +79,7 @@ Content-Type: application/json
     "pass": {{test_password}}
 }
 
-###
+### rest_register_verify_email 2 
 POST http://[::1]:8084/rest/verify-account?_format=json HTTP/1.1
 Content-Type: application/json
 
@@ -98,12 +99,17 @@ Content-Type: application/json
 }
 
 
-###
+### need https://www.debugbear.com/basic-auth-header-generator
 GET http://[::1]:8084/node/1
 Content-Type:: application/json
 Authorization: Basic {{username}}:{{password}}
 
 ###
+GET http://[::1]:8084/node/1
+Content-Type:: application/json
+Authorization: Basic am1hcmlhbm86bEkzM3kjJiNVN2hjSFNTTg==
+
+### 
 GET http://[::1]:8084/user/login?_format=json
 Content-Type:: application/json
 Authorization: Basic {{username}}:{{password}}
@@ -112,61 +118,118 @@ Authorization: Basic {{username}}:{{password}}
 GET http://[::1]:8084/session/token
 
 ###
-### Oauth Get Bearer Token
+### Oauth Get Bearer Token - simple_oauth + simple_oauth_password_grant
 POST http://[::1]:8084/oauth/token HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="grant_type"
-
 client_credentials
+
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="client_id"
+{{client_id}}
 
-{{oauthuser_secretkey}}
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="client_secret"
+{{client_secret}}
 
-{{oauthuser_secretkey}}
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="scope"
-
 student
+
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
-### How user will Login in Decoupled
+
+### How user will Login in Decoupled toget access_token
 POST http://[::1]:8084/oauth/token HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="grant_type"
-
 password
+
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="client_id"
+{{client_id}}
 
-MHLMS3UbrMwh4Okve0LIK3qaZ_0OruMW6J94IM8mx4Q
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="client_secret"
+{{client_secret}}
+
+
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="username"
+{{username}}
 
-oauthuser
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="password"
+{{password}}
 
-jwrOGdtEz%82Svx!6w
-------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="client_secret"
-
-MC##xaS8B3*eibG$6P
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="scope"
-
 student
+
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
-#Open ID gets userinfo part of simple_oauth module  call this module after login
+### Authorization code grant 
+    #Step 1:  POST https://http://[::1]:8084/oauth/authorize?response_type=code&client_id={{client_id}}&scope=student
+    #Step 2: https://www.webupps.com/?code={{code}}
+
+  POST http://[::1]:8084/oauth/token HTTP/1.1
+  Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+  ------WebKitFormBoundary7MA4YWxkTrZu0gW
+  Content-Disposition: form-data; name="client_id"
+  {{client_id}}
+
+  ------WebKitFormBoundary7MA4YWxkTrZu0gW
+  Content-Disposition: form-data; name="client_secret"
+  {{client_secret}}
+
+  ------WebKitFormBoundary7MA4YWxkTrZu0gW
+  Content-Disposition: form-data; name="grant_type"
+  authorization_code
+
+  ------WebKitFormBoundary7MA4YWxkTrZu0gW
+  Content-Disposition: form-data; name="code"
+  {{code}}
+  ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Open ID - simple_oauth + simple_oauth_companion + /sites/default/services.yml
 GET http://[::1]:8084/oauth/userinfo HTTP/1.1
 Content-Type:: application/json
 Authorization: {{access_token}}
+
+### Exchange Refresh Token with Access Token
+POST  http://[::1]:8084/oauth/token HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="client_id"
+{{client_id}}
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="client_secret"
+{{client_secret}}
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="grant_type"
+refresh_token
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="refresh_token"
+
+{{refresh_token}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+GET http://[::1]:8084/oauth/debug?_format=json HTTP/1.1
+Authorization: Bearer {{access_token}}
+
+### Contains RSA Public Key
+GET http://[::1]:8084/oauth/jwks HTTP/1.1
+Authorization: Bearer {{access_token}}
 
 ###
 
@@ -200,3 +263,58 @@ GET http://[::1]:8084/api/v1/lesson/completed/1/1?_format=json
 
 
 
+### rest_password Step 1: Get Temporary password from Email
+POST http://[::1]:8084/user/lost-password?_format=json HTTP/1.1
+Content-Type: application/json
+
+{
+  "mail": "johnpaul.mariano@tiag.net"
+}
+### rest_password Step 2: Reset your password with temp password
+POST http://[::1]:8084/user/lost-password-reset?_format=json HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "johnpaul.mariano@tiag.net",
+  "temp_pass":"yvL_80d2UcHprw",
+  "new_pass":"G1vovMFOM@u2g$Y"
+}
+
+POST http://[::1]:8084/admin/content/simple_oauth/oauth2_token/3/delete HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+POST http://[::1]:8084/oauth/revoke HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Cookie: SSESSbd601d8819c7548b5bfcc773055bffdd=sTgubgsikMizRlWc6H1TKRPR6CnSd12yDOhRPSbGh3k4ZXvO
+Content-Length: 1777
+
+{
+    "access_token": {{access_token}}
+}
+
+GET http://[::1]:8084/oauth/debug?_format=json HTTP/1.1
+Host: dev-webuppsschool.pantheonsite.io
+Authorization: Bearer {{access_token}}
+
+
+edgar@ealcantara.me
+
+curl --request POST \
+  --url https://dev-webuppsschool.pantheonsite.io/oauth2/token/revoke \
+  --header 'Content-Type: application/x-www-form-urlencoded' \
+  --data 'token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImViMTA1NTUyYTIxMTM5ZWZlYWIwMmQ3ZjIxZDRmZjlmZmViODMxYTYwMTQxZTYwOTBjZWUzMmUxZmY2OTIwMzQzMTU1YjliNzY5MzM1NmFjIn0.eyJhdWQiOiJNSExNUzNVYnJNd2g0T2t2ZTBMSUszcWFaXzBPcnVNVzZKOTRJTThteDRRIiwianRpIjoiZWIxMDU1NTJhMjExMzllZmVhYjAyZDdmMjFkNGZmOWZmZWI4MzFhNjAxNDFlNjA5MGNlZTMyZTFmZjY5MjAzNDMxNTViOWI3NjkzMzU2YWMiLCJpYXQiOjE3MjAyMDM1ODMsIm5iZiI6MTcyMDIwMzU4MywiZXhwIjoxNzIwMjAzODgzLjU4NzY4Niwic2NvcGUiOlsiY29udGVudF9lZGl0b3IiLCJzdHVkZW50Il0sInN1YiI6IjMifQ.PuzzfTQmvoW5JqRnxjNVxmZO9uE_kYLm0_SpwFnoZq7-N9R07YGeJk6DH3MLqOx0s8wAnKz5lniAZbFWAzwbv7mxU0i8lZLuNU9p-ZYz1rnTYsUnNjhxKHJENQ5smJ7jPbjcoecHcqW2NiA1IwFcVa9cf6UKW_3uilbib7mt0lj_0Go6TyeJWQDBNmw3lTHiOyzNq9HcZjvYdBTsLlx1aLnrS5yfkaCXzyNheQTT0Ym1xmGoJ9cnpfm-CQtiE17wu1ZlipMgglAcZnOrquwFUiiTWwU7YYmCkHn6lyR2WbTkKJnzE4LLzyeN537RGENY2Z9jbTKq3IngVERCSKeP6A&token_type_hint=access_token'
+
+curl -X POST \
+  -d "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImViMTA1NTUyYTIxMTM5ZWZlYWIwMmQ3ZjIxZDRmZjlmZmViODMxYTYwMTQxZTYwOTBjZWUzMmUxZmY2OTIwMzQzMTU1YjliNzY5MzM1NmFjIn0.eyJhdWQiOiJNSExNUzNVYnJNd2g0T2t2ZTBMSUszcWFaXzBPcnVNVzZKOTRJTThteDRRIiwianRpIjoiZWIxMDU1NTJhMjExMzllZmVhYjAyZDdmMjFkNGZmOWZmZWI4MzFhNjAxNDFlNjA5MGNlZTMyZTFmZjY5MjAzNDMxNTViOWI3NjkzMzU2YWMiLCJpYXQiOjE3MjAyMDM1ODMsIm5iZiI6MTcyMDIwMzU4MywiZXhwIjoxNzIwMjAzODgzLjU4NzY4Niwic2NvcGUiOlsiY29udGVudF9lZGl0b3IiLCJzdHVkZW50Il0sInN1YiI6IjMifQ.PuzzfTQmvoW5JqRnxjNVxmZO9uE_kYLm0_SpwFnoZq7-N9R07YGeJk6DH3MLqOx0s8wAnKz5lniAZbFWAzwbv7mxU0i8lZLuNU9p-ZYz1rnTYsUnNjhxKHJENQ5smJ7jPbjcoecHcqW2NiA1IwFcVa9cf6UKW_3uilbib7mt0lj_0Go6TyeJWQDBNmw3lTHiOyzNq9HcZjvYdBTsLlx1aLnrS5yfkaCXzyNheQTT0Ym1xmGoJ9cnpfm-CQtiE17wu1ZlipMgglAcZnOrquwFUiiTWwU7YYmCkHn6lyR2WbTkKJnzE4LLzyeN537RGENY2Z9jbTKq3IngVERCSKeP6A" \
+  -d "token_type_hint=access_token" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  https://dev-webuppsschool.pantheonsite.io/oauth2/revoke
+  
+  curl --request POST \
+  --url https://dev-webuppsschool.pantheonsite.io/oauth2/token/revoke \
+  --header 'Content-Type: application/x-www-form-urlencoded' \
+  --data 'token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImViMTA1NTUyYTIxMTM5ZWZlYWIwMmQ3ZjIxZDRmZjlmZmViODMxYTYwMTQxZTYwOTBjZWUzMmUxZmY2OTIwMzQzMTU1YjliNzY5MzM1NmFjIn0.eyJhdWQiOiJNSExNUzNVYnJNd2g0T2t2ZTBMSUszcWFaXzBPcnVNVzZKOTRJTThteDRRIiwianRpIjoiZWIxMDU1NTJhMjExMzllZmVhYjAyZDdmMjFkNGZmOWZmZWI4MzFhNjAxNDFlNjA5MGNlZTMyZTFmZjY5MjAzNDMxNTViOWI3NjkzMzU2YWMiLCJpYXQiOjE3MjAyMDM1ODMsIm5iZiI6MTcyMDIwMzU4MywiZXhwIjoxNzIwMjAzODgzLjU4NzY4Niwic2NvcGUiOlsiY29udGVudF9lZGl0b3IiLCJzdHVkZW50Il0sInN1YiI6IjMifQ.PuzzfTQmvoW5JqRnxjNVxmZO9uE_kYLm0_SpwFnoZq7-N9R07YGeJk6DH3MLqOx0s8wAnKz5lniAZbFWAzwbv7mxU0i8lZLuNU9p-ZYz1rnTYsUnNjhxKHJENQ5smJ7jPbjcoecHcqW2NiA1IwFcVa9cf6UKW_3uilbib7mt0lj_0Go6TyeJWQDBNmw3lTHiOyzNq9HcZjvYdBTsLlx1aLnrS5yfkaCXzyNheQTT0Ym1xmGoJ9cnpfm-CQtiE17wu1ZlipMgglAcZnOrquwFUiiTWwU7YYmCkHn6lyR2WbTkKJnzE4LLzyeN537RGENY2Z9jbTKq3IngVERCSKeP6A&token_type_hint=access_token'
+
+
+  

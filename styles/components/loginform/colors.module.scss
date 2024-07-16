@@ -1,0 +1,45 @@
+$jk-red: #b71234;
+$jk-ErrorText: #f44336;
+$black-text: #1e1e1e;
+$jk-blue: #005293;
+$grey-text: rgba(30, 30, 30, 0.8);
+$jk-gold: #e3a82b;
+$grey: #84837f;
+$navy: #1c446b;
+$white: #ffffff;
+$mid-blue: #3c84c9;
+$grey-background: #f9f9f9;
+$pale-blue: #b2cce5;
+$alert: #1fac34;
+$light-blue: #e6f3fa;
+$mymoves-grey: #E6E5E5;
+$green: #40a33e;
+$dark-grey:  #717375;
+$yellow: #FAC340;
+$light-grey: #F3F3F3;
+$folder-greyicon: #C4C4C4;
+$black: #000000;
+
+:export {
+    jkMyMovesGray: $mymoves-grey;
+    jkPureBlack: $black;
+    jkFolderGreyIcon: $folder-greyicon;
+    jkLightGrey: $light-grey;
+    jkYellow: $yellow;
+    jkErrorText: $jk-ErrorText;
+    jkBlue: $jk-blue;
+    jkLightBlue: $light-blue;
+    jkBlack: $black-text;
+    jkRed: $jk-red;
+    jkGrayText: $grey-text;
+    jkGold: $jk-gold;
+    jkGray: $grey;
+    jkNavy: $navy;
+    jkWhite: $white;
+    jkMidBlue: $mid-blue;
+    jkGrayBackground: $grey-background;
+    jkPaleBlue: $pale-blue;
+    jkAlert: $alert;
+    jkGreen: $green;
+    jkDarkGrey: $dark-grey;
+}
