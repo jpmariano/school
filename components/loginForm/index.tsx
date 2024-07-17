@@ -192,7 +192,7 @@ const LoginForm: React.FC<loginFormProps> = ({component = "section"}) => {
                   </Box>
               )}
               {
-                responseStatus && statusMessage && (
+                responseStatus && statusMessage && alertStatus?.severity === "success" ? (
                   <Box
                       component="div"
                       sx={{
@@ -205,6 +205,35 @@ const LoginForm: React.FC<loginFormProps> = ({component = "section"}) => {
                     >
                       <Alert severity={alertStatus?.severity} className="w-full">{alertStatus?.message}</Alert>
                     </Box>
+                ) : 
+                responseStatus && statusMessage &&
+                (
+                  <Box className="mb-2">
+                    <Box
+                    
+                      sx={{
+                        backgroundColor: 'rgba(183, 18, 52, .3)',
+                        borderRadius: '4px',
+                      }}
+                    >
+                      
+                      <Box sx={{p: '20px'}}> {alertStatus?.message}
+                        <Box component='span'
+                          onClick={toggleModal}
+                          sx={{
+                            color: "blue",
+                            cursor: 'pointer',
+                            textDecoration: 'underline',
+                            px: 1,
+                            fontFamily: "Barlow"
+                          }}
+                        >
+                          click here
+                        </Box>
+                      to reset your password. </Box>
+                      
+                    </Box>
+                  </Box>
                 )
               }
                 <Box className="mb-1">

@@ -79,7 +79,7 @@ const PasswordResetForm: React.FC = () => {
           } else {
   
             // Define the query parameters
-            const queryParams = { status: status.toString(), message: 'Password Reset Failed! Try again or Create an Account.' };
+            const queryParams = { status: status.toString(), message: 'Password Reset Failed! Try again, Create an Account or' };
             // Construct the URL with query parameters
             const queryString = new URLSearchParams(queryParams).toString();
             const targetUrl = `/login?${queryString}`;
