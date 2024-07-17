@@ -432,6 +432,11 @@ export type AccountCredentials = {
   password: string;
 };
 
+export type verifyCredentials = {
+  name: string;
+  temp_token: string;
+};
+
 export type AccountResetCredentials = {
   name: string;
   temp_pass: string;
