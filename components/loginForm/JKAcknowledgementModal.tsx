@@ -56,7 +56,7 @@ const JKAcknowledgementModal: React.FC<JKAcknowledgementModalProps> = ({
             {modalTitle}
           </Typography>
         </Box>
-        {modalContent && <Box>{modalContent}</Box>}
+        {modalContent && <Box sx={{  width: '100%' }}>{modalContent}</Box>}
         {buttonLabel && (
           <>
             <Divider light className={styles.divider} />

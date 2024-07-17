@@ -1,6 +1,6 @@
 'use client'
 import React, { ReactNode, useEffect, useState } from 'react';
-import { Box, FormControl, FormHelperText, Input, InputLabel, Paper, TextField, Typography, colors, useTheme } from '@mui/material';
+import { Box, Button, FormControl, FormHelperText, Input, InputLabel, Paper, TextField, Typography, colors, useTheme } from '@mui/material';
 import Image from 'next/image';
 import styles from "@/styles/components/loginform/loginform.module.scss";
 import TextInput from './TextInput';
@@ -9,6 +9,8 @@ import validator from 'validator';
 import LogInSignupBtn from '@/components/loginForm/LogInSignupBtn';
 import ResetEmailAddress from '@/components/loginForm/ResetEmailAddress';
 import { useSearchParams } from 'next/navigation';
+import CreateAccount from '@/components/loginForm/CreateAccount';
+import Divider from '@mui/material/Divider';
 
 export interface loginFormProps {
     //children?: ReactNode;
@@ -19,10 +21,12 @@ export interface loginFormProps {
 
 const LoginForm: React.FC<loginFormProps> = ({component = "section"}) => {
   const [errors, setErrors] = useState({ email: false, password: false });
+  //login?error=CredentialsSignin
   const [displayErrorMessage, setDisplayErrorMessage] = useState(false);
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [emailMessage, setEmailMessage] = useState('Invalid Email');
   const [showResetPassword, setShowResetPassword] = useState(false);
+  const [showCreateAccount, setShowCreateAccount] = useState(false);
   const theme = useTheme();
   const searchParams = useSearchParams()
  
@@ -60,6 +64,9 @@ const LoginForm: React.FC<loginFormProps> = ({component = "section"}) => {
 
   const toggleModal = () => {
     setShowResetPassword(!showResetPassword);
+  };
+  const toggleCreateAccountModal = () => {
+    setShowCreateAccount(!showCreateAccount);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -191,10 +198,25 @@ const LoginForm: React.FC<loginFormProps> = ({component = "section"}) => {
               </Box>
               <LogInSignupBtn text="log In" onClick={handleSubmit} />
           </Box>
+          <Divider sx={{margin: "20px 0", opacity: 0.8}} orientation="horizontal" flexItem />
+          <Box
+            sx={{ display: 'flex', flexDirection: 'column', gap: '' }}
+            className={styles.continueBtnContainer}
+          >
+            <Button
+              variant="contained"
+              onClick={toggleCreateAccountModal}
+              className={styles.createaccountbtn}
+            >
+              Create Account
+            </Button>
+          </Box>
           <ResetEmailAddress
                 openModal={showResetPassword}
                 handleHideModal={toggleModal}
               />
+          <CreateAccount openModal={showCreateAccount}
+                handleHideModal={toggleCreateAccountModal} />
          </Paper>
          
     </Paper> 

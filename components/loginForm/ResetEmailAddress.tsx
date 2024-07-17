@@ -25,6 +25,7 @@ const ResetEmailAddress: React.FC<ResetEmailAddressProps> = ({
   }, []);
 
   const handleSave = async () => {
+   
     if((!emailAddressError) && (emailAddress !== '')){
       try {
         const response = await resetPassword(emailAddress);

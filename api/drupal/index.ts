@@ -5,13 +5,14 @@ import userData from '@/data/userLogin.json';
 export const jsonapi = '/jsonapi';
 export const router = '/router';
 
-export const userSignup= async  (credentials: AccountCredentials) => {
+export const userSignup = async  (credentials: AccountCredentials) => {
+	/*
 	if (
 	  userData.email === credentials.email &&
 	  userData.password === credentials.password
 	) {
 	  return { status: 409 };
-	}
+	} */
   
 	return { status: 200 };
   }

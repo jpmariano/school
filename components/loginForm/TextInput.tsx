@@ -33,7 +33,7 @@ const TextInput: React.FC<TextInputProps> = ({
         onChange(e.target.value);
         };
   return (
-    <Box component={"input"} value={value} type={type} id={id} className={`border rounded border-gray-400 border-solid w-full h-12 p-5 ${error && 'input-error'} `}
+    <Box component={"input"} value={value} type={type} id={id} className={`border rounded  border-solid w-full h-12 p-5 ${error ? 'border-rose-500' : 'border-gray-400'} `}
     placeholder={placeholder} required={required} disabled={disabled} 
     onChange={handleInputChange}
                   />

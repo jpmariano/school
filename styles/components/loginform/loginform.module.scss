@@ -13,3 +13,12 @@
     padding: 10px;
     margin-bottom: 20px;
 }
+
+.createaccountbtn {
+    background-color: #42b72a;
+    max-width: 50%;
+    margin: 0 auto 20px auto;
+    &:hover {
+        background-color: #4bdc2d;
+    }
+}
