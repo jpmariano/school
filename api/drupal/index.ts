@@ -1,5 +1,5 @@
 import { BASE_URL } from '@/api/config';
-import { PathDetails, lessonid, listOfLessons, node, AccountCredentials } from '@/types';
+import { PathDetails, lessonid, listOfLessons, node, AccountCredentials, AccountResetCredentials } from '@/types';
 import userData from '@/data/userLogin.json';
 
 export const jsonapi = '/jsonapi';
@@ -17,13 +17,15 @@ export const userSignup = async  (credentials: AccountCredentials) => {
 	return { status: 200 };
   }
   
-  export const passwordReset = async (credentials: AccountCredentials) => {
-	return { status: 200 };
-  }
+  
   
 
-  
+  //step 1. send an email
   export const resetPassword = async (emailAddress: string) => {
+	return { status: 200 };
+  }
+  //step 2. change the password
+  export const passwordReset = async (accountresetcredentials: AccountResetCredentials) => {
 	return { status: 200 };
   }
   

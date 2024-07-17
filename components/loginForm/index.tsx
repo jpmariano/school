@@ -1,6 +1,6 @@
 'use client'
 import React, { ReactNode, useEffect, useState } from 'react';
-import { Box, Button, FormControl, FormHelperText, Input, InputLabel, Paper, TextField, Typography, colors, useTheme } from '@mui/material';
+import { Alert, AlertColor, Box, Button, FormControl, FormHelperText, Input, InputLabel, Paper, TextField, Typography, colors, useTheme } from '@mui/material';
 import Image from 'next/image';
 import styles from "@/styles/components/loginform/loginform.module.scss";
 import TextInput from './TextInput';
@@ -11,6 +11,7 @@ import ResetEmailAddress from '@/components/loginForm/ResetEmailAddress';
 import { useSearchParams } from 'next/navigation';
 import CreateAccount from '@/components/loginForm/CreateAccount';
 import Divider from '@mui/material/Divider';
+import { alertType } from '@/types';
 
 export interface loginFormProps {
     //children?: ReactNode;
@@ -22,15 +23,52 @@ export interface loginFormProps {
 const LoginForm: React.FC<loginFormProps> = ({component = "section"}) => {
   const [errors, setErrors] = useState({ email: false, password: false });
   //login?error=CredentialsSignin
+  //login?status=200&message=Password+Reset+Successful%21
   const [displayErrorMessage, setDisplayErrorMessage] = useState(false);
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [emailMessage, setEmailMessage] = useState('Invalid Email');
   const [showResetPassword, setShowResetPassword] = useState(false);
   const [showCreateAccount, setShowCreateAccount] = useState(false);
+  const [alertStatus, setAlertStatus] = useState<alertType | undefined>({severity: "success", message: ""});
+
+
   const theme = useTheme();
   const searchParams = useSearchParams()
- 
   const error = searchParams.get('error');
+  const responseStatus = searchParams.get('status');
+  const statusMessage = searchParams.get('message');
+  const statusMessageString = statusMessage ? statusMessage : '';
+  useEffect(() => { 
+    
+    const statusCode = responseStatus !== null ? parseInt(responseStatus) : 0;
+    
+  
+
+    if (statusCode >= 200 && statusCode < 300) {
+  
+      setAlertStatus((prevState) => ({
+        ...prevState,
+        severity: "success",
+        message: statusMessageString
+      }));
+    } else if (statusCode >= 400 && statusCode < 500) {
+      //setMessage('Client Error: There was an error with your request.');
+
+      setAlertStatus((prevState) => ({
+        ...prevState,
+        severity: "warning",
+        message: statusMessageString
+      }));
+    } else if (statusCode >= 500) {
+    //setMessage('Server Error: There was a problem with the server.');
+      setAlertStatus((prevState) => ({
+        ...prevState,
+        severity: "error",
+        message: statusMessageString
+      }));
+    }
+  }, [responseStatus]);
+
   useEffect(() => { 
     if (error === 'CredentialsSignin') {
       setErrors((prevState) => ({ ...prevState, email: true, password: true }));
@@ -153,6 +191,22 @@ const LoginForm: React.FC<loginFormProps> = ({component = "section"}) => {
                     </Box>
                   </Box>
               )}
+              {
+                responseStatus && statusMessage && (
+                  <Box
+                      component="div"
+                      sx={{
+                        display: 'flex',
+                        visibility: 'visible',
+                        minHeight: '8px',
+                        margin: "10px 0"
+                      }}
+                      
+                    >
+                      <Alert severity={alertStatus?.severity} className="w-full">{alertStatus?.message}</Alert>
+                    </Box>
+                )
+              }
                 <Box className="mb-1">
                   <Box component={"input"} type="email" id="email" value={credentials.email} className={`border rounded border-gray-400 border-solid w-full h-12 p-5 ${errors.email && 'border-1 border-rose-500'}`} placeholder="Email" required
                     onChange={(input) => {

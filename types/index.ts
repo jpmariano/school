@@ -1,3 +1,5 @@
+import { AlertColor, AlertPropsColorOverrides } from '@mui/material/Alert/Alert';
+import { OverridableStringUnion } from '@mui/types';
 import { UUID } from 'crypto';
 import {
     ReactElement,
@@ -428,4 +430,16 @@ export type userinfo = {
 export type AccountCredentials = {
   email: string;
   password: string;
+};
+
+export type AccountResetCredentials = {
+  name: string;
+  temp_pass: string;
+  new_pass: string;
+};
+
+
+export type alertType = {
+  severity?: AlertColor;
+  message: string;
 };

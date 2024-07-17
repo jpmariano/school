@@ -29,7 +29,8 @@ export default function RootLayout({
 }) {
   const headerList = headers();
   const pathname = headerList.get("x-current-path");
-
+  const hideHeaders: Array<string> = ['/login', '/password-reset'];
+  console.log(pathname)
   return (
     
       <html lang={'en'}>
@@ -37,7 +38,7 @@ export default function RootLayout({
       <Providers>
         <StyledEngineProvider injectFirst>
           <ThemeProviders>
-            {pathname !== '/login' && <Header/>}
+            {pathname && !hideHeaders.includes(pathname) && <Header/>}
             {children}
             <TemporaryDrawer>
               <MainVerticalNavigation />
