@@ -39,6 +39,6 @@ next-env.d.ts
 /.vs
 /dist
 
-.env
-.env.local
+.env.*
+
 
