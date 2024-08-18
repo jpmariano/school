@@ -26,6 +26,7 @@ import QuizSlider from '@/components/quiz/QuizSlider';
 import { Suspense } from 'react';
 import { SortableProvider } from '@/components/sortable';
 import SortableTerms, { TermType } from '@/components/sortable/SortableTerms';
+import AuthProgressWrapper from '@/components/authProgressWrapper';
 //import { useEffect } from 'react';
 
 
@@ -35,6 +36,7 @@ const Index: NextPage = () => {
  
   
   return (
+    <AuthProgressWrapper>
     <Main>
       <HorizontalSeparator />
       <FullWidthBox>
@@ -123,6 +125,7 @@ const Index: NextPage = () => {
       </FullWidthBox>
       <HorizontalSeparator top={false} />
     </Main>
+    </AuthProgressWrapper>
   );
 };
 

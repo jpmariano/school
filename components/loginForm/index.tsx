@@ -4,7 +4,7 @@ import { Alert, AlertColor, Box, Button, FormControl, FormHelperText, Input, Inp
 import Image from 'next/image';
 import styles from "@/styles/components/loginform/loginform.module.scss";
 import TextInput from './TextInput';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import validator from 'validator';
 import LogInSignupBtn from '@/components/loginForm/LogInSignupBtn';
 import ResetEmailAddress from '@/components/loginForm/ResetEmailAddress';
@@ -12,6 +12,8 @@ import { useSearchParams } from 'next/navigation';
 import CreateAccount from '@/components/loginForm/CreateAccount';
 import Divider from '@mui/material/Divider';
 import { alertType } from '@/types';
+import { signIn } from 'next-auth/react';
+
 
 export interface loginFormProps {
     //children?: ReactNode;
@@ -21,11 +23,16 @@ export interface loginFormProps {
 }
 
 const LoginForm: React.FC<loginFormProps> = ({component = "section"}) => {
-  const [errors, setErrors] = useState({ email: false, password: false });
+  const router = useRouter();
+  console.log(router);
+  //const router = useRouter();
+  //const { errorfromAuth } = router.query;
+  //console.log(errorfromAuth);
+  const [errors, setErrors] = useState({ username: false, password: false });
   //login?error=CredentialsSignin
   //login?status=200&message=Password+Reset+Successful%21
   const [displayErrorMessage, setDisplayErrorMessage] = useState(false);
-  const [credentials, setCredentials] = useState({ email: '', password: '' });
+  const [credentials, setCredentials] = useState({ username: '', password: '' });
   const [emailMessage, setEmailMessage] = useState('Invalid Email');
   const [showResetPassword, setShowResetPassword] = useState(false);
   const [showCreateAccount, setShowCreateAccount] = useState(false);
@@ -83,18 +90,18 @@ const LoginForm: React.FC<loginFormProps> = ({component = "section"}) => {
     if (validator.isEmail(email)) {
       setErrors((prevState) => ({
         ...prevState,
-        email: false,
+        username: false,
       }));
     } else {
       if (email !== '') {
         setErrors((prevState) => ({
           ...prevState,
-          email: true,
+          username: true,
         }));
       } else {
         setErrors((prevState) => ({
           ...prevState,
-          email: false,
+          username: false,
         }));
       }
     }
@@ -108,40 +115,42 @@ const LoginForm: React.FC<loginFormProps> = ({component = "section"}) => {
   };
 
   const handleSubmit = (event: React.FormEvent) => {
-    if (credentials.email === '' && credentials.password === '') {
+    if (credentials.username === '' && credentials.password === '') {
       setErrors((prevState) => ({
         ...prevState,
-        email: true,
+        username: true,
         password: true,
       }));
     } else {
-      if (!validator.isEmail(credentials.email)) {
+      if (!validator.isEmail(credentials.username)) {
         setErrors((prevState) => ({
           ...prevState,
-          email: true,
+          username: true,
           password: credentials.password === '' ? true : false,
         }));
       } else {
         setErrors((prevState) => ({
           ...prevState,
-          email: false,
+          username: false,
           password: credentials.password === '' ? true : false,
         }));
       }
     }
-    /*if (
-      !errors.email &&
+    if (
+      !errors.username &&
       !errors.password &&
-      credentials.email !== '' &&
+      credentials.username !== '' &&
       credentials.password !== ''
     ) {
+      console.log(credentials);
+      
       signIn('credentials', {
-        username: credentials.email,
+        username: credentials.username,
         password: credentials.password,
         redirect: true,
-        callbackUrl: '/dashboard',
+        callbackUrl: '/test'
       });
-    } */
+    } 
   };
   
 
@@ -237,12 +246,12 @@ const LoginForm: React.FC<loginFormProps> = ({component = "section"}) => {
                 )
               }
                 <Box className="mb-1">
-                  <Box component={"input"} type="email" id="email" value={credentials.email} className={`border rounded border-gray-400 border-solid w-full h-12 p-5 ${errors.email && 'border-1 border-rose-500'}`} placeholder="Email" required
+                  <Box component={"input"} type="email" id="email" value={credentials.username} className={`border rounded border-gray-400 border-solid w-full h-12 p-5 ${errors.username && 'border-1 border-rose-500'}`} placeholder="Email" required
                     onChange={(input) => {
                       setDisplayErrorMessage(false);
                       setCredentials((prevState) => ({
                         ...prevState,
-                        email: input.target.value,
+                        username: input.target.value,
                       }));
                       validateEmail(input.target.value);
                     }}
@@ -251,7 +260,7 @@ const LoginForm: React.FC<loginFormProps> = ({component = "section"}) => {
                       component="div"
                       sx={{
                         display: 'flex',
-                        visibility: errors.email ? 'visible' : 'hidden',
+                        visibility: errors.username ? 'visible' : 'hidden',
                         minHeight: '8px',
                       }}
                     >

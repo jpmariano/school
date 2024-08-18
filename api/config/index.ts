@@ -13,8 +13,14 @@
 // @todo: replace the latter with the production website domain url
 //export const DOMAIN = DEV ? DOMAIN_STAGING : DOMAIN_STAGING ? DOMAIN_STAGING : DOMAIN_PROD;
 
-console.log('Environment')
-console.log(process.env.NODE_ENV)
+console.log('Environment');
+console.log(process.env.NODE_ENV);
+console.log(process.env.NEXT_PUBLIC_API_URL);
+console.log(process.env.CLIENT_ID);
+console.log(process.env.SECRET_KEY);
+
+/*
+console.log(process.env)
 let DOMAIN_URL: string = "";
 switch(process.env.NODE_ENV) { 
     case "development": { 
@@ -35,4 +41,5 @@ switch(process.env.NODE_ENV) {
     } 
  }
 
-export const BASE_URL = DOMAIN_URL;
+ console.log(DOMAIN_URL); */
+export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;

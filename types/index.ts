@@ -5,6 +5,8 @@ import {
     ReactElement,
     ReactPortal,
   } from 'react';
+import { JWT } from 'next-auth/jwt';
+import NextAuth, { NextAuthOptions, Session } from 'next-auth';
 type ReactText = string | number;
 type ReactChild = ReactElement | ReactText;
 
@@ -428,7 +430,7 @@ export type userinfo = {
 }
 
 export type AccountCredentials = {
-  email: string;
+  username: string;
   password: string;
 };
 
@@ -448,3 +450,34 @@ export type alertType = {
   severity?: AlertColor;
   message: string;
 };
+
+export type tokenResponse = {
+  token_type: string;
+  expires_in: number;
+  access_token: string;
+  refresh_token: string;
+};
+
+
+export type  ErrorResponse = {
+  status: number;
+  success: boolean
+  message: string;
+}
+
+
+export interface CustomJWT extends JWT {
+  access_token?: string;
+  refresh_token?: string;
+  expires_at?: number;
+  userId?: string;
+  scope?: string;
+  
+}
+export interface CustomSession extends Session {
+  access_token?: string;
+  refresh_token?: string;
+  expires_at?: number;
+  userId?: string;
+  scope?: string;
+}
