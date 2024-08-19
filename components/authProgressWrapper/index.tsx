@@ -34,10 +34,12 @@ const AuthProgressWrapper: React.FC<AuthProgressWrapperProps> = ({ children }) =
     return  <LinearLoading />; // You can customize this loading state
   }
 
+  if (status === 'authenticated') {
+    return <>{children}</>; // Render children only if authenticated
+  }
 
-
-  // If the user is not authenticated, just render the children
-  return <>{children}</>;
+  // Optionally, handle other cases if needed (e.g., an error state)
+  return <LinearLoading />;
 };
 
 export default AuthProgressWrapper;
