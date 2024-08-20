@@ -7,6 +7,8 @@ import { useAppDispatch, useAppSelector } from '@/store/store';
 import { setToggle } from '@/store/features/toggleSlice';
 import styles from "@/styles/components/main/main.module.scss";
 import useWindowDimensions from '@/utils/useWindowDimensions';
+import LinearLoading from '../layouts/linearLoading';
+import { useState } from 'react';
 
 export interface Props {
     children?: ReactNode;
@@ -18,11 +20,17 @@ const Main: React.FC<Props> = ({ children }) => {
     if (theme.palette.mode === 'dark') {
         isLight = false;
     }
+
+
+    
+    
     //const toggle = useAppSelector((state) => state.toggle); 
     //const { height, width } = useWindowDimensions(); 
     //const heightPx = `${String(height)}px`;
     //console.log(theme) minHeight: `${String(height)}px`
    //console.log(theme);
+ 
+
     return (
     
     <Box component="main" className={`${styles.main} ${theme.palette.mode}`} sx={{ backgroundColor: isLight ? '#F3F3F3'  : '#121212' }} >

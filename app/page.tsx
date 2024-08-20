@@ -8,7 +8,7 @@ import AuthProgressWrapper from '@/components/authProgressWrapper'
 
 
 export default function Home() {
-
+  
   return (
     <Main>
         <CenterBoxWithSidebar fullHeight={true}>

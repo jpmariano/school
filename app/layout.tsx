@@ -35,7 +35,8 @@ export default async function RootLayout({
   const pathname = headerList.get("x-current-path");
   const hideHeaders: Array<string> = ['/login', '/password-reset'];
   const session = await getServerSession(authOptions);
-  console.log(pathname)
+  console.log(pathname);
+  
   return (
     
       <html lang={'en'}>
@@ -43,12 +44,12 @@ export default async function RootLayout({
       <Providers>
         <StyledEngineProvider injectFirst>
           <SessionProviderWrapper session={session}>
-            <ThemeProviders>
             {pathname && !hideHeaders.includes(pathname) && <Header/>}
-            {children}
-            <TemporaryDrawer>
-              <MainVerticalNavigation />
-            </TemporaryDrawer>
+            <ThemeProviders>
+              {children}
+              <TemporaryDrawer>
+                <MainVerticalNavigation />
+              </TemporaryDrawer>
             </ThemeProviders>
           </SessionProviderWrapper>
         </StyledEngineProvider>

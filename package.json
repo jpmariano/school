@@ -7,10 +7,17 @@
     "npm": "^10.2.4"
   },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "NODE_ENV=development next dev",
+    "build": "NODE_ENV=production next build",
+    "start": "NODE_ENV=production next start",
+    "lint": "next lint",
+    "dev:local": "cp .env.local .env && NODE_ENV=development next dev",
+    "dev:staging": "cp .env.staging .env && NODE_ENV=staging next dev",
+    "build:staging": "cp .env.staging .env && NODE_ENV=staging next build",
+    "start:staging": "cp .env.staging .env && NODE_ENV=staging next start",
+    "dev:production": "cp .env.production .env && NODE_ENV=production next dev",
+    "build:production": "cp .env.production .env && NODE_ENV=production next build",
+    "start:production": "cp .env.production .env && NODE_ENV=production next start"
   },
   "dependencies": {
     "@babel/runtime": "7.11.0",
