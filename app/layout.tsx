@@ -32,10 +32,10 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   const headerList = headers();
-  const pathname = headerList.get("x-current-path");
+  const pathname = headerList.get('x-current-path') || '';
   const hideHeaders: Array<string> = ['/login', '/password-reset'];
   const session = await getServerSession(authOptions);
-  console.log(pathname);
+ //{pathname && !hideHeaders.includes(pathname) && <Header/>}
   
   return (
     
@@ -44,7 +44,7 @@ export default async function RootLayout({
       <Providers>
         <StyledEngineProvider injectFirst>
           <SessionProviderWrapper session={session}>
-            {pathname && !hideHeaders.includes(pathname) && <Header/>}
+            <Header/>
             <ThemeProviders>
               {children}
               <TemporaryDrawer>
