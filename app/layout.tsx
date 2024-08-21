@@ -44,8 +44,9 @@ export default async function RootLayout({
       <Providers>
         <StyledEngineProvider injectFirst>
           <SessionProviderWrapper session={session}>
-            <Header/>
+            
             <ThemeProviders>
+            <Header/>
               {children}
               <TemporaryDrawer>
                 <MainVerticalNavigation />
