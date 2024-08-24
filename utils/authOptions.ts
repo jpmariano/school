@@ -1,8 +1,9 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import {getUserInfo, isFetchResponse, userLogin} from '@/api/drupal';
-import { CustomJWT, CustomSession, ErrorResponse, Token, tokenResponse, userinfo } from "@/types";
+import {getSessionToken, getUserInfo, isFetchResponse, userLogin} from '@/api/drupal';
+import { CustomJWT, CustomSession, CustomUser, ErrorResponse, Token, tokenResponse, userinfo } from "@/types";
 import userData from '@/data/userLogin.json';
+
 
 export const authOptions: NextAuthOptions = { 
     providers: [
@@ -13,7 +14,7 @@ export const authOptions: NextAuthOptions = {
         username: { label: 'Username', type: 'text' },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials, req): Promise<CustomUser | null> {
      
         if (!credentials) {
           console.log('No credentials provided');
@@ -43,13 +44,26 @@ export const authOptions: NextAuthOptions = {
             console.error('Invalid user info:', userInfo);
             return null;
           }
+
+          const drupalSessionResponse = await getSessionToken();
+          if (!isFetchResponse(drupalSessionResponse)) {
+            console.error('Fetching session token failed:', drupalSessionResponse);
+            return null;
+          }
+          const drupal_session: string = await drupalSessionResponse.text();
+          //console.log('drupalSessionResponse', drupal_session);
       
           return {
             id: userInfo.sub,
             name: userInfo.name || null,
             email: userInfo.email || null,
             roles: userInfo.roles,
-          };
+            userId: userInfo.sub,
+            drupal_session: drupal_session,
+            access_token: token_data.access_token,
+            refresh_token: token_data.refresh_token,
+            expires_in: token_data.expires_in
+          }
         } catch (error) {
           console.error('Authorization error:', error);
           return null;
@@ -58,28 +72,33 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account }): Promise<CustomJWT> {
       if(account && user){
       
         // the user present here gets the same data as received from DB call  made above -> fetchUserInfo(credentials.opt)
         return { ...token,
-          access_token: account.access_token,
-          refresh_token: account.refresh_token,
-          expires_at: account.expires_at,
+          access_token: user.access_token,
+          refresh_token: user.refresh_token,
+          expires_in: user.expires_in,
           scope: account.scope,
-          userId: account.userId
+          userId: user.id,
+          roles: user.roles,
+          drupal_session: user.drupal_session
         }
       }
       // Return previous token if the user is not signing in again
       return token as CustomJWT;
     },
-    async session({ session, token, user }) {
+    async session({ session, token, user }): Promise<CustomSession> {
+      const customToken = token as CustomJWT;
       const customSession = session as CustomSession;
-      customSession.access_token = (token as CustomJWT).access_token;
-      customSession.refresh_token = (token as CustomJWT).refresh_token;
-      customSession.expires_at = (token as CustomJWT).expires_at;
-      customSession.scope = (token as CustomJWT).scope;
-      customSession.userId = (token as CustomJWT).userId;
+      customSession.user.drupal_session = customToken.drupal_session;
+      customSession.user.userId = customToken.userId;
+      customSession.user.roles = customToken.roles;
+      customSession.user.access_token = customToken.access_token;
+      customSession.user.refresh_token = customToken.refresh_token;
+      customSession.user.expires_in = customToken.expires_in;
+      //customSession.expires = user.expires_in;
       return customSession;
     },
   },
@@ -93,6 +112,7 @@ export const authOptions: NextAuthOptions = {
   session: {
     // Set to jwt in order to CredentialsProvider works properly
     strategy: 'jwt',
+    maxAge: 3600,  // Session expires in 1 hour (3600 seconds)
   },
   secret: process.env.NEXTAUTH_SECRET, // TODO: Define env variables https://next-auth.js.org/configuration/options
   /*

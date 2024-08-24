@@ -1,12 +1,13 @@
 import { AlertColor, AlertPropsColorOverrides } from '@mui/material/Alert/Alert';
 import { OverridableStringUnion } from '@mui/types';
 import { UUID } from 'crypto';
+
 import {
     ReactElement,
     ReactPortal,
   } from 'react';
 import { JWT } from 'next-auth/jwt';
-import NextAuth, { NextAuthOptions, Session } from 'next-auth';
+import NextAuth, { NextAuthOptions, Session, DefaultSession, DefaultUser } from 'next-auth';
 type ReactText = string | number;
 type ReactChild = ReactElement | ReactText;
 
@@ -466,18 +467,33 @@ export type  ErrorResponse = {
 }
 
 
-export interface CustomJWT extends JWT {
+
+
+
+// Extend the User type
+export interface CustomUser extends DefaultUser {
+  userId: string;
+  roles: string[];
+  drupal_session: string;
   access_token?: string;
   refresh_token?: string;
-  expires_at?: number;
-  userId?: string;
-  scope?: string;
+  expires_in?: number;
+}
+
+export interface CustomSession extends DefaultSession {
+  user: CustomUser;
   
 }
-export interface CustomSession extends Session {
+
+
+export interface CustomJWT extends JWT {
+
+  userId: string;
+  roles: string[];
+  drupal_session: string;
   access_token?: string;
   refresh_token?: string;
-  expires_at?: number;
-  userId?: string;
-  scope?: string;
+  expires_in?: number;
+ // user?: CustomUser;
+ // session?: string;
 }

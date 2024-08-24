@@ -219,7 +219,30 @@ export const getUserInfo = async (access_token: string): Promise<Response | Erro
 		status: 500
 	  };
 	}
-  };
+}
+
+export const getSessionToken = async (): Promise<Response | ErrorResponse> =>  {
+
+
+	try {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/session/token`, {
+			method: "GET"
+		});
+
+		if (!response.ok) {
+		throw new Error(`HTTP error! status: ${response.status}`);
+		}
+
+		const result: Response = response;
+		return result;
+	} catch (error) {
+		return {
+		success: false,
+		message: error instanceof Error ? error.message : "Unknown error",
+		status: 500
+		};
+	}
+}
   
 //step 1. send an email
 export const resetPassword = async (emailAddress: string): Promise<Response | ErrorResponse> => {

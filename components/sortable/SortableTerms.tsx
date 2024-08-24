@@ -7,6 +7,7 @@ import Sortable from 'sortablejs';
 import dragLight from '@/public/icons/drag-horizontal-svgrepo-com.svg';
 import dragDark from '@/public/icons/drag-horizontal-svgrepo-com-dark.svg';
 import Icon from '@/components/icon';
+import { useSession } from 'next-auth/react';
 
 export type TermType = {
     term: string;
@@ -19,7 +20,7 @@ export interface SortableTermsProps {
 }
 
 const SortableTerms: React.FC<SortableTermsProps> = ({ terms, id }) => {
-
+    const { data: session } = useSession();
     const sortableContext = useSortableContext();
     const termiDs = terms.map((item: TermType, i: number) => {
         return (
@@ -72,6 +73,12 @@ const SortableTerms: React.FC<SortableTermsProps> = ({ terms, id }) => {
             setAreAnswersCorrect(false);
         }
     };
+
+    if (session) {
+        console.log('session', session);
+     
+        //return <p>Loading...</p>;
+    }
 
     return (
         <Box>
