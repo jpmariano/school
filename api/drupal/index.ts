@@ -122,11 +122,8 @@ export const userLogin = async  (credentials: AccountCredentials): Promise<Respo
 	  }
 }
 
-export const getNewAccessToken = async  (): Promise<Response | ErrorResponse> =>  {
-	const session = await getServerSession(authOptions) as CustomSession;
-	const headers = {
-		"Content-Type": "application/json",
-	  };
+export const getNewAccessToken = async  (refresh_token: string): Promise<Response | ErrorResponse> =>  {
+
 	const client_id = process.env.CLIENT_ID;
 	const client_secret = process.env.NEXTAUTH_SECRET;
  
@@ -139,12 +136,11 @@ export const getNewAccessToken = async  (): Promise<Response | ErrorResponse> =>
 	 formData.append("grant_type", "refresh_token");
 	 formData.append("client_id", client_id);
 	 formData.append("client_secret", client_secret);
-	 formData.append("refresh_token", session.refresh_token as string);
-	
+	 formData.append("refresh_token", refresh_token as string);
+	 
 	  try {
 		const response = await fetch(`${BASE_URL}/oauth/token?_format=json`, {
 		  method: "POST",
-		  headers: headers,
 		  body: formData
 		});
 	
@@ -368,7 +364,7 @@ export const getListofCompletedLessonsbySubject = async (uid: string, taxid: str
 	const session = await getServerSession(authOptions) as CustomSession;
 	const headers = {
 		"Content-Type": "application/json",
-		"Authorization": `Bearer ${session.access_token}`
+		"Authorization": `Bearer ${session.user.access_token}`
 	};
 	try {
 		const response = await fetch(`${BASE_URL}/api/v1/subject/completed/${uid}/${taxid}?_format=json`, {

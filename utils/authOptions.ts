@@ -1,6 +1,6 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import {getSessionToken, getUserInfo, isFetchResponse, userLogin} from '@/api/drupal';
+import {getNewAccessToken, getSessionToken, getUserInfo, isFetchResponse, userLogin} from '@/api/drupal';
 import { CustomJWT, CustomSession, CustomUser, ErrorResponse, Token, tokenResponse, userinfo } from "@/types";
 import userData from '@/data/userLogin.json';
 
@@ -73,6 +73,7 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user, account }): Promise<CustomJWT> {
+      const custom_token: CustomJWT = token as CustomJWT;
       if(account && user){
       
         // the user present here gets the same data as received from DB call  made above -> fetchUserInfo(credentials.opt)
@@ -83,11 +84,47 @@ export const authOptions: NextAuthOptions = {
           scope: account.scope,
           userId: user.id,
           roles: user.roles,
-          drupal_session: user.drupal_session
-        }
+          drupal_session: user.drupal_session,
+          issued_at: Date.now() / 1000
+        } as CustomJWT; 
       }
+
+      const now = Date.now() / 1000;
+      const expirationTime = custom_token.issued_at! + custom_token.expires_in!;
+      
+      console.log(custom_token.issued_at)
+      console.log(custom_token.expires_in)
+      console.log('expirationTime', expirationTime)
+      console.log('now', now)
+      console.log(now < expirationTime)
+      if (now < expirationTime) {
+        return custom_token;
+      }
+      const new_tokens: Response | ErrorResponse = await getNewAccessToken(custom_token.refresh_token!);
+      if (!isFetchResponse(new_tokens)) {
+        //console.error('new_tokens failed:', new_tokens);
+        //return custom_token;
+        throw new Error("Refresh token failed");
+      }
+      const token_data: Token = await new_tokens.json();
+
+      const drupalSessionResponse = await getSessionToken();
+      if (!isFetchResponse(drupalSessionResponse)) {
+        throw new Error("drupalSessionResponse failed");
+      }
+      const drupal_session: string = await drupalSessionResponse.text();
+      return {
+        ...custom_token,
+        drupal_session: drupal_session,
+        access_token: token_data.access_token,
+        refresh_token: token_data.refresh_token,
+        expires_in: token_data.expires_in,
+        issued_at: Date.now() / 1000
+      };
+   
+     
       // Return previous token if the user is not signing in again
-      return token as CustomJWT;
+      //return custom_token;
     },
     async session({ session, token, user }): Promise<CustomSession> {
       const customToken = token as CustomJWT;
@@ -100,7 +137,7 @@ export const authOptions: NextAuthOptions = {
       customSession.user.expires_in = customToken.expires_in;
       //customSession.expires = user.expires_in;
       return customSession;
-    },
+    }
   },
   pages: {
     signIn: '/login',
