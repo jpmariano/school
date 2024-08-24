@@ -137,11 +137,13 @@ export const getNewAccessToken = async  (refresh_token: string): Promise<Respons
 	 formData.append("client_id", client_id);
 	 formData.append("client_secret", client_secret);
 	 formData.append("refresh_token", refresh_token as string);
+	 //console.log('formData', formData);
 	 
 	  try {
-		const response = await fetch(`${BASE_URL}/oauth/token?_format=json`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/oauth/token?_format=json`, {
 		  method: "POST",
-		  body: formData
+		  body: formData,
+		  redirect: "follow"
 		});
 	
 		if (!response.ok) {
@@ -302,8 +304,16 @@ export const passwordReset = async (accountresetcredentials: AccountResetCredent
   
 export const getPage = async (slug: string): Promise<Response | ErrorResponse> => {
     
-	const session = await getServerSession(authOptions) as CustomSession;
-
+	const session: CustomSession = await getServerSession(authOptions) as CustomSession;
+	//console.log('session', isFetchResponse(session));
+	if (!session) {
+	  //console.error('Login failed:');
+	  return {
+		success: false,
+		message: " No session Unknown error",
+		status: 500
+	  }
+	}
 	const headers = {
 		"Content-Type": "application/json",
 		"Authorization": `Bearer ${session.user.access_token}`
@@ -361,7 +371,7 @@ export const getListofLessonByTaxId = async (taxid: string): Promise<Response | 
 //lessonid[]
 export const getListofCompletedLessonsbySubject = async (uid: string, taxid: string): Promise<Response | ErrorResponse> => {
 
-	const session = await getServerSession(authOptions) as CustomSession;
+	const session: CustomSession = await getServerSession(authOptions) as CustomSession;
 	const headers = {
 		"Content-Type": "application/json",
 		"Authorization": `Bearer ${session.user.access_token}`
