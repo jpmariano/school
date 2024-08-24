@@ -148,7 +148,7 @@ export const getNewAccessToken = async  (refresh_token: string): Promise<Respons
 		  throw new Error(`HTTP error! status: ${response.status}`);
 		}
 	
-		const result:Response = await response.json();
+		const result:Response = response;
 		return result;
 	  } catch (error) {
 		return {
@@ -303,10 +303,10 @@ export const passwordReset = async (accountresetcredentials: AccountResetCredent
 export const getPage = async (slug: string): Promise<Response | ErrorResponse> => {
     
 	const session = await getServerSession(authOptions) as CustomSession;
-	console.log('282 - ' + session);
+
 	const headers = {
 		"Content-Type": "application/json",
-		"Authorization": `Bearer ${session.access_token}`
+		"Authorization": `Bearer ${session.user.access_token}`
 	};
 
 	try {
@@ -319,7 +319,7 @@ export const getPage = async (slug: string): Promise<Response | ErrorResponse> =
 			throw new Error(`HTTP error! status: ${response.status}`);
 		}
 
-		const result: Response = await response.json();
+		const result: Response = response;
 		return result;
 	} catch (error) {
 		return {

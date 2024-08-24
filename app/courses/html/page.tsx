@@ -9,7 +9,7 @@ import { headers } from "next/headers";
 import { BASE_URL } from '@/api/config';
 import { Box, List, ListItem, ListItemText, Typography } from '@mui/material'
 import Link from 'next/link'
-import {breadcrumbPath, lesson, listOfLessons, PathDetails, lessonid, node} from '@/types'
+import {breadcrumbPath, lesson, listOfLessons, PathDetails, lessonid, node, ErrorResponse} from '@/types'
 import BodyContent from '@/components/bodyContent'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CircleIcon from '@mui/icons-material/Circle';
@@ -17,7 +17,8 @@ import LessonsPerChapter from '@/components/lessonsPerChapter'
 import Breadcrumb from '@/components/breadCrumb';
 import ChapterCompleted from '@/components/chapterCompleted';
 import { NextRequest } from "next/server";
-import { getListofCompletedLessonsbySubject, getListofLessonByTaxId, getPage } from '@/api/drupal'
+import { getListofCompletedLessonsbySubject, getListofLessonByTaxId, getPage, isFetchResponse } from '@/api/drupal';
+import { notFound } from 'next/navigation';
 //import stripJsonComments from 'strip-json-comments'
 //import { getPage } from '@/api/drupal';
 
@@ -53,10 +54,16 @@ async function getPage(slug: string): Promise<PathDetails>{
 export default async function slug() {
   const headerList = headers();
   const pathname = headerList.get("x-current-path");
-
-  const pageDetails: PathDetails = await getPage(pathname ? pathname : '/');
-
-
+  //console.log('pathname', pathname);
+  //const pageDetails: PathDetails = await getPage(pathname ? pathname : '/');
+  const page_details_response: Response | ErrorResponse = await getPage(pathname ? pathname : '/');
+  //console.error('new_tokens page_details_response:', page_details_response);
+  if (!isFetchResponse(page_details_response)) {
+    notFound();
+    //console.error('new_tokens_1 page_details_response:', page_details_response);
+    //return custom_token;
+    //throw new Error("Refresh token failed");
+  }
   //const nodeLesson:node_lesson = pageDetails.entity.type == 'node' && await getNode(pageDetails.entity.uuid, 'lesson');
   //const nodeLessonCompletion:lessonid = pageDetails.entity.type == 'node' && await getLessonCompletion(pageDetails.entity.uuid, pageDetails.entity.id);
   //const nodeLessonInt = nodeLesson as node_lesson;
@@ -64,11 +71,12 @@ export default async function slug() {
   
 
 
- const allLessons: listOfLessons = await getListofLessonByTaxId(pageDetails.entity.id);
- const listOfAllLessonPerChapter:string[] = allLessons.map((item: lesson, index) => { return item.field_subject_of_lesson}).filter((value, index, array) => array.indexOf(value) === index);  
- const listofCompletedLessonsbySubject: lessonid[] = await getListofCompletedLessonsbySubject('1', pageDetails.entity.id);
- const routes: breadcrumbPath[] = [{path: '/', breadcrumb: 'Home'},{path: '/courses', breadcrumb: 'Courses'},{path: '/courses/html', breadcrumb: 'HTML'}];
-
+ //const allLessons: listOfLessons = await getListofLessonByTaxId(pageDetails.entity.id);
+ //const listOfAllLessonPerChapter:string[] = allLessons.map((item: lesson, index) => { return item.field_subject_of_lesson}).filter((value, index, array) => array.indexOf(value) === index);  
+ //const listofCompletedLessonsbySubject: lessonid[] = await getListofCompletedLessonsbySubject('1', pageDetails.entity.id);
+/// const routes: breadcrumbPath[] = [{path: '/', breadcrumb: 'Home'},{path: '/courses', breadcrumb: 'Courses'},{path: '/courses/html', breadcrumb: 'HTML'}];
+/*<Box id="title" ><Typography component='h1' variant='h1' className="" sx={{display: 'inline-block'}}>{pageDetails.label}</Typography><ChapterCompleted listOfLessons={allLessons} listofCompletedLessonsbySubject={listofCompletedLessonsbySubject}/></Box>
+            {"entity" in pageDetails && "type" in pageDetails.entity && pageDetails.entity.type == 'taxonomy_term' && <LessonsPerChapter chapters={listOfAllLessonPerChapter} listOfLessons={allLessons} listofCompletedLessonsbySubject={listofCompletedLessonsbySubject} />}*/
   return (
     <Main>
       <CenterBoxWithSidebar fullHeight={true}>
@@ -78,8 +86,7 @@ export default async function slug() {
         <NotAside addClassName="inverse" showBoxShadow={false}>
           <Box component='article'>
             <Breadcrumb pathname={pathname} />
-            <Box id="title" ><Typography component='h1' variant='h1' className="" sx={{display: 'inline-block'}}>{pageDetails.label}</Typography><ChapterCompleted listOfLessons={allLessons} listofCompletedLessonsbySubject={listofCompletedLessonsbySubject}/></Box>
-            {"entity" in pageDetails && "type" in pageDetails.entity && pageDetails.entity.type == 'taxonomy_term' && <LessonsPerChapter chapters={listOfAllLessonPerChapter} listOfLessons={allLessons} listofCompletedLessonsbySubject={listofCompletedLessonsbySubject} />}
+            test
           </Box>
         </NotAside>
       </CenterBoxWithSidebar>
