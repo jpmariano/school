@@ -75,7 +75,7 @@ const SortableTerms: React.FC<SortableTermsProps> = ({ terms, id }) => {
     };
 
     if (session) {
-        console.log('session', session);
+       // console.log('session', session);
      
         //return <p>Loading...</p>;
     }

@@ -4,7 +4,7 @@ import { NextAuthOptions } from 'next-auth';
 import { getServerSession } from "next-auth";
 import { NextApiRequest, NextApiResponse } from 'next';
 //import NextAuth  from "@/app/api/auth/[...nextauth]"; 
-import { PathDetails, lessonid, listOfLessons, node, userinfo,  AccountCredentials, AccountResetCredentials, verifyCredentials, tokenResponse, ErrorResponse, userLoginResponse, CustomSession } from '@/types';
+import { PathDetails, lessonid, listOfLessons, node, userinfo,  AccountCredentials, AccountResetCredentials, verifyCredentials, tokenResponse, ErrorResponse, userLoginResponse, CustomSession, CustomJWT, Token } from '@/types';
 import userData from '@/data/userLogin.json';
 
 export const jsonapi = '/jsonapi';
@@ -97,8 +97,8 @@ export const userLogin = async  (credentials: AccountCredentials): Promise<Respo
 	 formData.append("username", credentials.username);
 	 formData.append("password", credentials.password);
 	  // For debugging, you can log the FormData like this:
-	 // console.log('credentials', credentials);
-	  //console.log('formData', formData);
+	 //console.log('credentials', credentials);
+	 //console.log('formData', formData);
 	  try {
 		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/oauth/token?_format=json`, {
 		//const response = await fetch(`${BASE_URL}/oauth/token?_format=json`, {
@@ -132,20 +132,25 @@ export const getNewAccessToken = async  (refresh_token: string): Promise<Respons
 	}
 
 	 // Create a new FormData object
-	 const formData = new FormData();
+	 //const formData = new FormData();
+	 const formData = new URLSearchParams();
 	 formData.append("grant_type", "refresh_token");
 	 formData.append("client_id", client_id);
 	 formData.append("client_secret", client_secret);
-	 formData.append("refresh_token", refresh_token as string);
-	 //console.log('formData', formData);
-	 
+	 formData.append("refresh_token", refresh_token);
+
+	 console.log('formData', formData);
+	// console.log(process.env.NEXT_PUBLIC_API_URL);
 	  try {
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/oauth/token?_format=json`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/oauth/token`, {
 		  method: "POST",
+		  headers: {
+			"Content-Type": "application/x-www-form-urlencoded",
+		  },
 		  body: formData,
 		  redirect: "follow"
 		});
-	
+		console.log('getNewAccessToken-', response.status);
 		if (!response.ok) {
 		  throw new Error(`HTTP error! status: ${response.status}`);
 		}	
@@ -157,6 +162,57 @@ export const getNewAccessToken = async  (refresh_token: string): Promise<Respons
 			success: false,
 			message: error instanceof Error ? error.message : "Unknown error",
 			status: 500,
+		  };
+	  }
+}
+
+export const refreshAccessToken = async  (custom_token: CustomJWT): Promise<CustomJWT> =>  {
+
+	const client_id = process.env.CLIENT_ID;
+	const client_secret = process.env.NEXTAUTH_SECRET;
+ 
+	if (!client_id || !client_secret) {
+		throw new Error("Missing environment variables");
+	}
+
+	 // Create a new FormData object
+	 //const formData = new FormData();
+	 const formData = new URLSearchParams();
+	 formData.append("grant_type", "refresh_token");
+	 formData.append("client_id", client_id);
+	 formData.append("client_secret", client_secret);
+	 formData.append("refresh_token", custom_token.refresh_token!);
+
+	 console.log('formData***************', formData);
+	// console.log(process.env.NEXT_PUBLIC_API_URL);
+	  try {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/oauth/token`, {
+		  method: "POST",
+		  headers: {
+			"Content-Type": "application/x-www-form-urlencoded",
+		  },
+		  body: formData,
+		  redirect: "follow"
+		});
+		console.log('getNewAccessToken-', response.status);
+		if (!response.ok) {
+		  throw new Error(`HTTP error! status: ${response.status}`);
+		}	
+		
+		const token_data: Token = await response.json();
+		return {
+			...custom_token,
+			access_token: token_data.access_token,
+			refresh_token: token_data.refresh_token,
+			expires_in: token_data.expires_in,
+			issued_at: Date.now() / 1000,
+			refreshing: false // Reset the refreshing flag
+		  };
+		//return result;
+	  } catch (error) {
+		return {
+			...custom_token,
+			refreshing: false
 		  };
 	  }
 }
