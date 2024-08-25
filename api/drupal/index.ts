@@ -106,7 +106,7 @@ export const userLogin = async  (credentials: AccountCredentials): Promise<Respo
 		  body: formData,
 		  redirect: "follow"
 		});
-		console.log('response', response);
+		//console.log('response', response);
 		if (!response.ok) {
 		  throw new Error(`HTTP error! status: ${response.status}`);
 		}
@@ -148,8 +148,8 @@ export const getNewAccessToken = async  (refresh_token: string): Promise<Respons
 	
 		if (!response.ok) {
 		  throw new Error(`HTTP error! status: ${response.status}`);
-		}
-	
+		}	
+		
 		const result:Response = response;
 		return result;
 	  } catch (error) {

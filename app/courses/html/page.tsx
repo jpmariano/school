@@ -54,10 +54,10 @@ async function getPage(slug: string): Promise<PathDetails>{
 export default async function slug() {
   const headerList = headers();
   const pathname = headerList.get("x-current-path");
-  //console.log('pathname', pathname);
+  console.log('pathname', pathname);
   //const pageDetails: PathDetails = await getPage(pathname ? pathname : '/');
   const page_details_response: Response | ErrorResponse = await getPage(pathname ? pathname : '/');
-  //console.error('new_tokens page_details_response:', page_details_response);
+  console.log('new_tokens page_details_response:', page_details_response);
   if (!isFetchResponse(page_details_response)) {
      //notFound();
     //console.error('new_tokens_1 page_details_response:', page_details_response);

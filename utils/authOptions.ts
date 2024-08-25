@@ -91,18 +91,18 @@ export const authOptions: NextAuthOptions = {
 
       const now = Date.now() / 1000;
       const expirationTime = custom_token.issued_at! + custom_token.expires_in!;
-      
+      /*
       console.log(custom_token.issued_at)
       console.log(custom_token.expires_in)
       console.log('expirationTime', expirationTime)
       console.log('now', now)
-      console.log(now < expirationTime)
+      console.log(now < expirationTime) */
       if (now < expirationTime) {
         return custom_token;
       }
       const new_tokens: Response | ErrorResponse = await getNewAccessToken(custom_token.refresh_token!);
       if (!isFetchResponse(new_tokens)) {
-        //console.error('new_tokens failed:', new_tokens);
+        console.error('new_tokens failed:', new_tokens);
         //return custom_token;
         throw new Error("Refresh token failed");
       }
@@ -113,6 +113,8 @@ export const authOptions: NextAuthOptions = {
         throw new Error("drupalSessionResponse failed");
       }
       const drupal_session: string = await drupalSessionResponse.text();
+      console.log('new_tokens', new_tokens);
+      console.log('drupal_session', drupal_session);
       return {
         ...custom_token,
         drupal_session: drupal_session,

@@ -15,7 +15,7 @@ export default async function Page() {
   //const pageDetails: PathDetails = await getPage(pathname ? pathname : '/');
   const page_details_response: Response | ErrorResponse = await getPage(pathname ? pathname : '/');
     if (!isFetchResponse(page_details_response)) {
-      // notFound();
+      //notFound();
     }
   return (
     <Main>
