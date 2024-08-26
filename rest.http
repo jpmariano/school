@@ -255,8 +255,9 @@ Authorization: {{access_token}}
 
 
 ###
-GET http://[::1]:8084/api/v1/subject/completed/1/1?_format=json
-
+GET http://[::1]:8084/api/v1/subject/completed/3/1?_format=json
+Content-Type:: application/json
+Authorization: {{access_token}}
 
 ###
 GET http://[::1]:8084/api/v1/lesson/completed/1/1?_format=json

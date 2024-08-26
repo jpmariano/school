@@ -17,7 +17,7 @@ import LessonsPerChapter from '@/components/lessonsPerChapter'
 import Breadcrumb from '@/components/breadCrumb';
 import ChapterCompleted from '@/components/chapterCompleted';
 import { NextRequest } from "next/server";
-import { getListofCompletedLessonsbySubject, getListofLessonByTaxId, getPage, isFetchResponse } from '@/api/drupal';
+import { getListofCompletedLessonsbySubject, getListofLessonByTaxId, getNode, getPage, isFetchResponse } from '@/api/drupal';
 import { notFound } from 'next/navigation';
 import { authOptions } from '@/utils/authOptions'
 import { getServerSession } from 'next-auth'
@@ -57,33 +57,29 @@ async function getPage(slug: string): Promise<PathDetails>{
 
 export default async function slug() {
   const session: CustomSession = await getServerSession(authOptions) as CustomSession;
-  //console.log('html*****', session);
- if (!session) {
-   // signOut({ callbackUrl: '/login' });
- }
   const headerList = headers();
   const pathname = headerList.get("x-current-path");
-  console.log('pathname', pathname);
-  //const pageDetails: PathDetails = await getPage(pathname ? pathname : '/');
   const page_details_response: Response | ErrorResponse = await getPage(pathname ? pathname : '/');
-  //console.log('new_tokens page_details_response:', page_details_response);
+
+  
   //console.log('page_details_response', page_details_response);
   if (!isFetchResponse(page_details_response)) {
-     return <TokenExpiredMessage />;
+    if(page_details_response.status === 401){
+      return <TokenExpiredMessage />;
+    }
+    notFound();
   }
-  //const nodeLesson:node_lesson = pageDetails.entity.type == 'node' && await getNode(pageDetails.entity.uuid, 'lesson');
-  //const nodeLessonCompletion:lessonid = pageDetails.entity.type == 'node' && await getLessonCompletion(pageDetails.entity.uuid, pageDetails.entity.id);
-  //const nodeLessonInt = nodeLesson as node_lesson;
-  //let routes: breadcrumbPath[] = [{path: '/', breadcrumb: 'Home'}];
+  const pageDetails: PathDetails = await page_details_response.json();
+  
+    const allLessonsResponse: Response | ErrorResponse = await getListofLessonByTaxId(pageDetails.entity.id);
+    const allLessons: listOfLessons = isFetchResponse(allLessonsResponse) && await allLessonsResponse.json();
+    const listOfAllLessonPerChapter:string[] = allLessons.map((item: lesson, index) => { return item.field_subject_of_lesson}).filter((value, index, array) => array.indexOf(value) === index);  
+    const listofCompletedLessonsbySubjectResponse: Response | ErrorResponse = await getListofCompletedLessonsbySubject(session.user.userId, pageDetails.entity.id);
+    const listofCompletedLessonsbySubject: lessonid[] = isFetchResponse(listofCompletedLessonsbySubjectResponse) && await listofCompletedLessonsbySubjectResponse.json();
+ 
+  
   
 
-
- //const allLessons: listOfLessons = await getListofLessonByTaxId(pageDetails.entity.id);
- //const listOfAllLessonPerChapter:string[] = allLessons.map((item: lesson, index) => { return item.field_subject_of_lesson}).filter((value, index, array) => array.indexOf(value) === index);  
- //const listofCompletedLessonsbySubject: lessonid[] = await getListofCompletedLessonsbySubject('1', pageDetails.entity.id);
-/// const routes: breadcrumbPath[] = [{path: '/', breadcrumb: 'Home'},{path: '/courses', breadcrumb: 'Courses'},{path: '/courses/html', breadcrumb: 'HTML'}];
-/*<Box id="title" ><Typography component='h1' variant='h1' className="" sx={{display: 'inline-block'}}>{pageDetails.label}</Typography><ChapterCompleted listOfLessons={allLessons} listofCompletedLessonsbySubject={listofCompletedLessonsbySubject}/></Box>
-            {"entity" in pageDetails && "type" in pageDetails.entity && pageDetails.entity.type == 'taxonomy_term' && <LessonsPerChapter chapters={listOfAllLessonPerChapter} listOfLessons={allLessons} listofCompletedLessonsbySubject={listofCompletedLessonsbySubject} />}*/
   return (
     <Main>
       <CenterBoxWithSidebar fullHeight={true}>
@@ -93,7 +89,10 @@ export default async function slug() {
         <NotAside addClassName="inverse" showBoxShadow={false}>
           <Box component='article'>
             <Breadcrumb pathname={pathname} />
-            test
+            {pageDetails.entity.type === 'taxonomy_term' && <Box id="title" ><Typography component='h1' variant='h1' className="" sx={{display: 'inline-block'}}>{pageDetails.label}</Typography>
+            <ChapterCompleted listOfLessons={allLessons} listofCompletedLessonsbySubject={listofCompletedLessonsbySubject}/>
+            <LessonsPerChapter chapters={listOfAllLessonPerChapter} listOfLessons={allLessons} listofCompletedLessonsbySubject={listofCompletedLessonsbySubject} />
+            </Box>}
           </Box>
         </NotAside>
       </CenterBoxWithSidebar>

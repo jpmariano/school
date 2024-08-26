@@ -6,7 +6,8 @@ import NotAside from '@/components/layouts/notAside'
 import { notFound } from 'next/navigation';
 import { headers } from "next/headers";
 import { getPage, isFetchResponse } from '@/api/drupal';
-import { ErrorResponse } from '@/types';
+import { ErrorResponse, PathDetails } from '@/types';
+import TokenExpiredMessage from '@/components/tokenExpiredMessage';
 
 export default async function Page() {
   const headerList = headers();
@@ -14,9 +15,22 @@ export default async function Page() {
   //console.log('pathname', pathname);
   //const pageDetails: PathDetails = await getPage(pathname ? pathname : '/');
   const page_details_response: Response | ErrorResponse = await getPage(pathname ? pathname : '/');
+  
+  //console.log('page_details_response:', page_details_response);
+  //console.log('page_details_response', page_details_response);
+  if (!isFetchResponse(page_details_response)) {
+    if(page_details_response.status === 404){
+      notFound();
+    }
+     return <TokenExpiredMessage />;
+  }
+  const pageDetails: PathDetails = await page_details_response.json();
+
+  //console.log('page_details_response****', pageDetails); 
+ /* const page_details_response: Response | ErrorResponse = await getPage(pathname ? pathname : '/');
     if (!isFetchResponse(page_details_response)) {
       //notFound();
-    }
+    }*/
   return (
     <Main>
       <CenterBoxWithSidebar fullHeight={true}>

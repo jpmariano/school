@@ -34,7 +34,7 @@ export const userSignup = async  (credentials: AccountCredentials) : Promise<Res
 	  };
 	
 	  try {
-		const response = await fetch(`${BASE_URL}/rest/create-account?_format=json`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/rest/create-account?_format=json`, {
 		  method: "POST",
 		  headers: headers,
 		  body: JSON.stringify(data)
@@ -65,7 +65,7 @@ export const verifyUser = async  (credentials: verifyCredentials) : Promise<Resp
 	  };
 	
 	  try {
-		const response = await fetch(`${BASE_URL}/rest/verify-account?_format=json`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/rest/verify-account?_format=json`, {
 		  method: "POST",
 		  headers: headers,
 		  body: JSON.stringify(data)
@@ -109,7 +109,7 @@ export const userLogin = async  (credentials: AccountCredentials): Promise<Respo
 	 //console.log('formData', formData);
 	  try {
 		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/oauth/token?_format=json`, {
-		//const response = await fetch(`${BASE_URL}/oauth/token?_format=json`, {
+		//const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/oauth/token?_format=json`, {
 		  method: "POST",
 		  body: formData,
 		  redirect: "follow"
@@ -229,12 +229,12 @@ export const userLogout= async  () : Promise<Response | ErrorResponse> =>  {
 	const session = await getServerSession(authOptions) as CustomSession;
 	const headers = {
 		"Content-Type": "application/json",
-		"Authorization": `Bearer ${session.access_token}`
+		"Authorization": `Bearer ${session.user.access_token}`
 	  };
 
 	
 	  try {
-		const response = await fetch(`${BASE_URL}/oauth/revoke?_format=json`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/oauth/revoke?_format=json`, {
 		  method: "POST",
 		  headers: headers
 		});
@@ -311,14 +311,14 @@ export const resetPassword = async (emailAddress: string): Promise<Response | Er
 	const session = await getServerSession(authOptions) as CustomSession;
 	const headers = {
 		"Content-Type": "application/json",
-		"Authorization": `Bearer ${session.access_token}`
+		"Authorization": `Bearer ${session.user.access_token}`
 	};
 	const data = {
 		"mail": emailAddress
 	};
 
 	try {
-		const response = await fetch(`${BASE_URL}/user/lost-password?_format=json`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/lost-password?_format=json`, {
 			method: "POST",
 			headers: headers,
 			body: JSON.stringify(data)
@@ -345,7 +345,7 @@ export const passwordReset = async (accountresetcredentials: AccountResetCredent
 	};
 
 	try {
-		const response = await fetch(`${BASE_URL}/user/lost-password-reset?_format=json`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/lost-password-reset?_format=json`, {
 			method: "POST",
 			headers: headers,
 			body: JSON.stringify(accountresetcredentials)
@@ -469,10 +469,10 @@ export const getListofLessonByTaxId = async (taxid: string): Promise<Response | 
 	const session = await getServerSession(authOptions) as CustomSession;
 	const headers = {
 		"Content-Type": "application/json",
-		"Authorization": `Bearer ${session.access_token}`
+		"Authorization": `Bearer ${session.user.access_token}`
 	};
 	try {
-		const response = await fetch(`${BASE_URL}/api/v1/lesson/${taxid}?_format=json`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/lesson/${taxid}?_format=json`, {
 			method: "GET",
 			headers: headers,
 		});
@@ -481,9 +481,16 @@ export const getListofLessonByTaxId = async (taxid: string): Promise<Response | 
 			throw new Error(`HTTP error! status: ${response.status}`);
 		}
 
-		const result: Response = await response.json();
+		const result: Response = response;
 		return result;
 	} catch (error) {
+		if (error instanceof CustomError) {
+			return {
+				success: false,
+				message: error.message,
+				status: error.statusCode
+			};
+		}
 		return {
 			success: false,
 			message: error instanceof Error ? error.message : "Unknown error",
@@ -501,7 +508,7 @@ export const getListofCompletedLessonsbySubject = async (uid: string, taxid: str
 		"Authorization": `Bearer ${session.user.access_token}`
 	};
 	try {
-		const response = await fetch(`${BASE_URL}/api/v1/subject/completed/${uid}/${taxid}?_format=json`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/subject/completed/${uid}/${taxid}?_format=json`, {
 			method: "GET",
 			headers: headers,
 		});
@@ -510,9 +517,16 @@ export const getListofCompletedLessonsbySubject = async (uid: string, taxid: str
 			throw new Error(`HTTP error! status: ${response.status}`);
 		}
 
-		const result: Response = await response.json();
+		const result: Response = response;
 		return result;
 	} catch (error) {
+		if (error instanceof CustomError) {
+			return {
+				success: false,
+				message: error.message,
+				status: error.statusCode
+			};
+		}
 		return {
 			success: false,
 			message: error instanceof Error ? error.message : "Unknown error",
@@ -527,10 +541,10 @@ export const getLessonCompletion = async (uid: string, field_lesson_ref: string)
 	const session = await getServerSession(authOptions) as CustomSession;
 	const headers = {
 		"Content-Type": "application/json",
-		"Authorization": `Bearer ${session.access_token}`
+		"Authorization": `Bearer ${session.user.access_token}`
 	};
 	try {
-		const response = await fetch(`${BASE_URL}/api/v1/lesson/completed/${uid}/${field_lesson_ref}?_format=json`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/lesson/completed/${uid}/${field_lesson_ref}?_format=json`, {
 			method: "GET",
 			headers: headers,
 		});
@@ -539,12 +553,19 @@ export const getLessonCompletion = async (uid: string, field_lesson_ref: string)
 			throw new Error(`HTTP error! status: ${response.status}`);
 		}
 
-		const result: Response = await response.json();
+		const result: Response = response;
 		return result;
 	} catch (error) {
+		if (error instanceof CustomError) {
+			return {
+				success: false,
+				message: error.message,
+				status: error.statusCode
+			};
+		}
 		return {
 			success: false,
-			message: error instanceof Error ? error.message : "Unknown error",
+			message: error instanceof Error ? error.message : "getLessonCompletion error",
 			status: 500
 		};
 	}
@@ -555,7 +576,7 @@ export const getNode = async (uuid = '', bundle = ''): Promise<Response | ErrorR
 	const session = await getServerSession(authOptions) as CustomSession;
 	const headers = {
 		"Content-Type": "application/json",
-		"Authorization": `Bearer ${session.access_token}`
+		"Authorization": `Bearer ${session.user.access_token}`
 	};
 	let params: string = ``;
 	switch (bundle) {
@@ -568,7 +589,7 @@ export const getNode = async (uuid = '', bundle = ''): Promise<Response | ErrorR
 		}
 	}
 	try {
-		const response = await fetch(`${BASE_URL}/jsonapi/node/${bundle}/${uuid}?${params}`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/jsonapi/node/${bundle}/${uuid}?${params}`, {
 			method: "GET",
 			headers: headers,
 		});
@@ -577,9 +598,16 @@ export const getNode = async (uuid = '', bundle = ''): Promise<Response | ErrorR
 			throw new Error(`HTTP error! status: ${response.status}`);
 		}
 
-		const result: Response = await response.json();
+		const result: Response = response;
 		return result;
 	} catch (error) {
+		if (error instanceof CustomError) {
+			return {
+				success: false,
+				message: error.message,
+				status: error.statusCode
+			};
+		}
 		return {
 			success: false,
 			message: error instanceof Error ? error.message : "Unknown error",
@@ -592,10 +620,10 @@ export const getTaxonomyTerm = async (uuid: string): Promise<Response | ErrorRes
 	const session = await getServerSession(authOptions) as CustomSession;
 	const headers = {
 		"Content-Type": "application/json",
-		"Authorization": `Bearer ${session.access_token}`
+		"Authorization": `Bearer ${session.user.access_token}`
 	};
 	try {
-		const response = await fetch(`${BASE_URL}/jsonapi/taxonomy_term/subject/${uuid}`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/jsonapi/taxonomy_term/subject/${uuid}`, {
 			method: "GET",
 			headers: headers,
 		});
@@ -619,10 +647,10 @@ export const getTaxonomyTerm = async (uuid: string): Promise<Response | ErrorRes
 	const session = await getServerSession(authOptions) as CustomSession;
 	const headers = {
 		"Content-Type": "application/json",
-		"Authorization": `Bearer ${session.access_token}`
+		"Authorization": `Bearer ${session.user.access_token}`
 	};
 	try {
-		const response = await fetch(`${BASE_URL}/paragraph/${paragraphType}/${paragraphId}`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/paragraph/${paragraphType}/${paragraphId}`, {
 			method: "GET",
 			headers: headers,
 		});

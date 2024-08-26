@@ -7,11 +7,15 @@ import FullWidthBox from '@/components/layouts/fullWidth'
 import FullPageTemplate from '@/components/layouts/fullPageTemplate'
 import CenterBox from '@/components/layouts/centerBox'
 import LinkColor from '@/components/linkColor'
-import { signOut } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
+import customSignOut from '@/components/customSignOut';
  
 export default function TokenExpiredMessage() {
-    const handleSignOut = () => {
-        signOut({ callbackUrl: '/login' });
+  const { data: session } = useSession();
+    const handleSignOut = async () => {
+      const accessToken = session?.user.access_token as string | undefined;
+        await customSignOut(accessToken);
+        //signOut({ callbackUrl: '/login' });
       };
 
   return (
