@@ -2,7 +2,7 @@
 "use client";
 import React, { useEffect } from 'react';
 import { signOut, useSession } from 'next-auth/react';
-import { redirect } from 'next/navigation'
+import { redirect } from 'next/navigation';
 import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
 import LinearLoading from '@/components/layouts/linearLoading';
