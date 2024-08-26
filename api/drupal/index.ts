@@ -435,7 +435,23 @@ export const getPage = async (slug: string): Promise<Response | ErrorResponse> =
 		};
 	}
 };
-
+export const revokeToken = async (accessToken: string): Promise<void> =>  {
+	try {
+	  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/oauth/revoke`, {
+		method: 'POST',
+		headers: {
+		  'Content-Type': 'application/json',
+		  Authorization: `Bearer ${accessToken}`,
+		}
+	  });
+  
+	  if (!response.ok) {
+		console.error('Failed to revoke token:', await response.text());
+	  }
+	} catch (error) {
+	  console.error('Error revoking token:', error);
+	}
+  }
 
 //listOfLessons
 export const getListofLessonByTaxId = async (taxid: string): Promise<Response | ErrorResponse> => {

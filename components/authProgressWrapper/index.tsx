@@ -6,7 +6,8 @@ import { redirect } from 'next/navigation'
 import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
 import LinearLoading from '@/components/layouts/linearLoading';
-import useInactivityLogout from '../useInactivityLogout';
+import useInactivityLogout from '@/components/useInactivityLogout';
+import CustomSignOut from '@/components/customSignOut';
 
 interface AuthProgressWrapperProps {
   children: React.ReactNode;
@@ -15,12 +16,15 @@ interface AuthProgressWrapperProps {
 const AuthProgressWrapper: React.FC<AuthProgressWrapperProps> = ({ children }) => {
   // Get session and status from useSession hook
   const { data: session, status } = useSession();
+  console.log('session-access-token', session?.user.access_token);
   useInactivityLogout(3600 * 1000); 
+  //useInactivityLogout(60 * 1000); 
   useEffect(() => {
     // If the user is not authenticated, redirect to the /login page
  
     if (status === 'unauthenticated') {
-      signOut({ callbackUrl: '/login' });
+      //signOut({ callbackUrl: '/login' });
+      CustomSignOut();  // Use customSignOut instead of signOut
     }
   }, [status]);
 
