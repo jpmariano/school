@@ -21,12 +21,12 @@ const AuthProgressWrapper: React.FC<AuthProgressWrapperProps> = ({ children }) =
   //useInactivityLogout(60 * 1000); 
   useEffect(() => {
     // If the user is not authenticated, redirect to the /login page
- 
     if (status === 'unauthenticated') {
-      //signOut({ callbackUrl: '/login' });
-      CustomSignOut();  // Use customSignOut instead of signOut
+      signOut({ callbackUrl: '/login' });
+      //CustomSignOut();  // Use customSignOut instead of signOut
     }
   }, [status]);
+
 
   useEffect(() => {
     if (typeof window !== "undefined") {
