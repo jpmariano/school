@@ -15,6 +15,14 @@ export function isFetchResponse(response: Response | ErrorResponse): response is
 	return response.status === 200;
 }
 
+class CustomError extends Error {
+	public statusCode: number;
+	constructor(message: string, statusCode: number) {
+		super(message);
+		this.statusCode = statusCode;
+	}
+}
+
 //Step 1: user signup - server sends an email
 export const userSignup = async  (credentials: AccountCredentials) : Promise<Response | ErrorResponse> =>  {
 	const headers = {
@@ -139,7 +147,7 @@ export const getNewAccessToken = async  (refresh_token: string): Promise<Respons
 	 formData.append("client_secret", client_secret);
 	 formData.append("refresh_token", refresh_token);
 
-	 console.log('formData', formData);
+	 //console.log('formData', formData);
 	// console.log(process.env.NEXT_PUBLIC_API_URL);
 	  try {
 		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/oauth/token`, {
@@ -150,7 +158,7 @@ export const getNewAccessToken = async  (refresh_token: string): Promise<Respons
 		  body: formData,
 		  redirect: "follow"
 		});
-		console.log('getNewAccessToken-', response.status);
+		//console.log('getNewAccessToken-', response.status);
 		if (!response.ok) {
 		  throw new Error(`HTTP error! status: ${response.status}`);
 		}	
@@ -359,42 +367,75 @@ export const passwordReset = async (accountresetcredentials: AccountResetCredent
 };
   
 export const getPage = async (slug: string): Promise<Response | ErrorResponse> => {
-    
 	const session: CustomSession = await getServerSession(authOptions) as CustomSession;
-	//console.log('session', isFetchResponse(session));
+	console.log('session-getpage*******', session);
+
 	if (!session) {
-	  //console.error('Login failed:');
 	  return {
 		success: false,
-		message: " No session Unknown error",
+		message: "No session - Unknown error",
 		status: 500
-	  }
+	  };
 	}
+
 	const headers = {
 		"Content-Type": "application/json",
 		"Authorization": `Bearer ${session.user.access_token}`
 	};
 
 	try {
-		const response = await fetch(`${BASE_URL}/router/translate-path?path=${slug}`, {
+		let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/router/translate-path?path=${slug}`, {
 			method: "GET",
 			headers: headers,
 		});
 
+		// Check if the token is invalid or expired and if so, attempt to refresh
+		if (response.status === 401 || response.status === 403) {
+			console.log('Token expired, attempting to refresh...');
+			const refreshedSession: CustomSession = await getServerSession(authOptions) as CustomSession;
+
+			if (!refreshedSession) {
+				return {
+					success: false,
+					message: "Failed to refresh session - Unknown error",
+					status: 500
+				};
+			}
+
+			const refreshedHeaders = {
+				"Content-Type": "application/json",
+				"Authorization": `Bearer ${refreshedSession.user.access_token}`
+			};
+
+			// Retry the request with the new token
+			response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/router/translate-path?path=${slug}`, {
+				method: "GET",
+				headers: refreshedHeaders,
+			});
+		}
+
 		if (!response.ok) {
-			throw new Error(`HTTP error! status: ${response.status}`);
+			throw new CustomError(`HTTP error! status: ${response.status}`, response.status);
 		}
 
 		const result: Response = response;
 		return result;
 	} catch (error) {
+		if (error instanceof CustomError) {
+			return {
+				success: false,
+				message: error.message,
+				status: error.statusCode
+			};
+		}
 		return {
 			success: false,
 			message: error instanceof Error ? error.message : "Unknown error",
 			status: 500
 		};
 	}
-}
+};
+
 
 //listOfLessons
 export const getListofLessonByTaxId = async (taxid: string): Promise<Response | ErrorResponse> => {

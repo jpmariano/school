@@ -9,7 +9,7 @@ import { headers } from "next/headers";
 import { BASE_URL } from '@/api/config';
 import { Box, List, ListItem, ListItemText, Typography } from '@mui/material'
 import Link from 'next/link'
-import {breadcrumbPath, lesson, listOfLessons, PathDetails, lessonid, node, ErrorResponse} from '@/types'
+import {breadcrumbPath, lesson, listOfLessons, PathDetails, lessonid, node, ErrorResponse, CustomSession} from '@/types'
 import BodyContent from '@/components/bodyContent'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CircleIcon from '@mui/icons-material/Circle';
@@ -19,6 +19,10 @@ import ChapterCompleted from '@/components/chapterCompleted';
 import { NextRequest } from "next/server";
 import { getListofCompletedLessonsbySubject, getListofLessonByTaxId, getPage, isFetchResponse } from '@/api/drupal';
 import { notFound } from 'next/navigation';
+import { authOptions } from '@/utils/authOptions'
+import { getServerSession } from 'next-auth'
+import { signOut } from 'next-auth/react'
+import TokenExpiredMessage from '@/components/tokenExpiredMessage'
 //import stripJsonComments from 'strip-json-comments'
 //import { getPage } from '@/api/drupal';
 
@@ -52,17 +56,20 @@ async function getPage(slug: string): Promise<PathDetails>{
 
 
 export default async function slug() {
+  const session: CustomSession = await getServerSession(authOptions) as CustomSession;
+  //console.log('html*****', session);
+ if (!session) {
+   // signOut({ callbackUrl: '/login' });
+ }
   const headerList = headers();
   const pathname = headerList.get("x-current-path");
   console.log('pathname', pathname);
   //const pageDetails: PathDetails = await getPage(pathname ? pathname : '/');
   const page_details_response: Response | ErrorResponse = await getPage(pathname ? pathname : '/');
-  console.log('new_tokens page_details_response:', page_details_response);
+  //console.log('new_tokens page_details_response:', page_details_response);
+  //console.log('page_details_response', page_details_response);
   if (!isFetchResponse(page_details_response)) {
-     //notFound();
-    //console.error('new_tokens_1 page_details_response:', page_details_response);
-    //return custom_token;
-    //throw new Error("Refresh token failed");
+     return <TokenExpiredMessage />;
   }
   //const nodeLesson:node_lesson = pageDetails.entity.type == 'node' && await getNode(pageDetails.entity.uuid, 'lesson');
   //const nodeLessonCompletion:lessonid = pageDetails.entity.type == 'node' && await getLessonCompletion(pageDetails.entity.uuid, pageDetails.entity.id);

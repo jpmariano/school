@@ -1,11 +1,12 @@
 // Import necessary modules
 "use client";
 import React, { useEffect } from 'react';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation'
 import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
 import LinearLoading from '@/components/layouts/linearLoading';
+import useInactivityLogout from '../useInactivityLogout';
 
 interface AuthProgressWrapperProps {
   children: React.ReactNode;
@@ -14,11 +15,12 @@ interface AuthProgressWrapperProps {
 const AuthProgressWrapper: React.FC<AuthProgressWrapperProps> = ({ children }) => {
   // Get session and status from useSession hook
   const { data: session, status } = useSession();
-
+  useInactivityLogout(3600 * 1000); 
   useEffect(() => {
     // If the user is not authenticated, redirect to the /login page
+ 
     if (status === 'unauthenticated') {
-      redirect(`/login`);
+      signOut({ callbackUrl: '/login' });
     }
   }, [status]);
 

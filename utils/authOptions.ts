@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import {getNewAccessToken, getSessionToken, getUserInfo, isFetchResponse, userLogin} from '@/api/drupal';
 import { CustomJWT, CustomSession, CustomUser, ErrorResponse, Token, tokenResponse, userinfo } from "@/types";
 import userData from '@/data/userLogin.json';
+import { signOut } from "next-auth/react";
 
 let isRefreshing = false;
 let refreshTokenPromise: Promise<CustomJWT>;
@@ -95,11 +96,10 @@ export const authOptions: NextAuthOptions = {
       const expirationTime = custom_token.issued_at! + custom_token.expires_in!;
       //const expirationTime = custom_token.issued_at! + 120;
 
-      if (now < expirationTime - 900) {
+      if (now < expirationTime - 90) {
         return custom_token;
       }
       if (!isRefreshing) {
-        console.log('refreshing*************')
         isRefreshing = true;
         refreshTokenPromise = getNewAccessToken(custom_token.refresh_token!)
           .then(async (new_tokens) => {
@@ -130,11 +130,13 @@ export const authOptions: NextAuthOptions = {
           .catch((error) => {
             console.error('Error refreshing token:', error);
             isRefreshing = false;
+            signOut({ callbackUrl: '/login' });
             return custom_token;  // Return the existing token if refresh fails
           });
       }
 
       // Wait for the refreshTokenPromise to resolve if refresh is already in progress
+    
       return refreshTokenPromise ?? custom_token;
      
     },
@@ -161,7 +163,7 @@ export const authOptions: NextAuthOptions = {
   session: {
     // Set to jwt in order to CredentialsProvider works properly
     strategy: 'jwt',
-    maxAge: 3600,  // Session expires in 1 hour (3600 seconds)
+    maxAge: 14400,  // Session expires in 1 hour (3600 seconds)
   },
   secret: process.env.NEXTAUTH_SECRET, // TODO: Define env variables https://next-auth.js.org/configuration/options
   /*
