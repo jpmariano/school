@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef } from 'react';
 import { signOut, useSession } from 'next-auth/react';
-import CustomSignOut from '@/components/customSignOut';
+import customSignOut from '@/components/customSignOut';
 import { revokeToken } from '@/api/drupal';
 
 const useInactivityLogout = (timeout: number) => {
@@ -18,9 +18,12 @@ const useInactivityLogout = (timeout: number) => {
 
     timer.current = setTimeout(async () => {
       if (session?.user?.access_token) {
-        await revokeToken(session.user.access_token);
+        customSignOut(session.user.access_token);
+        //await revokeToken(session.user.access_token);
+      } else {
+        signOut({ callbackUrl: '/login' });
       }
-      signOut({ callbackUrl: '/login' });
+      //signOut({ callbackUrl: '/login' });
       //CustomSignOut();  // Use customSignOut instead of signOut
     }, timeout);
   };

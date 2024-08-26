@@ -14,17 +14,18 @@ interface AuthProgressWrapperProps {
   children: React.ReactNode;
 }
 
-const AuthProgressWrapper: React.FC<AuthProgressWrapperProps> = ({ children }) => {
+const LoginPageWrapper: React.FC<AuthProgressWrapperProps> = ({ children }) => {
   // Get session and status from useSession hook
+  
   const { data: session, status } = useSession();
   //console.log('session-access-token', session?.user.access_token);
-  useInactivityLogout(3600 * 1000); 
+  
   //useInactivityLogout(60 * 1000); 
   useEffect(() => {
     // If the user is not authenticated, redirect to the /login page
-    if (status === 'unauthenticated') {
-      signOut({ callbackUrl: '/login' });
-      //customSignOut();
+    if (status === 'authenticated') {
+        //router.push('/test');
+        redirect('/test?redirect=true');
     }
   }, [status]);
 
@@ -41,12 +42,12 @@ const AuthProgressWrapper: React.FC<AuthProgressWrapperProps> = ({ children }) =
     return  <LinearLoading />; // You can customize this loading state
   }
 
-  if (status === 'authenticated') {
-    return <>{children}</>; // Render children only if authenticated
+  if (status === 'unauthenticated') {
+    return <>{children}</>; 
   }
 
   // Optionally, handle other cases if needed (e.g., an error state)
   return <LinearLoading />;
 };
 
-export default AuthProgressWrapper;
+export default LoginPageWrapper;

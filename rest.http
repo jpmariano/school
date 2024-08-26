@@ -286,7 +286,7 @@ Authorization: Bearer {{access_token}}
 ###
 POST http://[::1]:8084/oauth/revoke HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer {{access_token}}
+Authorization: {{access_token}}
 ###
 GET http://[::1]:8084/oauth/debug?_format=json HTTP/1.1
 Host: dev-webuppsschool.pantheonsite.io

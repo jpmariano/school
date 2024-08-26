@@ -436,20 +436,31 @@ export const getPage = async (slug: string): Promise<Response | ErrorResponse> =
 	}
 };
 export const revokeToken = async (accessToken: string): Promise<void> =>  {
+	if (!accessToken) {
+		console.error('No access token provided for revocation');
+	}
+
+	const headers = {
+		"Content-Type": "application/json",
+		"Authorization": `Bearer ${accessToken}`
+	};
+
+
 	try {
 	  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/oauth/revoke`, {
 		method: 'POST',
-		headers: {
-		  'Content-Type': 'application/json',
-		  Authorization: `Bearer ${accessToken}`,
-		}
-	  });
+		headers: headers });
   
 	  if (!response.ok) {
 		console.error('Failed to revoke token:', await response.text());
 	  }
 	} catch (error) {
-	  console.error('Error revoking token:', error);
+		if (error instanceof CustomError) {
+			console.log('Error revoking token:', error.statusCode);
+		} else {
+			console.error('Error revoking token:', error);
+		}
+	  
 	}
   }
 
