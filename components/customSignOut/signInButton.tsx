@@ -5,13 +5,14 @@ import { useSession } from 'next-auth/react';
 import customSignOut from '.';
 import { Button, useTheme } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 const SignInButton = () => {
     
-
+    const router = useRouter();
     const handleSignIn = async () => {
-        redirect('/login');
+        //redirect('/login');
+        router.push('/login')
     };
 
     const theme = useTheme();
