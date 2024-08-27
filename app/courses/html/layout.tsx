@@ -1,4 +1,5 @@
 
+import LayoutContainer from '@/components/layouts/layoutContainer';
 import type { Metadata } from 'next'
 export const metadata: Metadata = {
     title: 'HTML',
@@ -11,9 +12,9 @@ interface FullPageLayoutProps {
   
 const FullPageLayout: React.FC<FullPageLayoutProps> = ({ children }) => {
     return (
-        <section id="fullpage">
+       <LayoutContainer>
           {children}
-        </section>
+        </LayoutContainer>
       )
 };
 export default FullPageLayout;

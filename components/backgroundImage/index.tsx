@@ -7,7 +7,7 @@ import Image from 'next/image'
 
 const BackgroundImage: React.FC = () => {
 //const BodyContent = (value: string) => {
-  return <Box component="div" className={styles.backgroundContainer}>
+  return <Box component="div" className={styles.backgroundContainer} sx={{}}>
     <Image
       src="/logo_webupps_gray_transparent.svg"
       width={500}

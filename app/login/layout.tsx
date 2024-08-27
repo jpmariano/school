@@ -1,4 +1,5 @@
 
+import LayoutContainer from '@/components/layouts/layoutContainer';
 import { Height } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import type { Metadata } from 'next'
@@ -13,9 +14,9 @@ interface FullPageLayoutProps {
   
 const FullPageLayout: React.FC<FullPageLayoutProps> = ({ children }) => {
     return (
-        <Box id="fullpage"  sx={{ height: '100%'}}>
+      <LayoutContainer>
           {children}
-        </Box>
+      </LayoutContainer>
       )
 };
 export default FullPageLayout;

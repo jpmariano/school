@@ -15,6 +15,8 @@ import { headers } from 'next/headers';
 import { useRouter } from 'next/router';
 import { useSearchParams } from 'next/navigation';
 import { usePathname } from 'next/navigation';
+import styles from "@/styles/components/header/index.module.scss";
+
 /*
 export const getStaticProps: GetStaticProps = async () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -52,7 +54,7 @@ const Header: React.FC = () => {
     
    
   return ( 
-   <Box component="header" px={2} sx={{display: "flex", justifyContent: 'space-between', background: "#1d2c55", color: "#ffffff"}} >
+   <Box component="header" px={2} className={styles.header} >
         <Box  sx={{position: "relative"}}>
             <AsideNavIcon toggleId={1}/>
             <Logo /> 

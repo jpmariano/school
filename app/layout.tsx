@@ -17,6 +17,7 @@ import { SessionProvider } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from '@/utils/authOptions';
 import SessionProviderWrapper from '@/components/sessionProviderWrapper';
+import LayoutContainer from '@/components/layouts/layoutContainer';
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -50,10 +51,12 @@ export default async function RootLayout({
             
             <ThemeProviders>
             <Header/>
+            <LayoutContainer>
               {children}
               <TemporaryDrawer>
                 <MainVerticalNavigation />
               </TemporaryDrawer>
+              </LayoutContainer>
             </ThemeProviders>
           </SessionProviderWrapper>
         </StyledEngineProvider>

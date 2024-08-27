@@ -21,7 +21,6 @@ export default function Home() {
     <Main>
         <Divider sx={{border: 'none', height: '100px'}}/>
         <LoginForm></LoginForm>
-        <BackgroundImage />
     </Main>
     </LoginPageWrapper>
   )
