@@ -23,6 +23,8 @@ import TokenExpiredMessage from '@/components/tokenExpiredMessage'
 import { notFound } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/utils/authOptions'
+import { GetNodePage } from '@/utils/getNodePage'
+import CustomError from '@/utils/CustomError'
 
 //import stripJsonComments from 'strip-json-comments'
 //import { getPage } from '@/api/drupal';
@@ -32,42 +34,34 @@ import { authOptions } from '@/utils/authOptions'
 
 
 export async function generateMetadata(): Promise<Metadata> {
-  const headerList = headers();
-  const pathname = headerList.get("x-current-path");
-  const pathSegments = pathname && pathname.split("/").filter((segment) => segment !== ""); // Split pathname into segments and remove empty segments
-  const titleSegments = pathSegments && pathSegments.map(
-    (segment) => segment.charAt(0).toUpperCase() + segment.slice(1) // Capitalize the first letter of each segment
-  );
-  const lastIteminTitleSegments = titleSegments && titleSegments.pop();
+  try {
+    const { pageDetails, node } = await GetNodePage();
+    
+    const title = `${pageDetails.label} | Webupps`;
+    const description = node ? node.data.attributes.body.value : pageDetails.label; // Adjust the description based on your data
+    
+    return { title, description };
+  } catch (error) {
+    if (error instanceof CustomError) {
+			if (error.message === '401') {
+        return {
+          title: 'Page Not Found | Webupps',
+          description: 'Page Not Found',
+        };
+      }
+		}
+    return {
+      title: 'Webupps',
+      description: 'Page Error',
+    };
+  }
   
- 
-  //const title = titleSegments.join(" › "); // Join segments with a separator
-  const title = `${lastIteminTitleSegments} | Webupps`;
-  const description = 'lorem';
-  return { title, description };
-}  // Example: "/home/profile" turns to "Home › Profile"
+}  
 
 
 
 export default async function slug({ params }: { params: { slug: string } }) {
-  const headerList = headers();
-  const pathname = headerList.get("x-current-path");
-  const page_details_response: Response | ErrorResponse = await getPage(pathname ? pathname : '/');
-  const session: CustomSession = await getServerSession(authOptions) as CustomSession;
-  if (!isFetchResponse(page_details_response)) {
-    if(page_details_response.status === 401){
-      return <TokenExpiredMessage />;
-    }
-    notFound();
-  }
-  const pageDetails: PathDetails = await page_details_response.json();
-  console.log('pageDetails: ************', pageDetails);
-  //let node: node | null = null;
-  const nodeResponse: Response | ErrorResponse =  await getNode(pageDetails.entity.uuid, 'lesson');
-
-  const node: node | null = isFetchResponse(nodeResponse) && await nodeResponse.json();
-  const nodeLessonCompletionResponse: Response | ErrorResponse  =  await getLessonCompletion(session.user.userId, pageDetails.entity.id);
-  const nodeLessonCompletion:lessonid[] | [] =  isFetchResponse(nodeLessonCompletionResponse) && await nodeLessonCompletionResponse.json();
+  const { pageDetails, node, nodeLessonCompletion, pathname} = await GetNodePage();
   const paragraphType: keyof Relationships | null =  node ? Object.keys(node.data.relationships).filter((s) => s.indexOf('paragraph') !== -1)[0] as keyof Relationships : null;
   const hasComponents = paragraphType !== null;
   const content = node && hasComponents && (

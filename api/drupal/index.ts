@@ -6,6 +6,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 //import NextAuth  from "@/app/api/auth/[...nextauth]"; 
 import { PathDetails, lessonid, listOfLessons, node, userinfo,  AccountCredentials, AccountResetCredentials, verifyCredentials, tokenResponse, ErrorResponse, userLoginResponse, CustomSession, CustomJWT, Token } from '@/types';
 import userData from '@/data/userLogin.json';
+import CustomError from '@/utils/CustomError';
 
 export const jsonapi = '/jsonapi';
 export const router = '/router';
@@ -15,13 +16,7 @@ export function isFetchResponse(response: Response | ErrorResponse): response is
 	return response.status === 200;
 }
 
-class CustomError extends Error {
-	public statusCode: number;
-	constructor(message: string, statusCode: number) {
-		super(message);
-		this.statusCode = statusCode;
-	}
-}
+
 
 //Step 1: user signup - server sends an email
 export const userSignup = async  (credentials: AccountCredentials) : Promise<Response | ErrorResponse> =>  {
