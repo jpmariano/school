@@ -90,7 +90,6 @@ export default async function page(params) {
                 <Box component='article'>
                   <Breadcrumb pathname={pathname} />
                   <Box id="title"><Typography component='h1' variant='h1' className="" sx={{ display: 'inline-block' }}>{pageDetails.label}</Typography><LessonCompleted nodeLessonCompletion={nodeLessonCompletion} /></Box>
-                  {"entity" in pageDetails && "type" in pageDetails.entity && pageDetails.entity.type == 'node' && node && <BodyContent value={node.data.attributes.body.value} />}
                   {content}
                 </Box>
               </NotAside>
