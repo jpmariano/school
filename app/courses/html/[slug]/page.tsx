@@ -9,7 +9,7 @@ import { headers } from "next/headers";
 import { BASE_URL } from '@/api/config';
 import { Box, List, ListItem, ListItemText, Typography } from '@mui/material'
 import Link from 'next/link'
-import {breadcrumbPath, lesson, listOfLessons, node, lessonid, Relationships, PathDetails, Data, ErrorResponse, CustomSession} from '@/types'
+import {breadcrumbPath, lesson, listOfLessons, node, lessonid, Relationships, PathDetails, Data, ErrorResponse, CustomSession, GetNodeResponse} from '@/types'
 import BodyContent from '@/components/bodyContent'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CircleIcon from '@mui/icons-material/Circle';
@@ -26,72 +26,90 @@ import { authOptions } from '@/utils/authOptions'
 import { GetNodePage } from '@/utils/getNodePage'
 import CustomError from '@/utils/CustomError'
 
-//import stripJsonComments from 'strip-json-comments'
-//import { getPage } from '@/api/drupal';
 
 
-
-
+let  data: GetNodeResponse | ErrorResponse;
 
 export async function generateMetadata(): Promise<Metadata> {
-  try {
-    const { pageDetails, node } = await GetNodePage();
-    
-    const title = `${pageDetails.label} | Webupps`;
-    const description = node ? node.data.attributes.body.value : pageDetails.label; // Adjust the description based on your data
-    
-    return { title, description };
-  } catch (error) {
-    if (error instanceof CustomError) {
-			if (error.message === '401') {
-        return {
-          title: 'Page Not Found | Webupps',
-          description: 'Page Not Found',
-        };
-      }
-		}
-    return {
-      title: 'Webupps',
-      description: 'Page Error',
-    };
+
+  //const data: GetNodeResponse | ErrorResponse = await GetNodePage();
+  //data =  = await GetNodePage();
+  if(data !== undefined){
+    if(!("status" in data)){
+      const { pageDetails, node } = data;
+      return {
+        title: pageDetails.label,
+        description: node ? node.data.attributes.body.value : 'Learn by coding',
+      };
+    }
   }
+     
+
+  return {
+    title: 'Webupps',
+    description: 'Lean by coding',
+  };
   
-}  
+ 
+} 
 
 
-
-export default async function slug({ params }: { params: { slug: string } }) {
-  const { pageDetails, node, nodeLessonCompletion, pathname} = await GetNodePage();
-  const paragraphType: keyof Relationships | null =  node ? Object.keys(node.data.relationships).filter((s) => s.indexOf('paragraph') !== -1)[0] as keyof Relationships : null;
-  const hasComponents = paragraphType !== null;
-  const content = node && hasComponents && (
-		<Slices
-			data={paragraphType ? node.data.relationships?.[paragraphType ? paragraphType : "field_paragraph_lesson"] : null}
-			included={node.included}
-			nodetype={node.data.type}
-		/>
-	);
+export default async function page(params) {
+  console.log('params-------', params);
   
-  /*
-  <Breadcrumb pathname={pathname} />
-            <Box id="title" ><Typography component='h1' variant='h1' className="" sx={{display: 'inline-block'}}>{pageDetails.label}</Typography><LessonCompleted nodeLessonCompletion={nodeLessonCompletion} /></Box>
-            {"entity" in pageDetails && "type" in pageDetails.entity &&  pageDetails.entity.type == 'node' && <BodyContent value={node.data.attributes.body.value} />}
-            {content}*/
-  return (
-    <Main>
-      <CenterBoxWithSidebar fullHeight={true}>
-        <Aside hideOnMobile={true} showBoxShadow={false} toggleSidebar={true}>
-            <MainVerticalNavigation />
-        </Aside>
-        <NotAside addClassName="inverse" showBoxShadow={false}>
-          <Box component='article'>
-          <Breadcrumb pathname={pathname} />
-            <Box id="title" ><Typography component='h1' variant='h1' className="" sx={{display: 'inline-block'}}>{pageDetails.label}</Typography><LessonCompleted nodeLessonCompletion={nodeLessonCompletion} /></Box>
-            {"entity" in pageDetails && "type" in pageDetails.entity &&  pageDetails.entity.type == 'node' && node && <BodyContent value={node.data.attributes.body.value} />}
-            {content}
-          </Box>
-        </NotAside>
-      </CenterBoxWithSidebar>
-    </Main>
-  )
+  try {
+    data = await GetNodePage();
+    //const data = await GetNodePage();
+    if("status" in data){
+    
+      if (data.status === 401) {
+        throw new Error('401');
+      }
+      notFound();
+    } else {
+      const { pageDetails, node, nodeLessonCompletion, pathname} = data;
+      const title = `${pageDetails.label} | Webupps`;
+      const description = node ? node.data.attributes.body.value : pageDetails.label; // Adjust the description based on your data
+      const paragraphType: keyof Relationships | null =  node ? Object.keys(node.data.relationships).filter((s) => s.indexOf('paragraph') !== -1)[0] as keyof Relationships : null;
+      const hasComponents = paragraphType !== null;
+      const content = node && hasComponents && (
+        <Slices
+          data={paragraphType ? node.data.relationships?.[paragraphType ? paragraphType : "field_paragraph_lesson"] : null}
+          included={node.included}
+          nodetype={node.data.type}
+        />
+      );
+     
+      return (
+          <Main>
+            <CenterBoxWithSidebar fullHeight={true}>
+              <Aside hideOnMobile={true} showBoxShadow={false} toggleSidebar={true}>
+                <MainVerticalNavigation />
+              </Aside>
+              <NotAside addClassName="inverse" showBoxShadow={false}>
+                <Box component='article'>
+                  <Breadcrumb pathname={pathname} />
+                  <Box id="title"><Typography component='h1' variant='h1' className="" sx={{ display: 'inline-block' }}>{pageDetails.label}</Typography><LessonCompleted nodeLessonCompletion={nodeLessonCompletion} /></Box>
+                  {"entity" in pageDetails && "type" in pageDetails.entity && pageDetails.entity.type == 'node' && node && <BodyContent value={node.data.attributes.body.value} />}
+                  {content}
+                </Box>
+              </NotAside>
+            </CenterBoxWithSidebar>
+          </Main>
+      )
+    }
+    
+
+      
+      
+   } catch (error) {
+     if (error instanceof CustomError) {
+       if (error.statusCode === 401) {
+        return <TokenExpiredMessage />;
+       }
+     }
+     notFound();
+   }
+
+  
 }

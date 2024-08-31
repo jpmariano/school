@@ -498,3 +498,12 @@ export interface CustomJWT extends JWT {
  // user?: CustomUser;
  // session?: string;
 }
+
+/*{ pageDetails, node, nodeLessonCompletion, pathname };*/
+
+export type  GetNodeResponse = {
+  pageDetails: PathDetails;
+  node: node | null;
+  nodeLessonCompletion: lessonid[] | [];
+  pathname: string | null;
+}

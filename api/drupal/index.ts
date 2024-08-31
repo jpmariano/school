@@ -18,6 +18,7 @@ export function isFetchResponse(response: Response | ErrorResponse): response is
 
 
 
+
 //Step 1: user signup - server sends an email
 export const userSignup = async  (credentials: AccountCredentials) : Promise<Response | ErrorResponse> =>  {
 	const headers = {

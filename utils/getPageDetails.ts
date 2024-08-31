@@ -1,24 +1,27 @@
 import { getLessonCompletion, getNode, getPage, isFetchResponse } from "@/api/drupal";
-import { CustomSession, ErrorResponse, PathDetails, node, lessonid, GetNodeResponse } from "@/types";
+import { CustomSession, ErrorResponse, PathDetails, node, lessonid } from "@/types";
 import { getServerSession } from "next-auth";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { authOptions } from "./authOptions";
 
 
+//export const validateEmail = (email: string): boolean  => {
+export  const GetPageDetails = async (pathname: string): Promise<PathDetails | number> => {
 
-export async function GetNodePage(): Promise<GetNodeResponse|ErrorResponse> {
-    const headerList = headers();
-    const pathname = headerList.get("x-current-path");
     const pageDetailsResponse: Response | ErrorResponse = await getPage(pathname ? pathname : '/');
-    
+    if (isFetchResponse(pageDetailsResponse)) {
+        const pageDetails: PathDetails = await pageDetailsResponse.json();
+        return pageDetails;
+    }
+    return pageDetailsResponse.status;
+    /*
+    pageDetailsResponse.status
     if (!isFetchResponse(pageDetailsResponse)) {
-      /*
       if (pageDetailsResponse.status === 401) {
         throw new Error('401');
       }
-      notFound();*/
-      return pageDetailsResponse;
+      notFound();
     }
     
     const pageDetails: PathDetails = await pageDetailsResponse.json();
@@ -28,5 +31,5 @@ export async function GetNodePage(): Promise<GetNodeResponse|ErrorResponse> {
     const nodeLessonCompletionResponse: Response | ErrorResponse = await getLessonCompletion(session.user.userId, pageDetails.entity.id);
     const nodeLessonCompletion: lessonid[] | [] = isFetchResponse(nodeLessonCompletionResponse) && await nodeLessonCompletionResponse.json();
     console.log('called----------------------------------------')
-    return { pageDetails, node, nodeLessonCompletion, pathname };
+    return { pageDetails, node, nodeLessonCompletion, pathname }; */
   }
