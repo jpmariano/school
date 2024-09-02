@@ -8,18 +8,14 @@ import dragLight from '@/public/icons/drag-horizontal-svgrepo-com.svg';
 import dragDark from '@/public/icons/drag-horizontal-svgrepo-com-dark.svg';
 import Icon from '@/components/icon';
 import { useSession } from 'next-auth/react';
+import { paragraphProps, TermType } from '@/types';
 
-export type TermType = {
-    term: string;
-    definition: string;
-}
 
-export interface SortableTermsProps {
-    terms: TermType[];
-    id?: string;
-}
 
-const SortableTerms: React.FC<SortableTermsProps> = ({ terms, id }) => {
+const SortableTerms: React.FC<paragraphProps> = ({ data, index, included}) => {
+    const terms = data.attributes.field_term_and_definition ? data.attributes.field_term_and_definition : [];
+
+
     const { data: session } = useSession();
     const sortableContext = useSortableContext();
     const termiDs = terms.map((item: TermType, i: number) => {
@@ -31,6 +27,7 @@ const SortableTerms: React.FC<SortableTermsProps> = ({ terms, id }) => {
     const [randomTerms, setRandomTerms] = useState<TermTypeID[]>(termiDs.sort(() => Math.random() - 0.5));
     const [areAnswersCorrect, setAreAnswersCorrect] = useState<boolean | null>(null);
     const [disableSort, setDisableSort] = useState<boolean>(false);
+    const [dragDropID, setDragDropID] = useState<string>('simpleList');
 
     const theme = useTheme();
     let isLight: boolean = true;
@@ -39,7 +36,9 @@ const SortableTerms: React.FC<SortableTermsProps> = ({ terms, id }) => {
     }
 
     useEffect(() => {
-        const el = document.getElementById(id ? id : 'simpleList');
+        setDragDropID(index ? `simpleList${index.toString()}` : 'simpleList');
+        //const dragDropID = index ? `simpleList${index.toString()}` : 'simpleList';
+        const el = document.getElementById(dragDropID);
         if (el) {
             const sortable = Sortable.create(el, {
                 handle: '.drag-move',
@@ -58,7 +57,7 @@ const SortableTerms: React.FC<SortableTermsProps> = ({ terms, id }) => {
     }, []); // Empty dependency array ensures this runs only once on mount
 
     const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
-        const el = document.getElementById(id ? id : 'simpleList');
+        const el = document.getElementById(dragDropID);
         const children = el?.querySelectorAll('div');
         const idArr: number[] = [];
         if (children) {
@@ -93,7 +92,7 @@ const SortableTerms: React.FC<SortableTermsProps> = ({ terms, id }) => {
                         );
                     })}
                 </Box>
-                <Box id={id ? id : 'simpleList'} className="list-group" sx={{ flexGrow: 1, ml: 2 }}>
+                <Box id={dragDropID} className="list-group" sx={{ flexGrow: 1, ml: 2 }}>
                     {randomTerms.map((item: TermTypeID, i: number) => {
                         return (
                             <Box id={item.id.toString()} key={i.toString()} className='list-group-item' sx={{ display: 'flex', backgroundColor: `${isLight ? 'rgba(243, 243, 243, 1)' : 'rgba(29, 44, 85, .5)'}`, marginY: 1 }}>

@@ -139,6 +139,11 @@ export type uri = {
   url: string;
 }
 
+export type TermType = {
+  term: string;
+  definition: string;
+}
+
 export type Attributes = {
   drupal_internal__nid: number;
   drupal_internal__vid: number;
@@ -163,6 +168,7 @@ export type Attributes = {
   filename: string;
   uri: uri;
   field_image_styles: ObjectFit;
+  field_term_and_definition?: TermType[];
 }
 export type Path = {
   alias: string;

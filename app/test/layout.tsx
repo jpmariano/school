@@ -12,7 +12,7 @@ interface FullPageLayoutProps {
   
 const FullPageLayout: React.FC<FullPageLayoutProps> = ({ children }) => {
     return (
-      <LayoutContainer>
+      <LayoutContainer isHeader={true}>
           {children}
         </LayoutContainer>
       )

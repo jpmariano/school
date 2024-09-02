@@ -25,7 +25,6 @@ import KCStepper from '@/components/knowledgeCheck/KCStepper';
 import QuizSlider from '@/components/quiz/QuizSlider';
 import { Suspense } from 'react';
 import { SortableProvider } from '@/components/sortable';
-import SortableTerms, { TermType } from '@/components/sortable/SortableTerms';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/utils/authOptions';
 import { CustomSession } from '@/types';
@@ -46,12 +45,6 @@ const Index: NextPage = async () => {
   console.log(session);
   return (
     <Main>
-      <HorizontalSeparator />
-      <FullWidthBox>
-        <SortableProvider>
-          <SortableTerms terms={sortable as TermType[]} />
-        </SortableProvider>
-      </FullWidthBox>
       <HorizontalSeparator />
       <FullWidthBox>
         <QuizProvider>

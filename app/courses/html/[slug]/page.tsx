@@ -25,6 +25,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/utils/authOptions'
 import { GetNodePage } from '@/utils/getNodePage'
 import CustomError from '@/utils/CustomError'
+import HorizontalSeparator from '@/components/layouts/horizontalSeparator'
 
 
 
@@ -89,7 +90,7 @@ export default async function page(params) {
               <NotAside addClassName="inverse" showBoxShadow={false}>
                 <Box component='article'>
                   <Breadcrumb pathname={pathname} />
-                  <Box id="title"><Typography component='h1' variant='h1' className="" sx={{ display: 'inline-block' }}>{pageDetails.label}</Typography><LessonCompleted nodeLessonCompletion={nodeLessonCompletion} /></Box>
+                  <Box id="title"><Typography component='h1' variant='h1' className="" sx={{ display: 'inline-block', mb:2 }}>{pageDetails.label}</Typography><LessonCompleted nodeLessonCompletion={nodeLessonCompletion} /></Box>
                   {content}
                 </Box>
               </NotAside>
@@ -103,10 +104,17 @@ export default async function page(params) {
       
    } catch (error) {
      if (error instanceof CustomError) {
+      
        if (error.statusCode === 401) {
         return <TokenExpiredMessage />;
        }
+     } else {
+      if(error = "Error: 401"){
+        return <TokenExpiredMessage />;
+      }
+      //console.log('errorsadfasdfsadfsdfsdfsf', error)
      }
+     
      notFound();
    }
 

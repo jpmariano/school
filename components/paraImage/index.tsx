@@ -23,14 +23,14 @@ const ParaImage: React.FC<paragraphProps> = ({ data, index, included}) => {
   
   return (
     imageFile ? (
-      <Box key={index.toString()} component="div" className='para-image'>
+      <Box key={index.toString()} component="div" className={styles.imagecontainer}>
         <Image
           src={`${BASE_URL}${imageFile[0].attributes.uri.url}`}
           alt={data.relationships.field_image.data.meta.alt}
           width={data.relationships.field_image.data.meta.width}
           height={data.relationships.field_image.data.meta.height}
           style={{objectFit: paragraph_image[0].attributes.field_image_styles}}
-          className={styles.paraimage}
+          className={paragraph_image[0].attributes.field_image_styles === 'cover' ? styles.paraimageCover : styles.paraimageContain}
         /> 
     </Box>
      ) : null
