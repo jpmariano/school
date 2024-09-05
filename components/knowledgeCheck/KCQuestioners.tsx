@@ -1,5 +1,6 @@
 
-import React from 'react';
+
+import React, { useEffect, useState } from 'react';
 import { RadioQuestion } from '@/components/knowledgeCheck/KCForm';
 import KCForm from '@/components/knowledgeCheck/KCForm';
 import { AnswersObj, paragraphProps, RadioQuestionUnformatted } from '@/types';
@@ -11,9 +12,8 @@ export interface kCQuestionsProps {
     questions: RadioQuestion[];
 }
 
-const KCQuestioners: React.FC<paragraphProps> = ({ data, index, included}): React.ReactNode => {
+const KCQuestioners: React.FC<paragraphProps> = ({ data, index, included}): React.ReactNode | null=> {
 
-    // Mapping through field_kcquestions and returning KCForm components
     const questions = data.attributes.field_kcquestions?.map((item: RadioQuestionUnformatted, i: number) => {
         return (
             <KCForm 
@@ -27,7 +27,7 @@ const KCQuestioners: React.FC<paragraphProps> = ({ data, index, included}): Reac
     return (
         <>{questions}</> // Use a React Fragment to return the list of KCForm components
     );
-
+    
 
 };
 

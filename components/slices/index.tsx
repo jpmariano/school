@@ -1,5 +1,4 @@
 
-'use client'
 import React, { useContext } from 'react';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { Box, List, ListItem, Typography, useMediaQuery, useTheme } from '@mui/material';
@@ -33,9 +32,9 @@ export interface slicesProps {
 
 const Slices: React.FC <slicesProps> = ({data, included = [], nodetype = null})=> {
  // const { isMobile } = useContext(IsMobileContext);
-  const theme = useTheme();
-  const pathname = usePathname();
-  const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
+  //const theme = useTheme();
+  //const pathname = usePathname();
+  //const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
 
 
 
