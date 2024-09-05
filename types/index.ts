@@ -143,6 +143,17 @@ export type TermType = {
   term: string;
   definition: string;
 }
+export type RadioQuestionUnformatted = {
+  question: string;
+  answers: string;
+};
+export type AnswersObj = {
+  question: string;
+  answers: {
+      answer: string;
+      value: string;
+  }
+}
 
 export type Attributes = {
   drupal_internal__nid: number;
@@ -169,6 +180,7 @@ export type Attributes = {
   uri: uri;
   field_image_styles: ObjectFit;
   field_term_and_definition?: TermType[];
+  field_kcquestions?: RadioQuestionUnformatted[];
 }
 export type Path = {
   alias: string;
@@ -248,6 +260,7 @@ export type Relationships = {
   revision_user: Revision_user;
   parent: Parent;
   links: Links;
+  field_paragraph_qa_k: Parent;
 }
 
 export type IncludeItem = {

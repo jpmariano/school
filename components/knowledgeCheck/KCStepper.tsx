@@ -22,7 +22,10 @@ const KCStepper: React.FC<kCStepperProps> = ({ children }) => {
   const kCContext = useKnowledgeCheckContext();
 
   useEffect(() => {
+    //console.log(typeof(children), children);
     kCContext.setTotalCount(arrayChildren.length);
+
+   
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

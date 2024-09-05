@@ -16,6 +16,12 @@ import ParaImage from '@/components/paraImage';
 import HorizontalSeparator from '@/components/layouts/horizontalSeparator';
 import SortableTerms from '@/components/sortable/SortableTerms';
 import { SortableProvider } from '@/components/sortable';
+import { KnowledgeCheckProvider } from '../knowledgeCheck';
+import KCStepper from '@/components/knowledgeCheck/KCStepper';
+import KCQuestions from '@/components/knowledgeCheck/KCQuestions';
+import knowledgeCheckJson from '@/data/knowledgeCheck.json';
+import { RadioQuestion } from '@/components/knowledgeCheck/KCForm';
+import KCQuestioners from '@/components/knowledgeCheck/KCQuestioners';
 
 export interface slicesProps {
     data: NodeType | Parent | Links |  Data | null;
@@ -35,7 +41,7 @@ const Slices: React.FC <slicesProps> = ({data, included = [], nodetype = null})=
 
 
 	
-  console.log(included);
+  //console.log(included);
 
 
 	return (
@@ -45,34 +51,48 @@ const Slices: React.FC <slicesProps> = ({data, included = [], nodetype = null})=
         switch (item.type) {
           case 'paragraph--paragraph_text':
             return (
-              <>
-              <ParaText
-                data={item}
-                index={i}
-                included={included} />
-                <HorizontalSeparator />
-              </>
-            );
-            case 'paragraph--paragraph_image':
-              return (
-                <><ParaImage
+              <React.Fragment key={i}>
+                <ParaText
                   data={item}
                   index={i}
                   included={included} />
                   <HorizontalSeparator />
-                </>
+              </React.Fragment>
+            );
+            case 'paragraph--paragraph_image':
+              return (
+                <React.Fragment key={i}>
+                  <ParaImage
+                    data={item}
+                    index={i}
+                    included={included} />
+                    <HorizontalSeparator />
+                </React.Fragment>
               );
             case 'paragraph--paragraph_sortable':
               return (
-                <><SortableProvider>
+                <React.Fragment key={i}>
+                <SortableProvider>
                   <SortableTerms
                   data={item}
                   index={i}
                   included={included} />
                   </SortableProvider>
                  <HorizontalSeparator />
-                </>
+                 </React.Fragment>
               );
+            case 'paragraph--paragraph_kcquestions':
+   
+              return (
+                <React.Fragment key={i}>
+                  <KnowledgeCheckProvider>
+                    <KCStepper>
+                      <KCQuestioners data={item} index={i} included={included} /> 
+                    </KCStepper>
+                  </KnowledgeCheckProvider>
+                  <HorizontalSeparator />
+                </React.Fragment>
+              ); 
           default:
             return null;
         }
