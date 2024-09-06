@@ -25,23 +25,26 @@ import KCStepper from '@/components/knowledgeCheck/KCStepper';
 import QuizSlider from '@/components/quiz/QuizSlider';
 import { Suspense } from 'react';
 import { SortableProvider } from '@/components/sortable';
-import SortableTerms, { TermType } from '@/components/sortable/SortableTerms';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/utils/authOptions';
+import { CustomSession } from '@/types';
+
 //import { useEffect } from 'react';
 
 
-const Index: NextPage = () => {
+const Index: NextPage = async () => {
   
  // const theme = useTheme();
- 
-  
+ const session: CustomSession = await getServerSession(authOptions) as CustomSession;
+
+ if (!session) {
+   return <p>No session</p>;
+ }
+
+ //const accessToken = session.access_token;
+  console.log(session);
   return (
     <Main>
-      <HorizontalSeparator />
-      <FullWidthBox>
-        <SortableProvider>
-          <SortableTerms terms={sortable as TermType[]} />
-        </SortableProvider>
-      </FullWidthBox>
       <HorizontalSeparator />
       <FullWidthBox>
         <QuizProvider>

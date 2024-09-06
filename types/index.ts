@@ -1,8 +1,13 @@
+import { AlertColor, AlertPropsColorOverrides } from '@mui/material/Alert/Alert';
+import { OverridableStringUnion } from '@mui/types';
 import { UUID } from 'crypto';
+
 import {
     ReactElement,
     ReactPortal,
   } from 'react';
+import { JWT } from 'next-auth/jwt';
+import NextAuth, { NextAuthOptions, Session, DefaultSession, DefaultUser } from 'next-auth';
 type ReactText = string | number;
 type ReactChild = ReactElement | ReactText;
 
@@ -134,6 +139,22 @@ export type uri = {
   url: string;
 }
 
+export type TermType = {
+  term: string;
+  definition: string;
+}
+export type RadioQuestionUnformatted = {
+  question: string;
+  answers: string;
+};
+export type AnswersObj = {
+  question: string;
+  answers: {
+      answer: string;
+      value: string;
+  }
+}
+
 export type Attributes = {
   drupal_internal__nid: number;
   drupal_internal__vid: number;
@@ -158,6 +179,8 @@ export type Attributes = {
   filename: string;
   uri: uri;
   field_image_styles: ObjectFit;
+  field_term_and_definition?: TermType[];
+  field_kcquestions?: RadioQuestionUnformatted[];
 }
 export type Path = {
   alias: string;
@@ -237,6 +260,7 @@ export type Relationships = {
   revision_user: Revision_user;
   parent: Parent;
   links: Links;
+  field_paragraph_qa_k: Parent;
 }
 
 export type IncludeItem = {
@@ -334,6 +358,13 @@ export type AccountRole = {
   target_uuid: string;
 };
 
+export type Token = {
+  token_type: string;
+  expires_in: number;
+  access_token: string;
+  refresh_token: string;
+};
+
 export type AccountRoles = AccountRole[];
 
 export type StringObject = {
@@ -403,4 +434,95 @@ export type UserAccountDetails = {
   path: Path;
   field_registered_lesson: Field_registered_lessons;
   user_picture: Picture[];
+}
+
+export type userinfo = {
+  sub: string;
+  name: string;
+  preferred_username: string;
+  email: string;
+  email_verified: boolean;
+  profile: string;
+  locale: string;
+  zoneinfo: string;
+  updated_at: number;
+  roles: string[];
+}
+
+export type AccountCredentials = {
+  username: string;
+  password: string;
+};
+
+export type verifyCredentials = {
+  name: string;
+  temp_token: string;
+};
+
+export type AccountResetCredentials = {
+  name: string;
+  temp_pass: string;
+  new_pass: string;
+};
+
+
+export type alertType = {
+  severity?: AlertColor;
+  message: string;
+};
+
+export type tokenResponse = {
+  token_type: string;
+  expires_in: number;
+  access_token: string;
+  refresh_token: string;
+};
+
+
+export type  ErrorResponse = {
+  status: number;
+  success: boolean
+  message: string;
+}
+
+
+
+
+
+// Extend the User type
+export interface CustomUser extends DefaultUser {
+  userId: string;
+  roles: string[];
+  drupal_session: string;
+  access_token?: string;
+  refresh_token?: string;
+  expires_in?: number;
+}
+
+export interface CustomSession extends DefaultSession {
+  user: CustomUser;
+  
+}
+
+
+export interface CustomJWT extends JWT {
+
+  userId: string;
+  roles: string[];
+  drupal_session: string;
+  access_token?: string;
+  refresh_token?: string;
+  expires_in?: number;
+  issued_at?: number;
+ // user?: CustomUser;
+ // session?: string;
+}
+
+/*{ pageDetails, node, nodeLessonCompletion, pathname };*/
+
+export type  GetNodeResponse = {
+  pageDetails: PathDetails;
+  node: node | null;
+  nodeLessonCompletion: lessonid[] | [];
+  pathname: string | null;
 }

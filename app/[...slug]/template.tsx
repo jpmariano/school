@@ -1,3 +1,4 @@
+import AuthProgressWrapper from "@/components/authProgressWrapper";
 
 interface FullPageTemplateProps {
     children: React.ReactNode;
@@ -5,7 +6,10 @@ interface FullPageTemplateProps {
   
   const FullPageTemplate: React.FC<FullPageTemplateProps> = ({ children }) => {
     return (
+      <AuthProgressWrapper>
         <div id="FullPageTemplate">{children}</div>
+      </AuthProgressWrapper>
+        
       )
   };
   export default FullPageTemplate;

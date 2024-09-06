@@ -17,6 +17,7 @@ import LessonsPerChapter from '@/components/lessonsPerChapter'
 import Breadcrumb from '@/components/breadCrumb';
 import { notFound } from 'next/navigation'
 import { getPage, getNode, getLessonCompletion, getTaxonomyTerm, getListofLessonByTaxId, getListofCompletedLessonsbySubject } from '@/api/drupal'
+import TestLogin from '@/components/loginForm/TestLogin'
 
 //import stripJsonComments from 'strip-json-comments'
 //import { getPage } from '@/api/drupal';
@@ -48,13 +49,14 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function slug() {
   const headerList = headers();
   const pathname = headerList.get("x-current-path");
+  /*
   const pageDetails: PathDetails = await getPage(pathname ? pathname : '/');
   if(!pageDetails.resolved){
     return notFound()
   }
   const nodeLesson:node = await getNode(pageDetails.entity.uuid, 'lesson');
   const nodeLessonCompletion:lessonid[] = await getLessonCompletion(pageDetails.entity.uuid, pageDetails.entity.id);
-
+  */
   //const nodeLessonInt = nodeLesson as node_lesson;
   //let routes: breadcrumbPath[] = [{path: '/', breadcrumb: 'Home'}];
   let routes: breadcrumbPath[] = [];
@@ -69,7 +71,7 @@ export default async function slug() {
     return final
   }
   const arrOfPaths: string[] =  splitPath(pathname ? pathname : '/');
-  
+  /*
   (async function() {
     
     const promises = arrOfPaths.map(async (url, idx) => {
@@ -84,8 +86,8 @@ export default async function slug() {
         
     });
     await Promise.all(promises); 
-  })();
-
+  })(); */
+/*
   switch(pageDetails.entity.type) { 
     case 'taxonomy_term': { 
        const taxonomyPage = await getTaxonomyTerm(pageDetails.entity.uuid);
@@ -106,7 +108,8 @@ export default async function slug() {
  const allLessons: listOfLessons = pageDetails.entity.type == 'taxonomy_term' ? await getListofLessonByTaxId(pageDetails.entity.id) : [];
  const listOfAllLessonPerChapter:string[] = allLessons.map((item: lesson, index) => { return item.field_subject_of_lesson}).filter((value, index, array) => array.indexOf(value) === index);  
  const listofCompletedLessonsbySubject: lessonid[] = pageDetails.entity.type == 'taxonomy_term' ? await getListofCompletedLessonsbySubject('1', pageDetails.entity.id) : [];
-  return (
+  */
+ return (
     <Main>
       <CenterBoxWithSidebar fullHeight={true}>
         <Aside hideOnMobile={true} showBoxShadow={false} toggleSidebar={true}>
@@ -114,10 +117,8 @@ export default async function slug() {
         </Aside>
         <NotAside addClassName="inverse" showBoxShadow={false}>
           <Box component='article'>
-            <Breadcrumb route={routes} />
-            <Typography component='h1' variant='h1' className="">{pageDetails.label}</Typography>
-            {pageDetails.entity.type == 'taxonomy_term' && <LessonsPerChapter chapters={listOfAllLessonPerChapter} listOfLessons={allLessons} listofCompletedLessonsbySubject={listofCompletedLessonsbySubject} />}
-            {pageDetails.entity.type == 'node' && <BodyContent value={nodeLesson.data.attributes.body.value} />}
+            Testing
+            <TestLogin />
           </Box>
         </NotAside>
       </CenterBoxWithSidebar>

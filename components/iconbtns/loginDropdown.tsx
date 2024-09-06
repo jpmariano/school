@@ -1,19 +1,21 @@
 
 'use client'
 import React, { useEffect } from 'react';
-import { IconButton, Popover, Typography } from '@mui/material';
+import { IconButton, Link, Popover, Typography } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import { setToggle } from '@/store/features/toggleSlice';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
-
+import { useSession } from "next-auth/react";
+import SignOutButton from '@/components/customSignOut/signOutButton';
+import SignInButton from '@/components/customSignOut/signInButton';
 
 
 const LoginDropdown: React.FC = () => {
    
     const [open, setOpen] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
-
+    const { data: session, status } = useSession();
    
 
     const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -24,6 +26,8 @@ const LoginDropdown: React.FC = () => {
         setOpen(!open)
         setAnchorEl(null);
     };
+
+    
 
     return (
       
@@ -41,7 +45,10 @@ const LoginDropdown: React.FC = () => {
                       }}
                       anchorEl={anchorEl}
                       onClose={handlePopoverClose} >
-                        <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>
+                        {!session ? 
+                        <SignInButton /> : 
+                        
+                        <SignOutButton />}
                     </Popover></div>
          
 

@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import { RadioQuestion } from '@/components/knowledgeCheck/KCForm';
 import KCForm from '@/components/knowledgeCheck/KCForm';
@@ -11,6 +12,7 @@ export interface kCQuestionsProps {
 }
 
 const KCQuestions: React.FC<kCQuestionsProps> = ({ questions }) => {
+    console.log('render KCQuestioners-test');
     return (
         questions.map((item: RadioQuestion, i: number) => {
             return (

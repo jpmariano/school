@@ -1,0 +1,14 @@
+.backgroundContainer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    overflow: hidden;
+    max-width: 100vh;
+    max-height: 100vh;
+}
+
+.backgroundImage {
+    rotate: 30deg;
+    width: 1000px;
+    height: 100vh;
+}

@@ -1,0 +1,7 @@
+.layout {
+    margin-top: 55px;
+    height: 100%;
+    @media screen and (max-width: 936px) {
+        margin-top: 50px;
+    }
+}

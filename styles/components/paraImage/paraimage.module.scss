@@ -1,4 +1,13 @@
-.paraimage {
-    width: 100%;
-    margin: 0 auto;
+.imagecontainer {
+    display: flex;
+    justify-content: center;
 }
+.paraimageContain {
+   // width: 100%;
+    height: auto;
+}
+
+.paraimageCover {
+     width: 100%;
+     height: auto;
+ }

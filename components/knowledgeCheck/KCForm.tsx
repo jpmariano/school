@@ -18,7 +18,7 @@ export type RadioQuestion = {
     }[];
 };
 
-const KCForm: React.FC<RadioQuestion> = ({ question, answers }) => {
+const KCForm: React.FC<RadioQuestion> = ({ question, answers }): React.ReactNode => {
     const kCContext = useKnowledgeCheckContext();
     const [value, setValue] = useState('');
     const [correctAnswer, setCorrectAnswer] = useState('');
@@ -31,14 +31,20 @@ const KCForm: React.FC<RadioQuestion> = ({ question, answers }) => {
     };
 
     useEffect(() => {
-        {
+        
             answers.map((item: { answer: string; value: string; }, i: number) => {
+               if(typeof(item.value) === 'number'){
+                    if (item.value === 1) {
+                        setCorrectAnswer(i.toString());
+                    }
+               } else {
                 if (item.value === "1") {
                     setCorrectAnswer(i.toString());
                 }
+               }
+                
             })
-        }
-       //console.log(kCContext)
+        
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
