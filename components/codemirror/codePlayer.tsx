@@ -131,7 +131,7 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head, footer}) => {
 
   return (
     <CodePlayerContext.Provider value={{ htmlCode, upDateHtml, javascriptCode, updateJavascript, jsxCode, updateJsx, cssCode, updateCss, headCode, upDateHead, footerCode, upDateFooter, sassCode, updateSass, lessCode, updateLess, initialized, updateInitialized }}>
-      {!(!cssCode && !lessCode && !javascriptCode && !sassCode && headCode?.length && footerCode?.length === 0) &&  <ProjectSettings head={head} footer={footer}/>}
+      {!(!cssCode && !lessCode && !javascriptCode && !sassCode && headCode?.length && footerCode?.length === 0) &&  htmlCode &&<ProjectSettings head={head} footer={footer}/>}
       <MuiTabs>
         {editors &&
           editors.map((item: Editor, i: number) => {
