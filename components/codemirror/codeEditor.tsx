@@ -27,7 +27,7 @@ export interface codeEditorProps {
 
 const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,  settings = false, editable = true, children}) => {
 
-    const { upDateHtml, updateJavascript, updateCss, updateSass,  updateInitialized, updateLess,  initialized,  htmlCode, cssCode, lessCode, javascriptCode, headCode, sassCode} = useContext(CodePlayerContext);
+    const { upDateHtml, updateJavascript, updateCss, updateSass,  updateInitialized, updateLess, updateJsx, jsxCode, initialized,  htmlCode, cssCode, lessCode, javascriptCode, headCode, sassCode} = useContext(CodePlayerContext);
 
     
     const [code, setCode] = useState('');
@@ -48,6 +48,11 @@ const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,
             case 'javascript': {
                setExtensions([javascript({ jsx: true })]);
                initialized && javascriptCode && setCode(javascriptCode);
+               break;
+            }
+            case 'jsx': {
+               setExtensions([javascript({ jsx: true })]);
+               initialized && jsxCode && setCode(jsxCode);
                break;
             }
             case 'html': {
@@ -85,6 +90,10 @@ const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,
                 updateJavascript && updateJavascript(value)
                break; 
             } 
+            case 'jsx': { 
+               updateJsx && updateJsx(value)
+              break; 
+           } 
             case 'html': { 
                 upDateHtml && upDateHtml(value)
                break; 

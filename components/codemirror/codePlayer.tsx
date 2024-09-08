@@ -10,6 +10,7 @@ import SmartColumns from '@/components/layouts/smartColumns';
 import ProjectSettings from '@/components/codemirror/projectSettings';
 import ScssToCssDisplay from '@/components/codemirror/scssToCssDisplay';
 import { Editor } from '@/types';
+import JsxToJsDisplay from '@/components/codemirror/jsxToJsDisplay';
 
 
 
@@ -23,6 +24,8 @@ export interface contextProps {
     upDateHtml?: (html: string) => void;
     javascriptCode?: string;
     updateJavascript?: (javascript: string) => void;
+    jsxCode?: string;
+    updateJsx?: (jsx: string) => void;
     cssCode?: string;
     updateCss?: (css: string) => void;
     sassCode?: string;
@@ -61,6 +64,7 @@ export const CodePlayerContext = createContext<Partial<contextProps>>(defaultSta
 const CodePlayer: React.FC<codePlayerProps> = ({editors, head, footer}) => {
     const [htmlCode, setHtmlCode] = useState('');
     const [javascriptCode, setJavascriptCode] = useState('');
+    const [jsxCode, setJsxCode] = useState('');
     const [cssCode, setCssCode] = useState('');
     const [sassCode, setSassCode] = useState('');
     const [lessCode, setLessCode] = useState('');
@@ -77,6 +81,10 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head, footer}) => {
 
   const updateJavascript = (javascriptCodex: string) => {
     setJavascriptCode(javascriptCodex);
+  };
+
+  const updateJsx = (jsxCodex: string) => {
+    setJsxCode(jsxCodex);
   };
 
   const updateCss = (cssCodex: string) => {
@@ -112,6 +120,7 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head, footer}) => {
       item.language === 'javascript' && setJavascriptCode(item.code);
       item.language === 'sass' && setSassCode(item.code);
       item.language === 'less' && setLessCode(item.code);
+      item.language === 'jsx' && setJsxCode(item.code);
     })
     head && setHeadCode([...head]);
     updateInitialized(true);
@@ -121,7 +130,7 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head, footer}) => {
 
 
   return (
-    <CodePlayerContext.Provider value={{ htmlCode, upDateHtml, javascriptCode, updateJavascript, cssCode, updateCss, headCode, upDateHead, footerCode, upDateFooter, sassCode, updateSass, lessCode, updateLess, initialized, updateInitialized }}>
+    <CodePlayerContext.Provider value={{ htmlCode, upDateHtml, javascriptCode, updateJavascript, jsxCode, updateJsx, cssCode, updateCss, headCode, upDateHead, footerCode, upDateFooter, sassCode, updateSass, lessCode, updateLess, initialized, updateInitialized }}>
       {!(!cssCode && !lessCode && !javascriptCode && !sassCode && headCode?.length && footerCode?.length === 0) &&  <ProjectSettings head={head} footer={footer}/>}
       <MuiTabs>
         {editors &&
@@ -165,6 +174,12 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head, footer}) => {
               case "less": {
                 return (<Box key={`${i}-less`} component="div" sx={{ width: 1 }} title="CSS">
                   <ScssToCssDisplay language={item.language}>{item.code}</ScssToCssDisplay>
+                </Box>);
+                break;
+              }
+              case "jsx": {
+                return (<Box key={`${i}-jsx`} component="div" sx={{ width: 1 }} title="Javascript">
+                  <JsxToJsDisplay language={item.language}>{item.code}</JsxToJsDisplay>
                 </Box>);
                 break;
               }
