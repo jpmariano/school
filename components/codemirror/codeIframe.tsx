@@ -28,7 +28,7 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, footer, editors}) =
     useEffect(() => {
       
       //scss(sassCode);
-      console.log('useEffect 1');
+  
       let newFooter = '';
       if(footer){
         footer.map((fitem: String, i: number) => {
@@ -68,7 +68,6 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, footer, editors}) =
        }, [editors, head, footer]);
 
     useEffect(() => {
-      console.log('useEffect 2', footerCode);
       let lessCodeCss = '';
       lessCode && less.render(lessCode).then(function (output: any) {
         lessCodeCss = output.css;

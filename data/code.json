@@ -1,12 +1,27 @@
 [
     {
-      
+        "head": [
+            "<link href=\"https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css\" rel=\"stylesheet\">",
+            "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css\">",
+            "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css\">",
+            "<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family=Roboto\">",
+            "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css\">",
+            "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js\"></script>",
+            "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.12/jquery.mousewheel.js\"></script>",
+            "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.js\"></script>"
+        ],
         "editors": [
             {
                 "language": "html",
                 "enable": "1",
-                "code": "<!DOCTYPE html>\n<html>\n<head>\n<title>Page Title</title>\n</head>\n<body>\n\n<h1>This is a Heading</h1>\n<p>This is a paragraph.</p>\n\n</body>\n</html>",
-                "answer": "<!DOCTYPE html>\n<html>\n<head>\n<title>Page Title</title>\n</head>\n<body>\n\n<h1>This is a Heading</h1>\n<p>This is a paragraph.</p>\n\n</body>\n</html>"
+                "code": "<!--\n\nFollow me on\nDribbble: https://dribbble.com/supahfunk\nTwitter: https://twitter.com/supahfunk\nCodepen: https://codepen.io/supah/\n\n-->\n<div class=\"split-slideshow\">\n  <div class=\"slideshow\">\n    <div class=\"slider\">\n      <div class=\"item\">\n        <img src=\"https://raw.githubusercontent.com/supahfunk/supah-codepen/master/canyon-2.jpg\" />\n      </div>\n      <div class=\"item\">\n        <img src=\"https://raw.githubusercontent.com/supahfunk/supah-codepen/master/canyon-3.jpg\" />\n      </div>\n      <div class=\"item\">\n        <img src=\"https://raw.githubusercontent.com/supahfunk/supah-codepen/master/canyon-4.jpg\" />\n      </div>\n      <div class=\"item\">\n        <img src=\"https://raw.githubusercontent.com/supahfunk/supah-codepen/master/canyon-1.jpg\" />\n      </div>\n    </div>\n  </div>\n  <div class=\"slideshow-text\">\n    <div class=\"item\">Canyon</div>\n    <div class=\"item\">Desert</div>\n    <div class=\"item\">Erosion</div>\n    <div class=\"item\">Shape</div>\n  </div>\n</div>\n\n<a class=\"the-most\" target=\"_blank\" href=\"https://codepen.io/2017/popular/pens/10/\">\n  <img src=\"https://raw.githubusercontent.com/supahfunk/supah-codepen/master/themost-2017.png\">\n</a>",
+                "answer": "<!--\n\nFollow me on\nDribbble: https://dribbble.com/supahfunk\nTwitter: https://twitter.com/supahfunk\nCodepen: https://codepen.io/supah/\n\n-->\n<div class=\"split-slideshow\">\n  <div class=\"slideshow\">\n    <div class=\"slider\">\n      <div class=\"item\">\n        <img src=\"https://raw.githubusercontent.com/supahfunk/supah-codepen/master/canyon-2.jpg\" />\n      </div>\n      <div class=\"item\">\n        <img src=\"https://raw.githubusercontent.com/supahfunk/supah-codepen/master/canyon-3.jpg\" />\n      </div>\n      <div class=\"item\">\n        <img src=\"https://raw.githubusercontent.com/supahfunk/supah-codepen/master/canyon-4.jpg\" />\n      </div>\n      <div class=\"item\">\n        <img src=\"https://raw.githubusercontent.com/supahfunk/supah-codepen/master/canyon-1.jpg\" />\n      </div>\n    </div>\n  </div>\n  <div class=\"slideshow-text\">\n    <div class=\"item\">Canyon</div>\n    <div class=\"item\">Desert</div>\n    <div class=\"item\">Erosion</div>\n    <div class=\"item\">Shape</div>\n  </div>\n</div>\n\n<a class=\"the-most\" target=\"_blank\" href=\"https://codepen.io/2017/popular/pens/10/\">\n  <img src=\"https://raw.githubusercontent.com/supahfunk/supah-codepen/master/themost-2017.png\">\n</a>"
+            },
+            {
+                "language": "sass",
+                "enable": "1",
+                "code":  "@mixin theme($theme: DarkGray) {\n  background: $theme;\n  box-shadow: 0 0 1px rgba($theme, .25);\n  color: #fff;\n}\n\n.info {\n  @include theme;\n}\n.alert {\n  @include theme($theme: DarkRed);\n}\n.success {\n  @include theme($theme: DarkGreen);\n}\n",
+                "answer":  "@mixin theme($theme: DarkGray) {\n  background: $theme;\n  box-shadow: 0 0 1px rgba($theme, .25);\n  color: #fff;\n}\n\n.info {\n  @include theme;\n}\n.alert {\n  @include theme($theme: DarkRed);\n}\n.success {\n  @include theme($theme: DarkGreen);\n}\n"
             }
         ]
     }
