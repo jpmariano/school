@@ -9,18 +9,16 @@ import CodeIframe from '@/components/codemirror/codeIframe';
 import SmartColumns from '@/components/layouts/smartColumns';
 import ProjectSettings from '@/components/codemirror/projectSettings';
 import ScssToCssDisplay from '@/components/codemirror/scssToCssDisplay';
+import { Editor } from '@/types';
 
 
-export type Editor = {
-  language: 'html' | 'css' | 'javascript' | 'sass' | 'less';
-  enable: string;
-  code: string;
-  answer: string | null;
-};
+
 
 export interface contextProps {
     headCode?: String[];
     upDateHead?: (head: String[]) => void;
+    footerCode?: String[];
+    upDateFooter?: (footer: String[]) => void;
     htmlCode?: string;
     upDateHtml?: (html: string) => void;
     javascriptCode?: string;
@@ -37,7 +35,8 @@ export interface contextProps {
 
 export interface codePlayerProps {
     head: String [];
-    editors: Editor []
+    footer: String [];
+    editors: Editor [];
 }
 
 const defaultState = {
@@ -59,7 +58,7 @@ const defaultState = {
 
 export const CodePlayerContext = createContext<Partial<contextProps>>(defaultState);
 
-const CodePlayer: React.FC<codePlayerProps> = ({editors, head}) => {
+const CodePlayer: React.FC<codePlayerProps> = ({editors, head, footer}) => {
     const [htmlCode, setHtmlCode] = useState('');
     const [javascriptCode, setJavascriptCode] = useState('');
     const [cssCode, setCssCode] = useState('');
@@ -67,6 +66,7 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head}) => {
     const [lessCode, setLessCode] = useState('');
     const [initialized, setInitialized] = useState(false);
     const [headCode, setHeadCode] = useState<String[]>([]);
+    const [footerCode, setFooterCode] = useState<String[]>([]);
     const theme = useTheme();
     const isLg = useMediaQuery(theme.breakpoints.down('lg'));
     const isMd = useMediaQuery(theme.breakpoints.down('md'));
@@ -100,6 +100,10 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head}) => {
     setHeadCode(headCodex);
   };
 
+  const upDateFooter = (footerCodex: String[]) => {
+    setFooterCode(footerCodex);
+  };
+
   useEffect(() => {
     editors &&
       editors.map((item: Editor, i: number) => {
@@ -116,8 +120,8 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head}) => {
 
 
   return (
-    <CodePlayerContext.Provider value={{ htmlCode, upDateHtml, javascriptCode, updateJavascript, cssCode, updateCss, headCode, upDateHead, sassCode, updateSass, lessCode, updateLess, initialized, updateInitialized }}>
-      {!(!cssCode && !lessCode && !javascriptCode && !sassCode && headCode?.length === 0) &&  <ProjectSettings head={head} />}
+    <CodePlayerContext.Provider value={{ htmlCode, upDateHtml, javascriptCode, updateJavascript, cssCode, updateCss, headCode, upDateHead, footerCode, upDateFooter, sassCode, updateSass, lessCode, updateLess, initialized, updateInitialized }}>
+      {!(!cssCode && !lessCode && !javascriptCode && !sassCode && headCode?.length && footerCode?.length === 0) &&  <ProjectSettings head={head} footer={footer}/>}
       <MuiTabs>
         {editors &&
           editors.map((item: Editor, i: number) => {
@@ -168,7 +172,7 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head}) => {
               }
             }
           })}
-        <CodeIframe head={head} editors={editors} title="Results"></CodeIframe>
+        <CodeIframe head={head} footer={footer} editors={editors} title="Results"></CodeIframe>
       </MuiTabs>
     </CodePlayerContext.Provider>
   );

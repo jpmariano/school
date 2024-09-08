@@ -1,5 +1,5 @@
 
-
+'use client'
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import { Paper } from '@mui/material';
 import styles from "@/styles/components/layouts/aside.module.scss";
@@ -10,13 +10,14 @@ import * as less from 'less';
 interface codeIframeProps extends codePlayerProps {
   title: string;
 }
-const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
+const CodeIframe: React.FC<codeIframeProps> = ({title, head, footer, editors}) => {
   //console.log(head)
-  //console.log(editors)
-    const { htmlCode, cssCode, javascriptCode, headCode, sassCode, lessCode} = useContext(CodePlayerContext);
+
+    const { htmlCode, cssCode, javascriptCode, headCode, sassCode, lessCode, footerCode} = useContext(CodePlayerContext);
     
     const [srcDoc, setSrcDoc] = useState(``);
     const [headToIframe, setHeadToIframe] = useState('');
+    const [footerToIframe, setFooterToIframe] = useState('');
     const [htmlToIframe, setHtmlToIframe] = useState('');
     const [cssToIframe, setCssToIframe] = useState('');
     const [sassToIframe, setSassToIframe] = useState('');
@@ -27,14 +28,25 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
     useEffect(() => {
       
       //scss(sassCode);
+      console.log('useEffect 1');
+      let newFooter = '';
+      if(footer){
+        footer.map((fitem: String, i: number) => {
+          newFooter += fitem;
+        });
+        setFooterToIframe(newFooter);
+      }
  
-
       let newHead = '';
       head && 
         head.map((item: String, i: number) => {
           newHead += item;
         });
         setHeadToIframe(newHead);
+
+      
+    
+        
       editors &&
         editors.map((item: Editor, i: number) => {
         item.language === 'html' && setHtmlToIframe(item.code);
@@ -52,10 +64,11 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
         } 
       });
        
-      
-       }, [editors, head]);
+       
+       }, [editors, head, footer]);
 
     useEffect(() => {
+      console.log('useEffect 2', footerCode);
       let lessCodeCss = '';
       lessCode && less.render(lessCode).then(function (output: any) {
         lessCodeCss = output.css;
@@ -78,12 +91,35 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
           //setLessToIframe(item.code);
         } 
         let newHeadCode = '';
-        headCode && headCode.map((item: String, i: number) => { newHeadCode += item; }); setHeadToIframe(newHeadCode);
-
+        if(headCode?.length === 0){
+          if(head){
+            head.map((headitem: String, i: number) => {
+              newHeadCode += headitem;
+            });
+            setHeadToIframe(newHeadCode);
+          }
+        } else {
+          headCode && headCode.map((item: String, i: number) => { newHeadCode += item; }); setHeadToIframe(newHeadCode);
+        }
+        
+        let newFooterCode = '';
+        if(footerCode?.length === 0){
+          if(footer){
+            footer.map((footeritem: String, i: number) => {
+              newFooterCode += footeritem;
+            });
+            setFooterToIframe(newFooterCode);
+          }
+        } else {
+          footerCode && footerCode.map((item: String, i: number) => { newFooterCode += item; }); setFooterToIframe(newFooterCode);
+        }
+        
+       
         const timeOut = setTimeout(() => {
-          if((!cssCode) && (!lessCode) && (!javascriptCode) && (!sassCode) && (headCode?.length === 0)){
+          if((!cssCode) && (!lessCode) && (!javascriptCode) && (!sassCode) && (headCode?.length === 0) && (footerCode?.length === 0)){
             htmlCode && setSrcDoc(htmlCode);
           } else {
+            console.log('footerToIframe', footerToIframe);
             setSrcDoc(
               `
                 <html>
@@ -96,9 +132,10 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
                   <body>
                     ${htmlToIframe}
                     <style type="text/css">${cssToIframe}</style>
-                    <script>${javascriptToIframe}</script>
                     <style type="text/scss">${sassToIframe}</style>
                     <style type="text/css">${lessToIframe}</style>
+                    ${footerToIframe}
+                    <script>${javascriptToIframe}</script>
                   </body>
                 </html>
               `
@@ -108,7 +145,7 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, editors}) => {
           }, 250);
           return () => clearTimeout(timeOut);
 
-       }, [cssCode, cssToIframe, headCode, headToIframe, lessToIframe, htmlCode, htmlToIframe, javascriptCode, javascriptToIframe, sassCode, sassToIframe, lessCode]);
+       }, [cssCode, cssToIframe, headCode, headToIframe, footerToIframe, footerCode, lessToIframe, htmlCode, htmlToIframe, javascriptCode, javascriptToIframe, sassCode, sassToIframe, lessCode]);
       
   return (
     <Paper component="section" sx={{ height: containerHeight }}>
