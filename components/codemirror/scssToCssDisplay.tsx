@@ -10,13 +10,14 @@ import { CodePlayerContext } from '@/components/codemirror/codePlayer';
 import useWindowDimensions from '@/utils/useWindowDimensions';
 //import SassConverter from '@/api/sassconverter';
 import * as less from 'less';
+import { convertSCSStoCSS } from '@/utils/convertSCSStoCSS';
 //import scss from '@hai2007/algorithm/scss.js';
 //import * as sass from 'sass';
 
 
 export interface scssToCssDisplayProps {
   children?: string;
-  language?: 'javascript' | 'css' | 'html' | 'sass' | 'less';
+  language?: 'javascript' | 'css' | 'html' | 'sass' | 'less' | 'jsx' ;
 }
 
 const ScssToCssDisplay: React.FC<scssToCssDisplayProps> = ({language, children}) => {
@@ -39,13 +40,12 @@ const ScssToCssDisplay: React.FC<scssToCssDisplayProps> = ({language, children})
         }
         switch(language) { 
           case 'sass': { 
-            initialized && sassCode && less.render(sassCode).then(function (output: any) {
+            initialized && sassCode && convertSCSStoCSS(sassCode).then(function (output: any) {
               setCode(output.css);
             },
-              function (error: any) {
-                console.log(error)
-                setCode(sassCode);
-              });
+            function (error: any) {
+              setCode(sassCode);
+            });
             break;
           } 
           case 'less': { 

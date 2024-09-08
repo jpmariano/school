@@ -3,9 +3,11 @@
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import { Paper } from '@mui/material';
 import styles from "@/styles/components/layouts/aside.module.scss";
-import { CodePlayerContext, Editor, codePlayerProps} from '@/components/codemirror/codePlayer';
+import { CodePlayerContext, codePlayerProps} from '@/components/codemirror/codePlayer';
 import useWindowDimensions from '@/utils/useWindowDimensions';
 import * as less from 'less';
+import { Editor } from '@/types';
+import { convertSCSStoCSS } from '@/utils/convertSCSStoCSS';
 
 interface codeIframeProps extends codePlayerProps {
   title: string;
@@ -52,7 +54,18 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, footer, editors}) =
         item.language === 'html' && setHtmlToIframe(item.code);
         item.language === 'css' && setCssToIframe(item.code);
         item.language === 'javascript' && setJavascriptToIframe(item.code);
-        item.language === 'sass' && setSassToIframe(item.code);
+        //item.language === 'sass' && setSassToIframe(item.code);
+        //console.log('convertSCSStoCSS', convertSCSStoCSS(item.code));
+       
+        
+        if(item.language === 'sass'){
+          convertSCSStoCSS(item.code).then(function (output: any) {
+            setSassToIframe(output.css);
+          },
+          function (error: any) {
+            setSassToIframe(item.code);
+          });
+        } 
         if(item.language === 'less'){
           less.render(item.code).then(function (output: any) {
             setLessToIframe(output.css);
@@ -78,8 +91,16 @@ const CodeIframe: React.FC<codeIframeProps> = ({title, head, footer, editors}) =
         htmlCode && setHtmlToIframe(htmlCode);
         cssCode && setCssToIframe(cssCode);
         javascriptCode && setJavascriptToIframe(javascriptCode);
-        sassCode && setSassToIframe(sassCode);
-        lessCode && setLessToIframe(lessCode);
+        //sassCode && setSassToIframe(sassCode);
+        if(sassCode){
+          convertSCSStoCSS(sassCode).then(function (output: any) {
+            setSassToIframe(output.css);
+          },
+          function (error: any) {
+            setSassToIframe(sassCode);
+          });
+        } 
+        //lessCode && setLessToIframe(lessCode);
         if(lessCode){
           less.render(lessCode).then(function (output: any) {
             setLessToIframe(output.css);

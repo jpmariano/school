@@ -3,8 +3,9 @@ import * as sass from 'sass';
 import fs from "fs";
 
 export async function convertSCSStoCSS(scss:string) {
+  
    // const valCss =  await sass.compileStringAsync("",  "async");
-   //const valCss =  await sass.compileStringAsync(scss);
+   const valCss =  await sass.compileStringAsync(scss);
    //console.log(valCss)
    /*const output = sass.renderSync({
     data: scss,
@@ -12,7 +13,7 @@ export async function convertSCSStoCSS(scss:string) {
     outputStyle : 'compressed'
   });
   console.log(output)*/
-    return  "test";
+    return  valCss;
     /*
     let promise =  await new Promise((resolve, reject) => {
 

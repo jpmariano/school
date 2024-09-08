@@ -19,7 +19,7 @@ import useWindowDimensions from '@/utils/useWindowDimensions';
 
 export interface codeEditorProps {
     children?: string;
-    language?: 'javascript' | 'css' | 'html' | 'sass' | 'less';
+    language?: 'javascript' | 'css' | 'html' | 'sass' | 'less' | 'jsx' ;
     editable?: boolean;
     answer?: string | null;
     settings?: boolean;
