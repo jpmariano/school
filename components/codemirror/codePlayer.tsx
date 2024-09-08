@@ -115,6 +115,7 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head, footer}) => {
     })
     head && setHeadCode([...head]);
     updateInitialized(true);
+
    }, [editors, head]);
   
 
@@ -172,7 +173,8 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head, footer}) => {
               }
             }
           })}
-        <CodeIframe head={head} footer={footer} editors={editors} title="Results"></CodeIframe>
+          {htmlCode && <CodeIframe head={head} footer={footer} editors={editors} title="Results"></CodeIframe>}
+        
       </MuiTabs>
     </CodePlayerContext.Provider>
   );
