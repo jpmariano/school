@@ -20,8 +20,8 @@
             {
                 "language": "sass",
                 "enable": "1",
-                "code":  "$font-stack: Helvetica, sans-serif;\n$primary-color: #333;\n\nbody {\n  font: 100% $font-stack;\n  color: $primary-color;\n}",
-                "answer":  "$font-stack: Helvetica, sans-serif;\n$primary-color: #333;\n\nbody {\n  font: 100% $font-stack;\n  color: $primary-color;\n}"
+                "code":  "@mixin theme($theme: DarkGray) {\n  background: $theme;\n  box-shadow: 0 0 1px rgba($theme, .25);\n  color: #fff;\n}\n\n.info {\n  @include theme;\n}\n.alert {\n  @include theme($theme: DarkRed);\n}\n.success {\n  @include theme($theme: DarkGreen);\n}\n",
+                "answer":  "@mixin theme($theme: DarkGray) {\n  background: $theme;\n  box-shadow: 0 0 1px rgba($theme, .25);\n  color: #fff;\n}\n\n.info {\n  @include theme;\n}\n.alert {\n  @include theme($theme: DarkRed);\n}\n.success {\n  @include theme($theme: DarkGreen);\n}\n"
             }
         ]
     }

@@ -155,6 +155,24 @@ export type AnswersObj = {
   }
 }
 
+export type Editor = {
+  language: 'html' | 'css' | 'javascript' | 'sass' | 'less' | 'jsx';
+  enable: string;
+  code: string;
+  answer: string | null;
+}
+
+export type CodeEditors = {
+  head: string[],
+  editors: Editor[]
+}
+
+
+
+export type MultipleCodeEditors = {
+  codeEditors: CodeEditors[]
+}
+
 export type Attributes = {
   drupal_internal__nid: number;
   drupal_internal__vid: number;

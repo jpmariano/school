@@ -64,7 +64,7 @@ const Index: NextPage = async () => {
       <HorizontalSeparator />
       <FullWidthBox>
         <Suspense fallback={  <CircularProgress />}>
-          <CodePlayer head={code[0].head as String[]} editors={code[0].editors as Editor[]}/> 
+          <CodePlayer head={code[0].head as String[]} footer={code[0].footer as String[]} editors={code[0].editors as Editor[]}/> 
         </Suspense>
       </FullWidthBox>
       <HorizontalSeparator />

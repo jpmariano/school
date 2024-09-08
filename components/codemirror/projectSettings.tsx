@@ -50,16 +50,18 @@ function a11yProps(index: number) {
 
 export interface projectSettingsProps {
     head?: String[];
+    footer?: String[];
 }
 
-const ProjectSettings: React.FC<projectSettingsProps> = ({head}) => {
+const ProjectSettings: React.FC<projectSettingsProps> = ({head, footer}) => {
 
-    const { upDateHead} = useContext(CodePlayerContext);
-    
+    const { upDateHead, upDateFooter} = useContext(CodePlayerContext);
+
    
     const [open, setOpen] = useState(false);
     const [tabValue, setTabValue] = useState(0);
     const [inputFields, setInputFields] = useState<String[]>(head ? head : []);
+    const [inputFooterFields, setInputFooterFields] = useState<String[]>(footer ? footer : []);
     const { height, width } = useWindowDimensions();
     const containerHeight = height/1.67;
     const codeMirrorHeight = height/1.67 - 35;
@@ -73,17 +75,35 @@ const ProjectSettings: React.FC<projectSettingsProps> = ({head}) => {
         data[index] = event.target.value;
         setInputFields(data);
     }
+    const handleFooterFormChange = (index: number, event: ChangeEvent<HTMLInputElement>) => {
+        let data = [...inputFooterFields];
+        data[index] = event.target.value;
+        setInputFooterFields(data);
+    }
     const updateHeadCode = () => {
         upDateHead && upDateHead([...inputFields]);
+    }
+    const updateFooterCode = () => {
+        upDateFooter && upDateFooter([...inputFooterFields]);
     }
     const removeFields = (index: number) => {
         let data = [...inputFields];
         data.splice(index, 1)
         setInputFields(data)
     }
+    const removeFooterFields = (index: number) => {
+        let data = [...inputFooterFields];
+        data.splice(index, 1)
+        setInputFooterFields(data)
+    }
     const addFields = () => {
         let newfield = '';
         setInputFields([...inputFields, newfield])
+    }
+
+    const addFooterFields = () => {
+        let newfield = '';
+        setInputFooterFields([...inputFooterFields, newfield])
     }
 
     const theme = useTheme();
@@ -132,7 +152,7 @@ const ProjectSettings: React.FC<projectSettingsProps> = ({head}) => {
                             sx={{ borderRight: 1, borderColor: 'divider' }}
                         >
                             <Tab label="Head" {...a11yProps(0)} />
-                            <Tab label="Item Two" {...a11yProps(1)} />
+                            <Tab label="Footer" {...a11yProps(1)} />
                             <Tab label="Item Three" {...a11yProps(2)} />
                             <Tab label="Item Four" {...a11yProps(3)} />
                             <Tab label="Item Five" {...a11yProps(4)} />
@@ -159,7 +179,22 @@ const ProjectSettings: React.FC<projectSettingsProps> = ({head}) => {
                             </FormControl>
                         </TabPanel>
                         <TabPanel value={tabValue} index={1}>
-                            Item Two
+                            <FormControl sx={{ width: 1, flex: '1 100%'}}>
+                                {inputFooterFields && 
+                                    inputFooterFields.map((item: String, i: number) => {
+                                       return <Box key={i}  component="div" sx={{display: 'flex', columnGap: '20px', marginBottom: '20px', width: '100%'}}>
+                                                <TextField placeholder="<meta>,<link><script>" inputProps={{style: {fontFamily: "Barlow"}}}  
+                                                onChange={(event: ChangeEvent<HTMLInputElement>) => handleFooterFormChange(i, event)}
+                                                sx={{ fontFamily: "Barlow !important", flex: '0  100%' }} value={item} label="Tag" variant="outlined" />
+                                                <Button variant="outlined" sx={{ flex: '0 0 auto' }} title="Delete Tag" startIcon={<DeleteIcon />} onClick={() => removeFooterFields(i)}>Delete</Button>
+                                       </Box>
+                                    })
+                                }
+                                <Box component="div" sx={{display: 'flex', justifyContent: 'space-between'}}>
+                                    <Button variant="outlined" sx={{ flex: '0 0 auto' }} title="Add More Tag" startIcon={<AddIcon />} onClick={addFooterFields}>Add More</Button>
+                                    <Button variant="outlined" sx={{ flex: '0 0 auto' }} title="Update Head" startIcon={<SystemUpdateAltIcon />} onClick={updateFooterCode}>Update</Button>
+                                </Box>
+                            </FormControl>
                         </TabPanel>
                         <TabPanel value={tabValue} index={2}>
                             Item Three
