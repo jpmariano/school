@@ -1,0 +1,13 @@
+[
+    {
+      
+        "editors": [
+            {
+                "language": "jsx",
+                "enable": "1",
+                "code": "const x = 5;\nlet text = \"Goodbye\";\nif (x < 10) {\n  text = \"Hello\";\n}\n\nconst myElement = <h1>{text}</h1>;",
+                "answer": "const x = 5;\nlet text = \"Goodbye\";\nif (x < 10) {\n  text = \"Hello\";\n}\n\nconst myElement = <h1>{text}</h1>;"
+            }
+        ]
+    }
+]
