@@ -26,6 +26,8 @@ export interface contextProps {
     updateJavascript?: (javascript: string) => void;
     jsxCode?: string;
     updateJsx?: (jsx: string) => void;
+    typescriptCode?: string;
+    updateTypescript?: (typescript: string) => void;
     cssCode?: string;
     updateCss?: (css: string) => void;
     sassCode?: string;
@@ -49,6 +51,10 @@ const defaultState = {
   upDateHtml: (html: string) => console.log(html),
   javascriptCode: '',
   updateJavascript: (javascript: string) => console.log(javascript),
+  jsxCode: '',
+  updateJsx: (jsx: string) => console.log(jsx),
+  typescriptCode: '',
+  updateTypescript: (typescript: string) => console.log(typescript),
   cssCode: '',
   updateCss: (css: string) => console.log(css),
   lessCode: '',
@@ -65,6 +71,7 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head, footer}) => {
     const [htmlCode, setHtmlCode] = useState('');
     const [javascriptCode, setJavascriptCode] = useState('');
     const [jsxCode, setJsxCode] = useState('');
+    const [typescriptCode, setTypescriptCode] = useState('');
     const [cssCode, setCssCode] = useState('');
     const [sassCode, setSassCode] = useState('');
     const [lessCode, setLessCode] = useState('');
@@ -85,6 +92,10 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head, footer}) => {
 
   const updateJsx = (jsxCodex: string) => {
     setJsxCode(jsxCodex);
+  };
+
+  const updateTypescript = (typescriptCodex: string) => {
+    setTypescriptCode(typescriptCodex);
   };
 
   const updateCss = (cssCodex: string) => {
@@ -121,6 +132,7 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head, footer}) => {
       item.language === 'sass' && setSassCode(item.code);
       item.language === 'less' && setLessCode(item.code);
       item.language === 'jsx' && setJsxCode(item.code);
+      item.language === 'typescript' && setTypescriptCode(item.code);
     })
     head && setHeadCode([...head]);
     updateInitialized(true);
@@ -130,7 +142,7 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head, footer}) => {
 
 
   return (
-    <CodePlayerContext.Provider value={{ htmlCode, upDateHtml, javascriptCode, updateJavascript, jsxCode, updateJsx, cssCode, updateCss, headCode, upDateHead, footerCode, upDateFooter, sassCode, updateSass, lessCode, updateLess, initialized, updateInitialized }}>
+    <CodePlayerContext.Provider value={{ htmlCode, upDateHtml, javascriptCode, updateJavascript, jsxCode, updateJsx, typescriptCode, updateTypescript, cssCode, updateCss, headCode, upDateHead, footerCode, upDateFooter, sassCode, updateSass, lessCode, updateLess, initialized, updateInitialized }}>
       {!(!cssCode && !lessCode && !javascriptCode && !sassCode && headCode?.length && footerCode?.length === 0) &&  htmlCode &&<ProjectSettings head={head} footer={footer}/>}
       <MuiTabs>
         {editors &&
@@ -179,6 +191,12 @@ const CodePlayer: React.FC<codePlayerProps> = ({editors, head, footer}) => {
               }
               case "jsx": {
                 return (<Box key={`${i}-jsx`} component="div" sx={{ width: 1 }} title="Javascript">
+                  <JsxToJsDisplay language={item.language}>{item.code}</JsxToJsDisplay>
+                </Box>);
+                break;
+              }
+              case "typescript": {
+                return (<Box key={`${i}-ts`} component="div" sx={{ width: 1 }} title="Javascript">
                   <JsxToJsDisplay language={item.language}>{item.code}</JsxToJsDisplay>
                 </Box>);
                 break;

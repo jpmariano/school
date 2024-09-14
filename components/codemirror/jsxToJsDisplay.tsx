@@ -16,11 +16,11 @@ import { javascript } from '@codemirror/lang-javascript';
 
 export interface jsxToJsDisplayProps {
   children?: string;
-  language?: 'javascript' | 'css' | 'html' | 'sass' | 'less' | 'jsx' ;
+  language?: 'javascript' | 'css' | 'html' | 'sass' | 'less' | 'jsx' | 'typescript';
 }
 
 const JsxToJsDisplay: React.FC<jsxToJsDisplayProps> = ({language, children}) => {
-  const { upDateHtml, updateJavascript, updateCss, updateSass, updateJsx, initialized,  htmlCode, cssCode, javascriptCode, jsxCode, headCode, sassCode, lessCode} = useContext(CodePlayerContext);
+  const { upDateHtml, updateJavascript, updateCss, updateSass, updateJsx, updateTypescript, initialized,  htmlCode, cssCode, javascriptCode, jsxCode, typescriptCode, headCode, sassCode, lessCode} = useContext(CodePlayerContext);
     //const {  sassCode} = useContext(CodePlayerContext);
 
 
@@ -47,6 +47,15 @@ const JsxToJsDisplay: React.FC<jsxToJsDisplayProps> = ({language, children}) => 
             });
             break;
           } 
+          case 'typescript': {
+            initialized && typescriptCode && convertJsxStringToJs(typescriptCode).then(function (output: any) {
+              setCode(output);
+            },
+            function (error: any) {
+              setCode(typescriptCode);
+            });
+            break;
+          }
           default: { 
              //statements; 
              break; 

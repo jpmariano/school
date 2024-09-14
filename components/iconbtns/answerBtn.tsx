@@ -10,7 +10,7 @@ import CodeReadOnly from '@/components/codemirror/codeReadonly';
 
 export interface answerBtnProps {
     children?: string;
-    language?: 'javascript' | 'css' | 'html' | 'sass' | 'less' | 'jsx';
+    language: 'javascript' | 'css' | 'html' | 'sass' | 'less' | 'jsx' | 'typescript';
 }
 
 const AnswerBtn: React.FC<answerBtnProps> = ({language='javascript', children}) => {

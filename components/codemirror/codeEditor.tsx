@@ -19,7 +19,7 @@ import useWindowDimensions from '@/utils/useWindowDimensions';
 
 export interface codeEditorProps {
     children?: string;
-    language?: 'javascript' | 'css' | 'html' | 'sass' | 'less' | 'jsx' ;
+    language: 'javascript' | 'css' | 'html' | 'sass' | 'less' | 'jsx' | 'typescript';
     editable?: boolean;
     answer?: string | null;
     settings?: boolean;
@@ -27,7 +27,7 @@ export interface codeEditorProps {
 
 const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,  settings = false, editable = true, children}) => {
 
-    const { upDateHtml, updateJavascript, updateCss, updateSass,  updateInitialized, updateLess, updateJsx, jsxCode, initialized,  htmlCode, cssCode, lessCode, javascriptCode, headCode, sassCode} = useContext(CodePlayerContext);
+    const { upDateHtml, updateJavascript, updateCss, updateSass,  updateInitialized, updateLess, updateJsx, updateTypescript, jsxCode, typescriptCode, initialized,  htmlCode, cssCode, lessCode, javascriptCode, headCode, sassCode} = useContext(CodePlayerContext);
 
     
     const [code, setCode] = useState('');
@@ -53,6 +53,11 @@ const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,
             case 'jsx': {
                setExtensions([javascript({ jsx: true })]);
                initialized && jsxCode && setCode(jsxCode);
+               break;
+            }
+            case 'typescript': {
+               setExtensions([javascript({ typescript: true })]);
+               initialized && typescriptCode && setCode(typescriptCode);
                break;
             }
             case 'html': {

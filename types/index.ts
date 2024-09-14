@@ -156,7 +156,7 @@ export type AnswersObj = {
 }
 
 export type Editor = {
-  language: 'html' | 'css' | 'javascript' | 'sass' | 'less' | 'jsx';
+  language: 'html' | 'css' | 'javascript' | 'sass' | 'less' | 'jsx'  | 'typescript';
   enable: string;
   code: string;
   answer: string | null;

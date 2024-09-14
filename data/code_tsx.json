@@ -3,10 +3,10 @@
       
         "editors": [
             {
-                "language": "jsx",
+                "language": "typescript",
                 "enable": "1",
-                "code": "const x = 5;\nlet text = \"Goodbye\";\nif (x < 10) {\n  text = \"Hello\";\n}\n\nconst myElement = <h1>{text}</h1>;",
-                "answer": "const x = 5;\nlet text = \"Goodbye\";\nif (x < 10) {\n  text = \"Hello\";\n}\n\nconst myElement = <h1>{text}</h1>;"
+                "code": "function MyButton({ title }: { title: string }) {\n  return (\n    <button>{title}</button>\n  );\n}\n\nexport default function MyApp() {\n  return (\n    <div>\n      <h1>Welcome to my app</h1>\n      <MyButton title=\"I'm a button\" />\n    </div>\n  );\n}\n",
+                "answer": "function MyButton({ title }: { title: string }) {\n  return (\n    <button>{title}</button>\n  );\n}\n\nexport default function MyApp() {\n  return (\n    <div>\n      <h1>Welcome to my app</h1>\n      <MyButton title=\"I'm a button\" />\n    </div>\n  );\n}\n"
             }
         ]
     }
