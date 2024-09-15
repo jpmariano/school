@@ -99,6 +99,10 @@ const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,
                updateJsx && updateJsx(value)
               break; 
            } 
+           case 'typescript': { 
+               updateTypescript && updateTypescript(value)
+              break; 
+           }
             case 'html': { 
                 upDateHtml && upDateHtml(value)
                break; 
@@ -119,7 +123,7 @@ const CodeEditor: React.FC<codeEditorProps> = ({language = 'javascript', answer,
                break; 
             } 
          }
-      }, [language, upDateHtml, updateCss, updateSass, updateJavascript, updateLess]);
+      }, [language, upDateHtml, updateCss, updateSass, updateJavascript, updateLess, updateTypescript, updateJsx]);
 
        
 

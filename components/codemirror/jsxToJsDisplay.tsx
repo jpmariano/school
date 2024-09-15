@@ -49,20 +49,12 @@ const JsxToJsDisplay: React.FC<jsxToJsDisplayProps> = ({language, children}) => 
             break;
           } 
           case 'typescript': {
-            const tsConvertedCode = convertTypescriptToJs(typescriptCode!);
-            tsConvertedCode.then(function (output: any) {
-              setCode(output);
-            }).catch(function (error: any) {
-              setCode(typescriptCode!);
-            })
-            
-            /*
             initialized && typescriptCode && convertTypescriptToJs(typescriptCode).then(function (output: any) {
               setCode(output);
             },
             function (error: any) {
               setCode(typescriptCode);
-            }); */
+            }); 
             break;
           }
           default: { 
