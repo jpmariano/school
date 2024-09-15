@@ -21,6 +21,7 @@ import KCQuestions from '@/components/knowledgeCheck/KCQuestions';
 import knowledgeCheckJson from '@/data/knowledgeCheck.json';
 import { RadioQuestion } from '@/components/knowledgeCheck/KCForm';
 import KCQuestioners from '@/components/knowledgeCheck/KCQuestioners';
+import CodePlayerWrapper from '@/components/codemirror/codePlayerWrapper';
 
 export interface slicesProps {
     data: NodeType | Parent | Links |  Data | null;
@@ -46,7 +47,7 @@ const Slices: React.FC <slicesProps> = ({data, included = [], nodetype = null})=
 	return (
     <div className='paragraphs'>
       {included.map(function (item, i) {
-
+        console.log(item.type);
         switch (item.type) {
           case 'paragraph--paragraph_text':
             return (
@@ -81,7 +82,6 @@ const Slices: React.FC <slicesProps> = ({data, included = [], nodetype = null})=
                  </React.Fragment>
               );
             case 'paragraph--paragraph_kcquestions':
-   
               return (
                 <React.Fragment key={i}>
                   <KnowledgeCheckProvider>
@@ -91,7 +91,14 @@ const Slices: React.FC <slicesProps> = ({data, included = [], nodetype = null})=
                   </KnowledgeCheckProvider>
                   <HorizontalSeparator />
                 </React.Fragment>
-              ); 
+              );
+            case 'paragraph--paragraph_code':
+              return (
+                <React.Fragment key={i}>
+                  <CodePlayerWrapper data={item} index={i} included={included} /> 
+                  <HorizontalSeparator />
+                </React.Fragment>
+              );  
           default:
             return null;
         }

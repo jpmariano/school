@@ -69,6 +69,7 @@ export default async function page(params) {
       notFound();
     } else {
       const { pageDetails, node, nodeLessonCompletion, pathname} = data;
+      //console.log(node);
       const title = `${pageDetails.label} | Webupps`;
       const description = node ? node.data.attributes.body.value : pageDetails.label; // Adjust the description based on your data
       const paragraphType: keyof Relationships | null =  node ? Object.keys(node.data.relationships).filter((s) => s.indexOf('paragraph') !== -1)[0] as keyof Relationships : null;

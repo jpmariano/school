@@ -199,6 +199,9 @@ export type Attributes = {
   field_image_styles: ObjectFit;
   field_term_and_definition?: TermType[];
   field_kcquestions?: RadioQuestionUnformatted[];
+  field_code_editor: string[];
+  field_code_footer: field_text[];
+  field_code_header: field_text[];
 }
 export type Path = {
   alias: string;
