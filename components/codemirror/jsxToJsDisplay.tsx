@@ -10,6 +10,7 @@ import { CodePlayerContext } from '@/components/codemirror/codePlayer';
 import useWindowDimensions from '@/utils/useWindowDimensions';
 import { convertJsxStringToJs } from '@/utils/convertJsxStringToJs';
 import { javascript } from '@codemirror/lang-javascript';
+import { convertTypescriptToJs } from '@/utils/convertTypescriptToJs';
 //import scss from '@hai2007/algorithm/scss.js';
 //import * as sass from 'sass';
 
@@ -48,12 +49,20 @@ const JsxToJsDisplay: React.FC<jsxToJsDisplayProps> = ({language, children}) => 
             break;
           } 
           case 'typescript': {
-            initialized && typescriptCode && convertJsxStringToJs(typescriptCode).then(function (output: any) {
+            const tsConvertedCode = convertTypescriptToJs(typescriptCode!);
+            tsConvertedCode.then(function (output: any) {
+              setCode(output);
+            }).catch(function (error: any) {
+              setCode(typescriptCode!);
+            })
+            
+            /*
+            initialized && typescriptCode && convertTypescriptToJs(typescriptCode).then(function (output: any) {
               setCode(output);
             },
             function (error: any) {
               setCode(typescriptCode);
-            });
+            }); */
             break;
           }
           default: { 
