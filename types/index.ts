@@ -147,6 +147,10 @@ export type RadioQuestionUnformatted = {
   question: string;
   answers: string;
 };
+export type MultiQuestion = {
+  multi_question: string;
+  multi_answers: string;
+};
 export type AnswersObj = {
   question: string;
   answers: {
@@ -202,6 +206,7 @@ export type Attributes = {
   field_code_editor: string[];
   field_code_footer: field_text[];
   field_code_header: field_text[];
+  field_multiple_choice: MultiQuestion[];
 }
 export type Path = {
   alias: string;

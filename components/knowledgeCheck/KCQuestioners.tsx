@@ -19,7 +19,7 @@ const KCQuestioners: React.FC<paragraphProps> = ({ data, index, included}): Reac
             <KCForm 
                 key={i.toString()} 
                 question={item.question} 
-                answers={JSON.parse(JSON.parse(item.answers))} 
+                answers={JSON.parse(item.answers)} 
             />
         );
     }) || null; // Return null if there are no questions
