@@ -31,9 +31,9 @@ const QuizForm: React.FC<QRadioQuestion> = ({ question, answers }) => {
     useEffect(() => {
         {
             answers.map((item: { answer: string; value: string; }, i: number) => {
-                if (item.value === "1") {
+                if (item.value.toString() === "1") {
                     setCorrectAnswer(i.toString());
-                }
+                } 
             })
         }
   
