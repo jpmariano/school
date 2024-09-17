@@ -17,7 +17,7 @@ const QuizWrapper: React.FC<paragraphProps> = ({ data, index, included}): React.
     const listOfQA: QRadioQuestion[] = data.attributes.field_multiple_choice.map((item: MultiQuestion, i: number) => {
         let answer: QRadioQuestion = new  Object() as QRadioQuestion;
         answer.question = item.multi_question;
-        answer.answers = JSON.parse(JSON.parse(item.multi_answers));
+        answer.answers = JSON.parse(item.multi_answers);
         return answer;
     });
     

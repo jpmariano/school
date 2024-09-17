@@ -33,16 +33,9 @@ const KCForm: React.FC<RadioQuestion> = ({ question, answers }): React.ReactNode
     useEffect(() => {
         
             answers.map((item: { answer: string; value: string; }, i: number) => {
-               if(typeof(item.value) === 'number'){
-                    if (item.value === 1) {
-                        setCorrectAnswer(i.toString());
-                    }
-               } else {
                 if (item.value === "1") {
                     setCorrectAnswer(i.toString());
                 }
-               }
-                
             })
         
         // eslint-disable-next-line react-hooks/exhaustive-deps
