@@ -7,6 +7,7 @@ import { Box } from '@mui/material';
 import { Included, paragraphProps, Body, FieldImage, IncludeItem } from '@/types';
 import { BASE_URL } from '@/api/config';
 import styles from "@/styles/components/paraImage/paraimage.module.scss";
+import classNames from 'classnames';
 
 //const backgroundImageFileUrl = backgroundImageFile.attributes.uri.url;
 //src={`${DOMAIN}${backgroundImageFileUrl}`}
@@ -30,7 +31,7 @@ const ParaImage: React.FC<paragraphProps> = ({ data, index, included}) => {
           width={data.relationships.field_image.data.meta.width}
           height={data.relationships.field_image.data.meta.height}
           style={{objectFit: paragraph_image[0].attributes.field_image_styles}}
-          className={paragraph_image[0].attributes.field_image_styles === 'cover' ? styles.paraimageCover : styles.paraimageContain}
+          className={classNames('fade-in-image', paragraph_image[0].attributes.field_image_styles === 'cover' ? styles.paraimageCover : styles.paraimageContain)}
         /> 
     </Box>
      ) : null

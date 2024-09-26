@@ -23,6 +23,7 @@ import { RadioQuestion } from '@/components/knowledgeCheck/KCForm';
 import KCQuestioners from '@/components/knowledgeCheck/KCQuestioners';
 import CodePlayerWrapper from '@/components/codemirror/codePlayerWrapper';
 import QuizWrapper from '@/components/quiz/QuizWrapper';
+import ContentImageWrapper from '@/components/contentImage/contentImageWrapper';
 
 export interface slicesProps {
     data: NodeType | Parent | Links |  Data | null;
@@ -107,6 +108,13 @@ const Slices: React.FC <slicesProps> = ({data, included = [], nodetype = null})=
                   <HorizontalSeparator />
                 </React.Fragment>
               ); 
+              case 'paragraph--paragraph_content_image':
+                return (
+                  <React.Fragment key={i}>
+                    <ContentImageWrapper data={item} index={i} included={included} /> 
+                    <HorizontalSeparator />
+                  </React.Fragment>
+                ); 
           default:
             return null;
         }

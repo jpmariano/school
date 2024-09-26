@@ -198,6 +198,8 @@ export type Attributes = {
   path: Path;
   body: Body;
   field_text: field_text;
+  field_circle: string;
+  field_title: string;
   filename: string;
   uri: uri;
   field_image_styles: ObjectFit;
@@ -207,6 +209,7 @@ export type Attributes = {
   field_code_footer: field_text[];
   field_code_header: field_text[];
   field_multiple_choice: MultiQuestion[];
+  field_is_image_right: boolean;
 }
 export type Path = {
   alias: string;
@@ -287,6 +290,25 @@ export type Relationships = {
   parent: Parent;
   links: Links;
   field_paragraph_qa_k: Parent;
+}
+
+export type ImageProps = {
+  url: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
+
+
+export type CircleProps = {
+  diameter: string;
+  diameter_max_width: string;
+  bottom_placement: string;
+  left_right_placement: string;
+  circle_direction: 'clockwise' | 'counter-clockwise';
+  light_mode_color: string;
+  dark_mode_color: string;
 }
 
 export type IncludeItem = {

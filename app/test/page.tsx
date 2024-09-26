@@ -28,6 +28,7 @@ import { SortableProvider } from '@/components/sortable';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/utils/authOptions';
 import { CustomSession } from '@/types';
+import ContentImage from '@/components/contentImage';
 
 //import { useEffect } from 'react';
 
@@ -45,6 +46,10 @@ const Index: NextPage = async () => {
   console.log(session);
   return (
     <Main>
+      <HorizontalSeparator />
+      <FullWidthBox>
+        
+      </FullWidthBox>
       <HorizontalSeparator />
       <FullWidthBox>
         <QuizProvider>

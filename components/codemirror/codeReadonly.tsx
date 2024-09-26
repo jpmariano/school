@@ -10,12 +10,14 @@ import { css } from '@codemirror/lang-css';
 import { EditorView, ViewUpdate } from '@codemirror/view';
 import { EditorState, EditorStateConfig, Extension, StateField } from '@codemirror/state';
 import { CodePlayerContext } from '@/components/codemirror/codePlayer';
+import { sass } from '@codemirror/lang-sass';
+import { less } from '@codemirror/lang-less';
 
 
 
 export interface codeReadOnlyProps {
     children?: string;
-    language?: 'javascript' | 'css' | 'html';
+    language: 'javascript' | 'css' | 'html' | 'sass' | 'less' | 'jsx' | 'typescript';
 }
 
 const CodeReadOnly: React.FC<codeReadOnlyProps> = ({language = 'javascript', children }) => {
@@ -33,6 +35,14 @@ const CodeReadOnly: React.FC<codeReadOnlyProps> = ({language = 'javascript', chi
                 setExtensions([javascript({ jsx: true })]);
                 break; 
              } 
+             case 'jsx': {
+                setExtensions([javascript({ jsx: true })]);
+                break;
+             }
+             case 'typescript': {
+                setExtensions([javascript({ typescript: true })]);
+                break;
+             }
              case 'html': { 
                  setExtensions([html({ matchClosingTags: true })]);
                 break; 
@@ -40,6 +50,14 @@ const CodeReadOnly: React.FC<codeReadOnlyProps> = ({language = 'javascript', chi
              case 'css': { 
                  setExtensions([css()]);
                 break; 
+             }
+             case 'sass': {
+                setExtensions([sass()]);        
+                break;
+             }
+             case 'less': {
+                setExtensions([less()]);            
+                break;
              }
              default: { 
                  setExtensions([javascript({ jsx: true })]);
@@ -50,7 +68,7 @@ const CodeReadOnly: React.FC<codeReadOnlyProps> = ({language = 'javascript', chi
        }, []);
 //#1aa8ff
   return (
-    <Box component="section" id='test' sx={{overflow: 'hidden', height: '100%', minHeight: '100px',  width: '100%' , minWidth: '500px'}}>
+    <Box component="section" id='test' sx={{overflow: 'hidden', height: '100%', minHeight: '100px',  width: '100%' }} className='md:min-w-[500px]'>
          <CodeMirror
       value={code}
       minHeight='100px'

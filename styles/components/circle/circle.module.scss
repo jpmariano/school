@@ -1,0 +1,36 @@
+$lightModeColor: #FFCA00;
+$darkModeColor: #1d2c55;
+.circle-clockwise{
+    position: absolute;
+    border-radius: 50%;
+    animation: rotate-clockwise 20s linear 0s infinite normal;
+    z-index: 0;
+}
+
+
+@keyframes rotate-clockwise {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+.circle-counter-clockwise {
+    position: absolute;
+    border-radius: 50%;
+    animation: rotate-counter-clockwise 20s linear 0s infinite normal;
+    z-index: 0;
+}
+
+
+
+@keyframes rotate-counter-clockwise {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(-360deg);
+    }
+  }

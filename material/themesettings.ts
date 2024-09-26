@@ -3,7 +3,7 @@ import { ThemeOptions } from '@mui/material';
 //https://mui.com/material-ui/customization/default-theme/
 export const light: ThemeOptions = {
   breakpoints: {
-    values: {xs: 0, sm: 414, md: 744, lg: 936, xl: 1280}
+    values: {xs: 0, sm: 414, md: 744, lg: 936, xl: 1280, }
   },
   palette: {
     mode: 'light',
@@ -234,7 +234,7 @@ export const dark: ThemeOptions = {
       lineHeight: '3.8rem',
       fontStyle: 'inherit',
       '@media (max-width: 600px)': {
-        color: '#1E1E1E',
+        color: '#FFFFFF',
         fontSize: '1.5rem',
         fontWeight: '700',
         lineHeight: '32px',
