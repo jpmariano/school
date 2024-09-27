@@ -210,6 +210,9 @@ export type Attributes = {
   field_code_header: field_text[];
   field_multiple_choice: MultiQuestion[];
   field_is_image_right: boolean;
+  field_iscoderight: boolean;
+  field_language:  'javascript' | 'css' | 'html' | 'sass' | 'less' | 'jsx' | 'typescript'| 'php' | 'json' | 'sql' | 'yaml';
+  field_code: string;
 }
 export type Path = {
   alias: string;

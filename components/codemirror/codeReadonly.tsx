@@ -1,7 +1,7 @@
 
 'use client'
 import React, { ReactNode, useCallback, useContext, useEffect, useState } from 'react';
-import { Box, Paper, useTheme } from '@mui/material';
+import { Box, Paper, useMediaQuery, useTheme } from '@mui/material';
 import styles from "@/styles/components/layouts/aside.module.scss";
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
@@ -12,12 +12,16 @@ import { EditorState, EditorStateConfig, Extension, StateField } from '@codemirr
 import { CodePlayerContext } from '@/components/codemirror/codePlayer';
 import { sass } from '@codemirror/lang-sass';
 import { less } from '@codemirror/lang-less';
+import { php } from '@codemirror/lang-php';
+import { json } from '@codemirror/lang-json';
+import { sql } from '@codemirror/lang-sql';
+import { yaml } from '@codemirror/lang-yaml';
 
 
 
 export interface codeReadOnlyProps {
     children?: string;
-    language: 'javascript' | 'css' | 'html' | 'sass' | 'less' | 'jsx' | 'typescript';
+    language: 'javascript' | 'css' | 'html' | 'sass' | 'less' | 'jsx' | 'typescript'| 'php' | 'json' | 'sql' | 'yaml';
 }
 
 const CodeReadOnly: React.FC<codeReadOnlyProps> = ({language = 'javascript', children }) => {
@@ -25,7 +29,8 @@ const CodeReadOnly: React.FC<codeReadOnlyProps> = ({language = 'javascript', chi
     const [code, setCode] = useState('');
     const [extensions, setExtensions] = useState<Extension[]>([]);
     const codeInitialize = children?.toString();
-    
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     useEffect(() => {
         children && setCode(codeInitialize ? codeInitialize : '');
@@ -59,6 +64,22 @@ const CodeReadOnly: React.FC<codeReadOnlyProps> = ({language = 'javascript', chi
                 setExtensions([less()]);            
                 break;
              }
+             case 'php': {
+               setExtensions([php()]);            
+               break;
+             }
+             case 'json': {
+               setExtensions([json()]);            
+               break;
+             }
+             case 'sql': {
+               setExtensions([sql()]);            
+               break;
+             }
+             case 'yaml': {
+               setExtensions([yaml()]);            
+               break;
+             }
              default: { 
                  setExtensions([javascript({ jsx: true })]);
                 break; 
@@ -68,12 +89,12 @@ const CodeReadOnly: React.FC<codeReadOnlyProps> = ({language = 'javascript', chi
        }, []);
 //#1aa8ff
   return (
-    <Box component="section" id='test' sx={{overflow: 'hidden', height: '100%', minHeight: '100px',  width: '100%' }} className='md:min-w-[500px]'>
+    <Box component="section" id='test' sx={{overflow: 'hidden', height: '100%', minHeight: '100px',  width: '100%' }} className='lg:min-w-[500px] sm:w-full'>
          <CodeMirror
       value={code}
       minHeight='100px'
       maxHeight='500px'
-      minWidth='500px'
+      minWidth={isMobile ? '100%' : '500px'}
       height="100%"
       width='100%'
       extensions={extensions}

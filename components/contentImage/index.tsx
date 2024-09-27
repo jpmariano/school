@@ -27,8 +27,8 @@ const ContentImage: React.FC<contentImageProps> = ({title, body, image, circle, 
   const matches = useMediaQuery(theme.breakpoints.down('md'));
   //<CircleRotating bottom={'0%'} right={'-5%'}  diameter={'50vw'} diameter_max_width={'200px'} direction={"clockwise"} color={ isLight ? '#1d2c55' : '#FCB61C'}/>}
   return (
-    <Box component="div" className={`md:flex ${isImageRight ? 'md:flex-row-reverse' : ''}`}>
-        <Box component="div" className="md:w-[32rem] p-5 sm:w-auto lg:shrink-0 relative">
+    <Box component="div" className={`md:flex ${isImageRight ? 'md:flex-row-reverse' : ''} `}>
+        <Box component="div" className="md:w-[32rem] p-5 sm:w-auto lg:shrink-0 relative ">
           { isImageRight ? matches ? <CircleRotating bottom={circle.bottom_placement}  right={circle.left_right_placement}   diameter={circle.diameter}  diameter_max_width={circle.diameter_max_width} direction={circle.circle_direction} color={ isLight ? circle.light_mode_color : circle.dark_mode_color }/> : 
           <CircleRotating bottom={circle.bottom_placement} left={circle.left_right_placement}  diameter={circle.diameter} diameter_max_width={circle.diameter_max_width} direction={circle.circle_direction} color={ isLight ? circle.light_mode_color : circle.dark_mode_color }/>: 
           <CircleRotating bottom={circle.bottom_placement}  right={circle.left_right_placement}   diameter={circle.diameter}  diameter_max_width={circle.diameter_max_width} direction={circle.circle_direction} color={ isLight ? circle.light_mode_color : circle.dark_mode_color }/>}
