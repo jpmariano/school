@@ -94,7 +94,7 @@ const CodeReadOnly: React.FC<codeReadOnlyProps> = ({language = 'javascript', chi
       value={code}
       minHeight='100px'
       maxHeight='500px'
-      minWidth={isMobile ? '100%' : '500px'}
+      minWidth={isMobile ? '100px' : '500px'}
       height="100%"
       width='100%'
       extensions={extensions}

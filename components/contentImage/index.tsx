@@ -23,15 +23,19 @@ const ContentImage: React.FC<contentImageProps> = ({title, body, image, circle, 
   if (theme.palette.mode === 'dark') {
       isLight = false;
   }
+
   
-  const matches = useMediaQuery(theme.breakpoints.down('md'));
+
+  
+  const isXS = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMD = useMediaQuery(theme.breakpoints.down('md'));
   //<CircleRotating bottom={'0%'} right={'-5%'}  diameter={'50vw'} diameter_max_width={'200px'} direction={"clockwise"} color={ isLight ? '#1d2c55' : '#FCB61C'}/>}
   return (
-    <Box component="div" className={`md:flex ${isImageRight ? 'md:flex-row-reverse' : ''} `}>
-        <Box component="div" className="md:w-[32rem] p-5 sm:w-auto lg:shrink-0 relative ">
-          { isImageRight ? matches ? <CircleRotating bottom={circle.bottom_placement}  right={circle.left_right_placement}   diameter={circle.diameter}  diameter_max_width={circle.diameter_max_width} direction={circle.circle_direction} color={ isLight ? circle.light_mode_color : circle.dark_mode_color }/> : 
+    <Box component="div" className={`flex ${isImageRight ? 'xl:flex-row-reverse' : 'xl:flex-row'} xs:flex-col-reverse`}>
+        <Box component="div" className="xl:w-[32rem] p-5 sm:w-full xl:shrink-0 relative">
+          { isImageRight ? isMD ? <CircleRotating bottom={circle.bottom_placement}  right={isXS ? '4%' : isMD ? '2%' : circle.left_right_placement}   diameter={circle.diameter}  diameter_max_width={circle.diameter_max_width} direction={circle.circle_direction} color={ isLight ? circle.light_mode_color : circle.dark_mode_color }/> : 
           <CircleRotating bottom={circle.bottom_placement} left={circle.left_right_placement}  diameter={circle.diameter} diameter_max_width={circle.diameter_max_width} direction={circle.circle_direction} color={ isLight ? circle.light_mode_color : circle.dark_mode_color }/>: 
-          <CircleRotating bottom={circle.bottom_placement}  right={circle.left_right_placement}   diameter={circle.diameter}  diameter_max_width={circle.diameter_max_width} direction={circle.circle_direction} color={ isLight ? circle.light_mode_color : circle.dark_mode_color }/>}
+          <CircleRotating bottom={circle.bottom_placement}  right={isXS ? '4%' : isMD ? '2%' : circle.left_right_placement}   diameter={circle.diameter}  diameter_max_width={circle.diameter_max_width} direction={circle.circle_direction} color={ isLight ? circle.light_mode_color : circle.dark_mode_color }/>}
         
           <Image
             src={image.url}
@@ -41,7 +45,7 @@ const ContentImage: React.FC<contentImageProps> = ({title, body, image, circle, 
             className="fade-in-image w-full h-auto xs:max-w-xl xs:mx-auto xs:my-0 xs:block md:inline"
           />
         </Box>
-        <Box component="div" className="text-container p-10 lg:flex-grow w-full">
+        <Box component="div" className="text-container xs:px-5 md:px-10 lg:flex-grow w-full">
         <Typography variant="h2" > {title} </Typography>
         <Typography variant='body1'> {parse(body)}</Typography>
         </Box>

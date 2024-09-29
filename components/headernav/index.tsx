@@ -1,50 +1,43 @@
-
 'use client'
-import React, { useContext } from 'react';
-import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
+import React from 'react';
 import { Box, List, ListItem, Typography, useMediaQuery, useTheme } from '@mui/material';
 import Link from 'next/link';
-import Logo from "@/components/logo";
-import { IsMobileContext } from '@/components/provider/ismobileProvider';
-import styles from "@/styles/components/headernav/index.module.scss";
 import { usePathname } from 'next/navigation';
 import navItems from '@/data/mainnav.json';
+import styles from "@/styles/components/headernav/index.module.scss";
 
 const HeaderNav: React.FC = () => {
- // const { isMobile } = useContext(IsMobileContext);
   const theme = useTheme();
   const pathname = usePathname();
   const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
 
-
-
-  if(!isMobile){
+  if (!isMobile) {
     return (
-      <Box component="nav" >
-         <List sx={{ display: 'flex', direction: 'row', color: "#ffffff"}}>
-         {navItems?.map((item: any, i: number) => (
-              <ListItem
-                key={i.toString()}
+      <Box component="nav">
+        <List sx={{ display: 'flex', direction: 'row', color: "#ffffff" }}>
+          {navItems?.map((item: any, i: number) => (
+            <ListItem key={i.toString()}>
+              <Link 
+                href={item.link} 
+                passHref 
+                className={`${styles.navlink} ${pathname === item.link ? styles.navlink__isActive : ''}`}
               >
-                <Link href={item.link} passHref key={i.toString()} className={
-                  pathname === item.link
-                    ? styles.navlink__isActive
-                    : styles.navlink
-                }>
-                  <Typography
-                    component="span"
-                    variant="body2"
-                    sx={{ color: '#ffffff' }}
-                  >
-                    {item.name}
-                  </Typography>
-                </Link>
-              </ListItem>
-            ))}
-         </List>
-      </Box> 
-      )
+                <Typography
+                  component="span"
+                  variant="body2"
+                  sx={{ color: '#ffffff' }}
+                >
+                  {item.name}
+                </Typography>
+              </Link>
+            </ListItem>
+          ))}
+        </List>
+      </Box>
+    );
   }
+
+  return null; // Return null for mobile view to avoid rendering the nav
 };
 
 export default HeaderNav;

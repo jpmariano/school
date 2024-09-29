@@ -47,7 +47,7 @@ const CodeText: React.FC<codeTextProps> = ({title, description, code, language='
       <ReactVisibilitySensor partialVisibility={true} onChange={slideUpText}>
         <Box ref={text}> {title && <Typography component={'h2'} variant={'h2'} className='px-10'>{title}</Typography>}</Box>
       </ReactVisibilitySensor>
-      <Box component="div" className={`flex ${isCodeRight ? 'xl:flex-row-reverse' : 'xl:flex-row'}  sm:flex-col-reverse`}>
+      <Box component="div" className={`flex ${isCodeRight ? 'xl:flex-row-reverse' : 'xl:flex-row'}  xs:flex-col-reverse`}>
         <ReactVisibilitySensor partialVisibility={true} onChange={fadeDown}>
           <Box ref={container}>
             <Box component="div" className="xl:w-[50rem] p-5 sm:w-auto xl:shrink-0 relative">
@@ -55,7 +55,7 @@ const CodeText: React.FC<codeTextProps> = ({title, description, code, language='
             </Box>
           </Box>
         </ReactVisibilitySensor>
-        <Box component="div" className="text-container px-10 py-5 xl:flex-grow w-full">
+        <Box component="div" className="text-container xs:px-5 md:px-10 py-5 xl:flex-grow w-full">
           {description && <Typography component={'p'} variant={'body2'} >{parse(description)}</Typography>}
         </Box>
       </Box>
