@@ -2,7 +2,7 @@
     color: #ffffff;
     text-decoration: none;
     position: relative;
-  
+    padding-bottom: 4px;
     &::after {
       content: "";  
       position: absolute;
@@ -13,26 +13,32 @@
       background-image: none; 
       transition: background-image 0.3s ease, height 0.3s ease;
       display: block; 
+      position: absolute;
+      bottom: -3px;
+      left: -9px;
+      height: 7px;
     }
   
     &:hover,
     &:focus,
     &:active {
       &::after {
-        background-image: url("/whiteline.svg");
-        background-size: 100% 100%;
+        background-image: url("/underline_2.svg");
+        background-size: cover;
         background-repeat: no-repeat;
-        height: 5px;
+        height: 8px;
+        min-width: 61px;
       }
     }
   }
   
   .navlink__isActive {
     &::after {
-      background-image: url("/whiteline.svg");
-      background-size: 100% 100%;
+      background-image: url("/underline_2.svg");
+      background-size: cover;
       background-repeat: no-repeat;
-      height: 5px; 
+      height: 8px;
+      min-width: 61px; 
     }
   }
   
