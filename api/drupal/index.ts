@@ -4,7 +4,7 @@ import { NextAuthOptions } from 'next-auth';
 import { getServerSession } from "next-auth";
 import { NextApiRequest, NextApiResponse } from 'next';
 //import NextAuth  from "@/app/api/auth/[...nextauth]"; 
-import { PathDetails, lessonid, listOfLessons, node, userinfo,  AccountCredentials, AccountResetCredentials, verifyCredentials, tokenResponse, ErrorResponse, userLoginResponse, CustomSession, CustomJWT, Token } from '@/types';
+import { PathDetails, lessonid, listOfLessons, node, userinfo,  AccountCredentials, AccountResetCredentials, verifyCredentials, tokenResponse, ErrorResponse, userLoginResponse, CustomSession, CustomJWT, Token, CompletedLesson } from '@/types';
 import userData from '@/data/userLogin.json';
 import CustomError from '@/utils/CustomError';
 
@@ -431,6 +431,79 @@ export const getPage = async (slug: string): Promise<Response | ErrorResponse> =
 		};
 	}
 };
+
+export const setCompletedLesson = async (completedLesson: CompletedLesson): Promise<Response | ErrorResponse> => {
+	const session: CustomSession = await getServerSession(authOptions) as CustomSession;
+	console.log('session-getpage*******', session);
+
+	if (!session) {
+	  return {
+		success: false,
+		message: "No session - Unknown error",
+		status: 500
+	  };
+	}
+
+	const headers = {
+		"Content-Type": "application/json",
+		"Authorization": `Bearer ${session.user.access_token}`
+	};
+
+	try {
+		let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/node?_format=json`, {
+			method: "POST",
+			headers: headers,
+			body: JSON.stringify(completedLesson)
+		});
+
+		// Check if the token is invalid or expired and if so, attempt to refresh
+		if (response.status === 401 || response.status === 403) {
+			console.log('Token expired, attempting to refresh...');
+			const refreshedSession: CustomSession = await getServerSession(authOptions) as CustomSession;
+
+			if (!refreshedSession) {
+				return {
+					success: false,
+					message: "Failed to refresh session - Unknown error",
+					status: 500
+				};
+			}
+
+			const refreshedHeaders = {
+				"Content-Type": "application/json",
+				"Authorization": `Bearer ${refreshedSession.user.access_token}`
+			};
+
+			// Retry the request with the new token
+			response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/node?_format=json`, {
+				method: "GET",
+				headers: refreshedHeaders,
+				body: JSON.stringify(completedLesson)
+			});
+		}
+
+		if (!response.ok) {
+			throw new CustomError(`HTTP error! status: ${response.status}`, response.status);
+		}
+
+		const result: Response = response;
+		return result;
+	} catch (error) {
+		if (error instanceof CustomError) {
+			return {
+				success: false,
+				message: error.message,
+				status: error.statusCode
+			};
+		}
+		return {
+			success: false,
+			message: error instanceof Error ? error.message : "Unknown error",
+			status: 500
+		};
+	}
+};
+
 export const revokeToken = async (accessToken: string): Promise<void> =>  {
 	if (!accessToken) {
 		console.error('No access token provided for revocation');

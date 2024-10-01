@@ -9,7 +9,7 @@ import styles from "@/styles/components/headernav/index.module.scss";
 import { usePathname } from 'next/navigation';
 import navItems from '@/data/mainnav.json';
 import BodyContent from '@/components/bodyContent';
-import { Data, Included, Links, NodeType, Parent, RevisionUidOrUidOrFieldSubjectOfLesson } from '@/types';
+import { Data, Included, Links, node, NodeType, Parent, RevisionUidOrUidOrFieldSubjectOfLesson } from '@/types';
 import ParaText from "@/components/paraText";
 import ParaImage from '@/components/paraImage';
 import HorizontalSeparator from '@/components/layouts/horizontalSeparator';
@@ -41,7 +41,7 @@ const Slices: React.FC <slicesProps> = ({data, included = [], nodetype = null})=
   //const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
 
 
-
+  //onsole.log('included---', included);
 
 	
   //console.log(included);
@@ -50,7 +50,7 @@ const Slices: React.FC <slicesProps> = ({data, included = [], nodetype = null})=
 	return (
     <div className='paragraphs'>
       {included.map(function (item, i) {
-        console.log(item.type);
+       // console.log(item.type);
         switch (item.type) {
           case 'paragraph--paragraph_text':
             return (

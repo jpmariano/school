@@ -577,3 +577,31 @@ export type  GetNodeResponse = {
   nodeLessonCompletion: lessonid[] | [];
   pathname: string | null;
 }
+
+export type target_id_string = {
+  target_id: string;
+}
+
+export type target_id_number = {
+  target_id: number;
+}
+
+export type value_string = {
+  value: string;
+}
+
+export type value_boolean = {
+  value: boolean;
+}
+
+export type value_number = {
+  value: number;
+}
+export type CompletedLesson = {
+  type: target_id_string[];
+  title: value_string[];
+  field_lesson_ref: target_id_number[];
+  field_pass: value_boolean[];
+  field_score: value_number[];
+  field_subject_ref: target_id_number[];
+}

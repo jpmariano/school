@@ -26,6 +26,7 @@ import { authOptions } from '@/utils/authOptions'
 import { GetNodePage } from '@/utils/getNodePage'
 import CustomError from '@/utils/CustomError'
 import HorizontalSeparator from '@/components/layouts/horizontalSeparator'
+import { NodePageProvider } from '@/components/nodePage'
 
 
 
@@ -69,17 +70,21 @@ export default async function page(params) {
       notFound();
     } else {
       const { pageDetails, node, nodeLessonCompletion, pathname} = data;
-      //console.log(node);
       const title = `${pageDetails.label} | Webupps`;
       const description = node ? node.data.attributes.body.value : pageDetails.label; // Adjust the description based on your data
       const paragraphType: keyof Relationships | null =  node ? Object.keys(node.data.relationships).filter((s) => s.indexOf('paragraph') !== -1)[0] as keyof Relationships : null;
       const hasComponents = paragraphType !== null;
       const content = node && hasComponents && (
-        <Slices
-          data={paragraphType ? node.data.relationships?.[paragraphType ? paragraphType : "field_paragraph_lesson"] : null}
-          included={node.included}
-          nodetype={node.data.type}
-        />
+        <NodePageProvider 
+              field_lesson_ref={pageDetails.entity.id} 
+              field_subject_ref={node?.data?.relationships?.field_subject_of_lesson?.data?.meta?.drupal_internal__target_id} 
+              nodeLessonCompletion={nodeLessonCompletion}>
+                <Slices
+                  data={paragraphType ? node.data.relationships?.[paragraphType ? paragraphType : "field_paragraph_lesson"] : null}
+                  included={node.included}
+                  nodetype={node.data.type}
+                />
+        </NodePageProvider>
       );
      
       return (
@@ -92,7 +97,7 @@ export default async function page(params) {
                 <Box component='article'>
                   <Breadcrumb pathname={pathname} />
                   <Box id="title"><Typography component='h1' variant='h1' className="" sx={{ display: 'inline-block', mb:2 }}>{pageDetails.label}</Typography><LessonCompleted nodeLessonCompletion={nodeLessonCompletion} /></Box>
-                  {content}
+                   {content} 
                 </Box>
               </NotAside>
             </CenterBoxWithSidebar>
