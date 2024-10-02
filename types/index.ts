@@ -387,6 +387,7 @@ export type lessonid = {
   field_lesson_ref: string;
   field_score: string;
   field_pass: string;
+  nid: string;
 };
 
 export type Default_langcodes = Default_langcode[];
@@ -604,4 +605,10 @@ export type CompletedLesson = {
   field_pass: value_boolean[];
   field_score: value_number[];
   field_subject_ref: target_id_number[];
+}
+
+export type NewCompletedLesson = {
+  title: value_string[];
+  field_pass: value_boolean[];
+  field_score: value_number[];
 }

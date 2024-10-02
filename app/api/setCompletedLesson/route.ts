@@ -51,4 +51,5 @@ export async function POST(req: NextRequest) {
       // In case of parsing error or unexpected issues
       return NextResponse.json({ message: 'Invalid JSON or error parsing body' }, { status: 400 });
     }
-  }
+}
+

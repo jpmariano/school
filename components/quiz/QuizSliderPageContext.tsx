@@ -15,6 +15,7 @@ import { useSession } from 'next-auth/react';
 import { getLessonCompletion } from '@/api/drupal';
 import FetchCompletionData from './fetchCompletionData';
 import PostCompletionData from './postCompletionData';
+import PutCompletionData from './putCompletionData';
 
 
 interface quizSliderProps {
@@ -105,6 +106,16 @@ const QuizSliderPageContext: React.FC<quizSliderProps> = ({ children }) => {
           postCompletionDataResponse.then((data) => {
             console.log("postCompletionDataResponse***", data);
           }); 
+        } else {
+         
+         if (field_score > Number(nodePageContext.nodeLessonCompletion[0].field_score)) {
+          console.log("newCompletedLesson***", completedLesson);
+          console.log("nid***", nodePageContext.nodeLessonCompletion[0].nid);
+          const putCompletionDataResponse = PutCompletionData(nodePageContext.nodeLessonCompletion[0].nid, completedLesson);
+          putCompletionDataResponse.then((data) => {
+            console.log("putCompletionDataResponse***", data);
+          }); 
+         } 
         }
       }
     }
