@@ -104,13 +104,17 @@ const QuizSliderPageContext: React.FC<quizSliderProps> = ({ children }) => {
         
           const postCompletionDataResponse = PostCompletionData(completedLesson);
           postCompletionDataResponse.then((data) => {
-            console.log("postCompletionDataResponse***", data);
+            nodePageContext.setNodeLessonCompletion([{
+              field_lesson_ref: data.field_lesson_ref[0].target_id.toString(),
+              field_score: data.field_score[0].value.toString(),
+              field_pass: data.field_pass[0].value ? "On" : "Off",
+              nid: data.nid[0].value.toString()
+            }]
+            );
           }); 
         } else {
          
          if (field_score > Number(nodePageContext.nodeLessonCompletion[0].field_score)) {
-          console.log("newCompletedLesson***", completedLesson);
-          console.log("nid***", nodePageContext.nodeLessonCompletion[0].nid);
           const putCompletionDataResponse = PutCompletionData(nodePageContext.nodeLessonCompletion[0].nid, completedLesson);
           putCompletionDataResponse.then((data) => {
             console.log("putCompletionDataResponse***", data);
