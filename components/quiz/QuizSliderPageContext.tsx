@@ -114,6 +114,17 @@ const QuizSliderPageContext: React.FC<quizSliderProps> = ({ children }) => {
           const putCompletionDataResponse = PutCompletionData(nodePageContext.nodeLessonCompletion[0].nid, completedLesson);
           putCompletionDataResponse.then((data) => {
             console.log("putCompletionDataResponse***", data);
+            nodePageContext.setNodeLessonCompletion((prevCompletion) =>
+              prevCompletion.map((lesson, index) =>
+                index === 0
+                  ? {
+                      ...lesson,
+                      field_score: field_score.toString(),
+                      field_pass: completedLesson.field_pass[0].value ? "On" : "Off",
+                    }
+                  : lesson
+              )
+            );
           }); 
          } 
         }

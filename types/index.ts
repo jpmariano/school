@@ -607,8 +607,3 @@ export type CompletedLesson = {
   field_subject_ref: target_id_number[];
 }
 
-export type NewCompletedLesson = {
-  title: value_string[];
-  field_pass: value_boolean[];
-  field_score: value_number[];
-}

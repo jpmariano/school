@@ -4,29 +4,31 @@ import React, { useEffect, useState } from 'react';
 import { lessonid } from '@/types';
 import CircleIcon from '@mui/icons-material/Circle';
 import { Box, Tooltip } from '@mui/material';
+import { useNodePageContext } from '@/components/nodePage';
 export interface lessonCompletedProps {
     nodeLessonCompletion: lessonid[];
 }
 
-const LessonCompleted: React.FC<lessonCompletedProps> = ({nodeLessonCompletion}) => {
+const LessonCompleted: React.FC = () => {
+    const nodePageContext = useNodePageContext();
     const [complete, setComplete] = useState(false);
     const [started, setStarted] = useState(false);
-
-  
+    
+    
     useEffect(() => {
-        if (nodeLessonCompletion ){
-            if(nodeLessonCompletion.length !== 0){
+        if (nodePageContext.nodeLessonCompletion ){
+            if(nodePageContext.nodeLessonCompletion.length !== 0){
                 setStarted(true);
-                if(nodeLessonCompletion[0].field_pass === 'On'){
+                if(nodePageContext.nodeLessonCompletion[0].field_pass === 'On'){
                     setComplete(true);
                 } 
             } 
         }
-        
+        console.log("nodePageContext", nodePageContext);
         
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [nodePageContext]);
     
   return (
        <Box component='span'>

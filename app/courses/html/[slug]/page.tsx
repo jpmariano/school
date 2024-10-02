@@ -63,9 +63,9 @@ export default async function page(params) {
     data = await GetNodePage();
     //const data = await GetNodePage();
     if("status" in data){
-    
-      if (data.status === 401) {
-        throw new Error('401');
+      console.log("data_______", data);
+      if (data.status)  {
+        throw new Error(data.status.toString());
       }
       notFound();
     } else {
@@ -74,18 +74,21 @@ export default async function page(params) {
       const description = node ? node.data.attributes.body.value : pageDetails.label; // Adjust the description based on your data
       const paragraphType: keyof Relationships | null =  node ? Object.keys(node.data.relationships).filter((s) => s.indexOf('paragraph') !== -1)[0] as keyof Relationships : null;
       const hasComponents = paragraphType !== null;
-      const content = node && hasComponents && (
+      const content = node ? hasComponents && (
         <NodePageProvider 
               field_lesson_ref={pageDetails.entity.id} 
               field_subject_ref={node?.data?.relationships?.field_subject_of_lesson?.data?.meta?.drupal_internal__target_id} 
-              nodeLessonCompletion={nodeLessonCompletion}>
+              initialnodeLessonCompletion={nodeLessonCompletion}>
+                <Box id="title"><Typography component='h1' variant='h1' className="" sx={{ display: 'inline-block', mb:2 }}>{pageDetails.label}</Typography>
+                    <LessonCompleted />
+                </Box>
                 <Slices
                   data={paragraphType ? node.data.relationships?.[paragraphType ? paragraphType : "field_paragraph_lesson"] : null}
                   included={node.included}
                   nodetype={node.data.type}
                 />
         </NodePageProvider>
-      );
+      ) : <Box id="title"><Typography component='h1' variant='h1' className="" sx={{ display: 'inline-block', mb:2 }}>{pageDetails.label}</Typography></Box>;
      
       return (
           <Main>
@@ -96,7 +99,7 @@ export default async function page(params) {
               <NotAside addClassName="inverse" showBoxShadow={false}>
                 <Box component='article'>
                   <Breadcrumb pathname={pathname} />
-                  <Box id="title"><Typography component='h1' variant='h1' className="" sx={{ display: 'inline-block', mb:2 }}>{pageDetails.label}</Typography><LessonCompleted nodeLessonCompletion={nodeLessonCompletion} /></Box>
+                  
                    {content} 
                 </Box>
               </NotAside>
@@ -109,19 +112,38 @@ export default async function page(params) {
       
       
    } catch (error) {
+    console.log("error*****", error);
      if (error instanceof CustomError) {
-      
+      console.log("errorA*****", error);
        if (error.statusCode === 401) {
         return <TokenExpiredMessage />;
        }
-     } else {
-      if(error = "Error: 401"){
-        return <TokenExpiredMessage />;
-      }
-      //console.log('errorsadfasdfsadfsdfsdfsf', error)
+     } else if (error instanceof Error) {
+      const errorCode = Number(error.message);
+          switch(errorCode) {
+            case 404:
+              notFound();
+              break;
+            case 401:
+              return <TokenExpiredMessage />;
+              break;
+            default:
+              if(errorCode >= 500){
+                throw new Error(`Server Error (${errorCode}): Something went wrong.`);
+              } else if (errorCode >= Number(400) && errorCode < 500) {
+                throw new Error(`Client Error (${errorCode}): Something went wrong.`);
+              } else {
+                throw new Error(`Unknown Error (${errorCode}): Something went wrong.`);
+              }
+              break;
+          } 
+      } else {
+        if(error = "Error: 401"){
+          return <TokenExpiredMessage />;
+        }
+        notFound();
      }
      
-     notFound();
    }
 
   
