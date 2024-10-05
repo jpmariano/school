@@ -9,7 +9,8 @@ import { headers } from "next/headers";
 import { BASE_URL } from '@/api/config';
 import { Box, List, ListItem, ListItemText, Typography } from '@mui/material'
 import Link from 'next/link'
-import {breadcrumbPath, lesson, listOfLessons, PathDetails, lessonid, node, ErrorResponse, CustomSession} from '@/types'
+import {breadcrumbPath, lesson, listOfLessons, PathDetails, lessonid, node, ErrorResponse, CustomSession, GetTaxonomyPageCoursesResponse} from '@/types'
+//import { CustomSession, ErrorResponse, PathDetails, node, lessonid, GetNodeResponse, listOfLessons, lesson, GetTaxonomyPageCoursesResponse } from "@/types";
 import BodyContent from '@/components/bodyContent'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CircleIcon from '@mui/icons-material/Circle';
@@ -23,6 +24,9 @@ import { authOptions } from '@/utils/authOptions'
 import { getServerSession } from 'next-auth'
 import { signOut } from 'next-auth/react'
 import TokenExpiredMessage from '@/components/tokenExpiredMessage'
+import CustomError from '@/utils/CustomError'
+import { getTaxonomyPageCourses } from '@/utils/getTaxonomyCourses'
+import TaxonomyPageSlices from '@/components/taxonomyPageSlices'
 //import stripJsonComments from 'strip-json-comments'
 //import { getPage } from '@/api/drupal';
 
@@ -56,6 +60,82 @@ async function getPage(slug: string): Promise<PathDetails>{
 
 
 export default async function slug() {
+  try {
+    const data: GetTaxonomyPageCoursesResponse | ErrorResponse = await getTaxonomyPageCourses();
+    if("status" in data){
+      console.log("data_______", data);
+      if (data.status)  {
+        throw new Error(data.status.toString());
+      }
+      notFound();
+    } else { 
+      const { pageDetails, allLessons, listOfAllLessonPerChapter, listofCompletedLessonsbySubject, pathname, taxonomyPage } = data;
+      //console.log("taxonomyPage", taxonomyPage ? taxonomyPage.included : null);
+      const hasComponents = taxonomyPage ?  taxonomyPage.included.length > 0 ? true : false  : false;
+      const content = taxonomyPage ? hasComponents && (
+     
+                <TaxonomyPageSlices
+                  data={taxonomyPage}
+                />
+              ) : null;  
+
+
+      return (
+        <Main>
+          <CenterBoxWithSidebar fullHeight={true}>
+            <Aside hideOnMobile={true} showBoxShadow={false} toggleSidebar={true}>
+                <MainVerticalNavigation />
+            </Aside>
+            <NotAside addClassName="inverse" showBoxShadow={false}>
+              <Box component='article'>
+                <Breadcrumb pathname={pathname} />
+                {pageDetails.entity.type === 'taxonomy_term' && <Box id="title" ><Typography component='h1' variant='h1' className="" sx={{display: 'inline-block'}}>{pageDetails.label}</Typography>
+                <ChapterCompleted listOfLessons={allLessons} listofCompletedLessonsbySubject={listofCompletedLessonsbySubject}/>
+                <LessonsPerChapter chapters={listOfAllLessonPerChapter} listOfLessons={allLessons} listofCompletedLessonsbySubject={listofCompletedLessonsbySubject} />
+                </Box>}
+              </Box>
+           {content}
+            </NotAside>
+          </CenterBoxWithSidebar>
+        </Main>
+      );
+    }
+
+  } catch (error) {
+    console.log("error*****", error);
+     if (error instanceof CustomError) {
+      console.log("errorA*****", error);
+       if (error.statusCode === 401) {
+        return <TokenExpiredMessage />;
+       }
+     } else if (error instanceof Error) {
+      const errorCode = Number(error.message);
+          switch(errorCode) {
+            case 404:
+              notFound();
+              break;
+            case 401:
+              return <TokenExpiredMessage />;
+              break;
+            default:
+              if(errorCode >= 500){
+                throw new Error(`Server Error (${errorCode}): Something went wrong.`);
+              } else if (errorCode >= Number(400) && errorCode < 500) {
+                throw new Error(`Client Error (${errorCode}): Something went wrong.`);
+              } else {
+                throw new Error(`Unknown Error (${errorCode}): Something went wrong.`);
+              }
+              break;
+          } 
+      } else {
+        if(error = "Error: 401"){
+          return <TokenExpiredMessage />;
+        }
+        notFound();
+     }
+     
+   }
+  /*
   const session: CustomSession = await getServerSession(authOptions) as CustomSession;
   const headerList = headers();
   const pathname = headerList.get("x-current-path");
@@ -74,28 +154,11 @@ export default async function slug() {
     const allLessonsResponse: Response | ErrorResponse = await getListofLessonByTaxId(pageDetails.entity.id);
     const allLessons: listOfLessons = isFetchResponse(allLessonsResponse) && await allLessonsResponse.json();
     const listOfAllLessonPerChapter:string[] = allLessons.map((item: lesson, index) => { return item.field_subject_of_lesson}).filter((value, index, array) => array.indexOf(value) === index);  
-    const listofCompletedLessonsbySubjectResponse: Response | ErrorResponse = await getListofCompletedLessonsbySubject(session.user.userId, pageDetails.entity.id);
+    const listofCompletedLessonsbySubjectResponse: Response | ErrorResponse = await getListofCompletedLessonsbySubject(pageDetails.entity.id);
     const listofCompletedLessonsbySubject: lessonid[] = isFetchResponse(listofCompletedLessonsbySubjectResponse) && await listofCompletedLessonsbySubjectResponse.json();
  
   
   
 
-  return (
-    <Main>
-      <CenterBoxWithSidebar fullHeight={true}>
-        <Aside hideOnMobile={true} showBoxShadow={false} toggleSidebar={true}>
-            <MainVerticalNavigation />
-        </Aside>
-        <NotAside addClassName="inverse" showBoxShadow={false}>
-          <Box component='article'>
-            <Breadcrumb pathname={pathname} />
-            {pageDetails.entity.type === 'taxonomy_term' && <Box id="title" ><Typography component='h1' variant='h1' className="" sx={{display: 'inline-block'}}>{pageDetails.label}</Typography>
-            <ChapterCompleted listOfLessons={allLessons} listofCompletedLessonsbySubject={listofCompletedLessonsbySubject}/>
-            <LessonsPerChapter chapters={listOfAllLessonPerChapter} listOfLessons={allLessons} listofCompletedLessonsbySubject={listofCompletedLessonsbySubject} />
-            </Box>}
-          </Box>
-        </NotAside>
-      </CenterBoxWithSidebar>
-    </Main>
-  )
+   */
 }

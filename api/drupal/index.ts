@@ -569,7 +569,7 @@ export const getListofLessonByTaxId = async (taxid: string): Promise<Response | 
   } 
   
 //lessonid[]
-export const getListofCompletedLessonsbySubject = async (uid: string, taxid: string): Promise<Response | ErrorResponse> => {
+export const getListofCompletedLessonsbySubject = async ( taxid: string): Promise<Response | ErrorResponse> => {
 
 	const session: CustomSession = await getServerSession(authOptions) as CustomSession;
 	const headers = {
@@ -577,7 +577,7 @@ export const getListofCompletedLessonsbySubject = async (uid: string, taxid: str
 		"Authorization": `Bearer ${session.user.access_token}`
 	};
 	try {
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/subject/completed/${uid}/${taxid}?_format=json`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/subject/completed/${session.user.userId}/${taxid}?_format=json`, {
 			method: "GET",
 			headers: headers,
 		});
@@ -605,7 +605,7 @@ export const getListofCompletedLessonsbySubject = async (uid: string, taxid: str
 }
   
 //lessonid[]
-export const getLessonCompletion = async (uid: string, field_lesson_ref: string): Promise<Response | ErrorResponse> => {
+export const getLessonCompletion = async (field_lesson_ref: string): Promise<Response | ErrorResponse> => {
 
 	const session = await getServerSession(authOptions) as CustomSession;
 	const headers = {
@@ -613,7 +613,7 @@ export const getLessonCompletion = async (uid: string, field_lesson_ref: string)
 		"Authorization": `Bearer ${session.user.access_token}`
 	};
 	try {
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/lesson/completed/${uid}/${field_lesson_ref}?_format=json`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/lesson/completed/${session.user.userId}/${field_lesson_ref}?_format=json`, {
 			method: "GET",
 			headers: headers,
 		});
@@ -692,7 +692,7 @@ export const getTaxonomyTerm = async (uuid: string): Promise<Response | ErrorRes
 		"Authorization": `Bearer ${session.user.access_token}`
 	};
 	try {
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/jsonapi/taxonomy_term/subject/${uuid}`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/jsonapi/taxonomy_term/subject/${uuid}?include=field_paragraphs_subject.field_image`, {
 			method: "GET",
 			headers: headers,
 		});
@@ -701,7 +701,7 @@ export const getTaxonomyTerm = async (uuid: string): Promise<Response | ErrorRes
 			throw new Error(`HTTP error! status: ${response.status}`);
 		}
 
-		const result: Response = await response.json();
+		const result: Response = response;
 		return result;
 	} catch (error) {
 		return {

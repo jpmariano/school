@@ -60,7 +60,7 @@ export default async function page(params) {
   console.log('params-------', params);
   
   try {
-    data = await GetNodePage();
+    const data = await GetNodePage();
     //const data = await GetNodePage();
     if("status" in data){
       console.log("data_______", data);

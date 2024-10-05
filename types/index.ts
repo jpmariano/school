@@ -44,6 +44,13 @@ export type node = {
   links: Links;
   included: Included;
 }
+
+export type TaxonomyPage = {
+  jsonapi: Jsonapi;
+  data: TaxonomyData;
+  links: Links;
+  included: Included;
+}
 export type Jsonapi = {
   version: string;
   meta: Meta;
@@ -91,6 +98,7 @@ export type Entity = {
   uuid: string;
 }
 
+
 export interface paragraphProps {
   data: {
     type: string;
@@ -124,6 +132,15 @@ export type Data = {
   id: string;
   links: Links;
   attributes: Attributes;
+  relationships: Relationships;
+  meta: Meta;
+}
+
+export type TaxonomyData = {
+  type: string;
+  id: string;
+  links: Links;
+  attributes: TaxonomyAttributes;
   relationships: Relationships;
   meta: Meta;
 }
@@ -175,6 +192,21 @@ export type CodeEditors = {
 
 export type MultipleCodeEditors = {
   codeEditors: CodeEditors[]
+}
+
+export type TaxonomyAttributes = {
+  drupal_internal__tid: number;
+  drupal_internal__revision_id: number;
+  langcode: string;
+  revision_created: string;
+  status: boolean;
+  name: string;
+  description: string | null;
+  weight: number;
+  changed: string;
+  default_langcode: boolean;
+  revision_translation_affected: boolean;
+  path: Path;
 }
 
 export type Attributes = {
@@ -577,6 +609,15 @@ export type  GetNodeResponse = {
   node: node | null;
   nodeLessonCompletion: lessonid[] | [];
   pathname: string | null;
+}
+
+export type GetTaxonomyPageCoursesResponse = {
+  pageDetails: PathDetails;
+  pathname: string | null;
+  allLessons: listOfLessons;
+  listOfAllLessonPerChapter:string[];
+  listofCompletedLessonsbySubject: lessonid[];
+  taxonomyPage: TaxonomyPage | null;
 }
 
 export type target_id_string = {
