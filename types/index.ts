@@ -648,3 +648,52 @@ export type CompletedLesson = {
   field_subject_ref: target_id_number[];
 }
 
+export type CompletedCourse = {
+  type: target_id_string[];
+  title: value_string[];
+  field_pass: value_boolean[];
+  field_score: value_number[];
+  field_subject_ref: target_id_number[];
+  field_certificate_id: value_string[];
+}
+
+export type targetDetails = {
+  target_id: string;
+  target_type: string;
+  target_uuid: string;
+}
+
+export type revisionTargetDetails = {
+  target_id: number;
+  target_type: string;
+  target_uuid: string;
+  url: string;
+}
+
+
+export type CompletedCourseNode = {
+  nid: value_number[];
+  uuid: value_string[];
+  vid: value_number[];
+  langcode: value_string[];
+  type: targetDetails[];
+  revision_timestamp: Timestamp[];
+  revision_uid: revisionTargetDetails[];
+  revision_log: value_string[];
+  status: value_boolean[];
+  uid: revisionTargetDetails[];
+  title: value_string[];
+  created: Created;
+  change: Changed;
+  promote: value_boolean[];
+  sticky: value_boolean[];
+  default_langcode: value_boolean[];
+  revision_translation_affected: value_boolean[];
+  path: Path;
+  body: Body;
+  field_pass: value_boolean[];
+  field_score: value_number[];
+  field_subject_ref: revisionTargetDetails[];
+  field_certificate_id: value_string[];
+}
+
