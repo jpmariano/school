@@ -12,10 +12,13 @@ export async function GET(request: NextRequest, res: NextResponse): Promise<Resp
   const { searchParams } = new URL(request.url);
   
   // Extract the 'uid' parameter from the query
-  const nid = searchParams.get('nid');
- 
-  if (!nid) {
-    return NextResponse.json({ message: 'No NID provided' }, { status: 400 });
+  const tid = searchParams.get('tid');
+  const uid = searchParams.get('uid');
+  if (!tid) {
+    return NextResponse.json({ message: 'No Taxonomy ID provided' }, { status: 400 });
+  }
+  if (!uid) {
+    return NextResponse.json({ message: 'No User ID provided' }, { status: 400 });
   }
  
   try {
@@ -30,7 +33,7 @@ export async function GET(request: NextRequest, res: NextResponse): Promise<Resp
       "Authorization": `Bearer ${session.user.access_token}`
     };
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/node/${nid}?_format=json`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/course/completed/${uid}/${tid}?_format=json`, {
       method: "GET",
       headers: headers,
     });

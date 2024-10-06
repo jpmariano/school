@@ -618,6 +618,7 @@ export type GetTaxonomyPageCoursesResponse = {
   listOfAllLessonPerChapter:string[];
   listofCompletedLessonsbySubject: lessonid[];
   taxonomyPage: TaxonomyPage | null;
+  completedCourse: CompletedCourseNode[] | [];
 }
 
 export type target_id_string = {

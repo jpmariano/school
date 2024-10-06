@@ -27,6 +27,7 @@ import TokenExpiredMessage from '@/components/tokenExpiredMessage'
 import CustomError from '@/utils/CustomError'
 import { getTaxonomyPageCourses } from '@/utils/getTaxonomyCourses'
 import TaxonomyPageSlices from '@/components/taxonomyPageSlices'
+import { TaxonomyCoursePageProvider } from '@/components/taxonomyPage'
 //import stripJsonComments from 'strip-json-comments'
 //import { getPage } from '@/api/drupal';
 
@@ -69,16 +70,18 @@ export default async function slug() {
       }
       notFound();
     } else { 
-      const { pageDetails, allLessons, listOfAllLessonPerChapter, listofCompletedLessonsbySubject, pathname, taxonomyPage } = data;
+      const { pageDetails, allLessons, listOfAllLessonPerChapter, listofCompletedLessonsbySubject, pathname, taxonomyPage, completedCourse } = data;
       //console.log("taxonomyPage", taxonomyPage ? taxonomyPage.included : null);
+      //console.log("data**********", data);
       const hasComponents = taxonomyPage ?  taxonomyPage.included.length > 0 ? true : false  : false;
       const content = taxonomyPage ? hasComponents && (
-     
+        <TaxonomyCoursePageProvider field_subject_ref={pageDetails.entity.id} initialCompletedCourseNode={completedCourse}>
                 <TaxonomyPageSlices
                   data={taxonomyPage}
                 />
+        </TaxonomyCoursePageProvider>
               ) : null;  
-
+        
 
       return (
         <Main>

@@ -54,6 +54,7 @@ const QuizSliderPageContext: React.FC<quizSliderProps> = ({ children }) => {
     const year = date.getFullYear();
     const currentDate = `${month}-${day}-${year}`;
     const user_id = session?.user?.userId;
+    
   
     setTitle(`${currentDate}_${user_id}_${nodePageContext.field_subject_ref}_${field_lesson_ref}`);
 

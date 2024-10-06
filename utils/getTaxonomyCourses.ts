@@ -1,9 +1,10 @@
-import { getLessonCompletion, getListofCompletedLessonsbySubject, getListofLessonByTaxId, getNode, getPage, getTaxonomyTerm, isFetchResponse } from "@/api/drupal";
-import { CustomSession, ErrorResponse, PathDetails, node, lessonid, GetNodeResponse, listOfLessons, lesson, GetTaxonomyPageCoursesResponse, TaxonomyComponents, TaxonomyPage } from "@/types";
+import { getCompletedCourseByTaxId, getLessonCompletion, getListofCompletedLessonsbySubject, getListofLessonByTaxId, getNode, getPage, getTaxonomyTerm, isFetchResponse } from "@/api/drupal";
+import { CustomSession, ErrorResponse, PathDetails, node, lessonid, GetNodeResponse, listOfLessons, lesson, GetTaxonomyPageCoursesResponse, TaxonomyComponents, TaxonomyPage, CompletedCourseNode } from "@/types";
 import { getServerSession } from "next-auth";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { authOptions } from "./authOptions";
+import { GetCompletedCourse } from "@/components/quiz/completedCourse";
 
 
 
@@ -29,7 +30,8 @@ export async function getTaxonomyPageCourses(): Promise<GetTaxonomyPageCoursesRe
     const listOfAllLessonPerChapter:string[] = allLessons.map((item: lesson, index) => { return item.field_subject_of_lesson}).filter((value, index, array) => array.indexOf(value) === index);  
     const listofCompletedLessonsbySubjectResponse: Response | ErrorResponse = await getListofCompletedLessonsbySubject(pageDetails.entity.id);
     const listofCompletedLessonsbySubject: lessonid[] = isFetchResponse(listofCompletedLessonsbySubjectResponse) && await listofCompletedLessonsbySubjectResponse.json();
-
-    console.log('getTaxonomyPageCourses----------------------------------------')
-    return { pageDetails, allLessons, listOfAllLessonPerChapter, listofCompletedLessonsbySubject, pathname, taxonomyPage };
+    const completedCourseResponse: Response | ErrorResponse = await getCompletedCourseByTaxId(pageDetails.entity.id);
+    const completedCourse: CompletedCourseNode[] | [] = isFetchResponse(completedCourseResponse) && await completedCourseResponse.json();
+    
+    return { pageDetails, allLessons, listOfAllLessonPerChapter, listofCompletedLessonsbySubject, pathname, taxonomyPage, completedCourse };
   }
