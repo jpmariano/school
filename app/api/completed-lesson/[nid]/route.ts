@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from "@/utils/authOptions";
 import { CustomSession, CompletedLesson } from '@/types';
 
-export async function PUT(req: NextRequest, { params }: { params: { nid: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: { nid: string } }) {
   try {
     const { nid } = params;
 

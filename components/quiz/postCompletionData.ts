@@ -12,7 +12,7 @@ export const PostCompletionData = async (completedLesson:CompletedLesson) => {
             return NextResponse.json({ message: 'completedLesson json not found' }, { status: 400 });
         }
 
-        const response = await fetch('/api/setCompletedLesson', {
+        const response = await fetch('/api/completed-lesson', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ export const PostCompletionData = async (completedLesson:CompletedLesson) => {
           });
         
         if (!response.ok) {
-            return NextResponse.json({ message: 'something went wrong PostCompletionData' }, { status: response.status });
+            return NextResponse.json({ message: 'something went wrong Post completed-lesson' }, { status: response.status });
         }
 
         const data = response.json();
@@ -29,7 +29,7 @@ export const PostCompletionData = async (completedLesson:CompletedLesson) => {
       } catch (error) {
         return {
 			success: false,
-			message: error instanceof Error ? error.message : "Server failed getting getLessonCompletion",
+			message: error instanceof Error ? error.message : "Server failed Post completed-lesson",
 			status: 500
 		};
       }

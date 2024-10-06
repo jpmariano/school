@@ -7,7 +7,7 @@ type ResponseData = {
 
 
   
-export const PutCompletionData = async (nid: string, completedLesson: CompletedLesson) => {
+export const PatchCompletionData = async (nid: string, completedLesson: CompletedLesson) => {
 
     try {
 
@@ -15,8 +15,8 @@ export const PutCompletionData = async (nid: string, completedLesson: CompletedL
             return NextResponse.json({ message: 'completedLesson json not found' }, { status: 400 });
         }
 
-        const response = await fetch(`/api/setCompletedLesson/${nid}`, {
-            method: 'PUT',
+        const response = await fetch(`/api/completed-lesson/${nid}`, {
+            method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
             },
@@ -24,7 +24,7 @@ export const PutCompletionData = async (nid: string, completedLesson: CompletedL
           });
         
         if (!response.ok) {
-            return NextResponse.json({ message: 'something went wrong PostCompletionData' }, { status: response.status });
+            return NextResponse.json({ message: 'something went wrong Patching completed-lesson' }, { status: response.status });
         }
 
         const data = response.json();
@@ -32,10 +32,10 @@ export const PutCompletionData = async (nid: string, completedLesson: CompletedL
       } catch (error) {
         return {
 			success: false,
-			message: error instanceof Error ? error.message : "Server failed getting getLessonCompletion",
+			message: error instanceof Error ? error.message : "Server failed Patching completed-lesson",
 			status: 500
 		};
       }
   }; 
 
-export default PutCompletionData;
+export default PatchCompletionData;

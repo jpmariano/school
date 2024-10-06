@@ -12,10 +12,8 @@ import { Button, Typography } from '@mui/material';
 import { useNodePageContext } from '@/components/nodePage';
 import { CompletedLesson } from '@/types';
 import { useSession } from 'next-auth/react';
-import { getLessonCompletion } from '@/api/drupal';
-import FetchCompletionData from './fetchCompletionData';
 import PostCompletionData from './postCompletionData';
-import PutCompletionData from './putCompletionData';
+import PatchCompletionData from './patchCompletionData';
 
 
 interface quizSliderProps {
@@ -79,18 +77,6 @@ const QuizSliderPageContext: React.FC<quizSliderProps> = ({ children }) => {
       })); 
     } 
 
-      /*
-      const getLessomCompletionResponse =  FetchCompletionData(session?.user?.userId!, nodePageContext.field_lesson_ref);
-      getLessomCompletionResponse.then((data) => {
-        //console.log("getLessomCompletionResponse***", data);
-        if (data.length === 0) {
-              //todo
-        }
-      }) */
-      //const pageDetails: PathDetails = await getLessomCompletionResponse.json();
-     
-      //const getLessomCompletionResponse = session && getLessonCompletion(session?.user?.userId, nodePageContext.field_lesson_ref);
-      //console.log("getLessomCompletionResponse***", getLessomCompletionResponse);
     
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quizContext]);
@@ -115,9 +101,9 @@ const QuizSliderPageContext: React.FC<quizSliderProps> = ({ children }) => {
         } else {
          
          if (field_score > Number(nodePageContext.nodeLessonCompletion[0].field_score)) {
-          const putCompletionDataResponse = PutCompletionData(nodePageContext.nodeLessonCompletion[0].nid, completedLesson);
-          putCompletionDataResponse.then((data) => {
-            console.log("putCompletionDataResponse***", data);
+          const PatchCompletionDataResponse = PatchCompletionData(nodePageContext.nodeLessonCompletion[0].nid, completedLesson);
+          PatchCompletionDataResponse.then((data) => {
+            console.log("PatchCompletionDataResponse***", data);
             nodePageContext.setNodeLessonCompletion((prevCompletion) =>
               prevCompletion.map((lesson, index) =>
                 index === 0
