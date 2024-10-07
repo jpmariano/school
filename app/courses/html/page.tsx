@@ -76,8 +76,13 @@ export default async function slug() {
       const hasComponents = taxonomyPage ?  taxonomyPage.included.length > 0 ? true : false  : false;
       const content = taxonomyPage ? hasComponents && (
         <TaxonomyCoursePageProvider field_subject_ref={pageDetails.entity.id} initialCompletedCourseNode={completedCourse}>
+                <ChapterCompleted listOfLessons={allLessons} listofCompletedLessonsbySubject={listofCompletedLessonsbySubject}/>
+                
                 <TaxonomyPageSlices
                   data={taxonomyPage}
+                  chapters={listOfAllLessonPerChapter}
+                  listOfLessons={allLessons}
+                  listofCompletedLessonsbySubject={listofCompletedLessonsbySubject}
                 />
         </TaxonomyCoursePageProvider>
               ) : null;  
@@ -92,12 +97,10 @@ export default async function slug() {
             <NotAside addClassName="inverse" showBoxShadow={false}>
               <Box component='article'>
                 <Breadcrumb pathname={pathname} />
-                {pageDetails.entity.type === 'taxonomy_term' && <Box id="title" ><Typography component='h1' variant='h1' className="" sx={{display: 'inline-block'}}>{pageDetails.label}</Typography>
-                <ChapterCompleted listOfLessons={allLessons} listofCompletedLessonsbySubject={listofCompletedLessonsbySubject}/>
-                <LessonsPerChapter chapters={listOfAllLessonPerChapter} listOfLessons={allLessons} listofCompletedLessonsbySubject={listofCompletedLessonsbySubject} />
-                </Box>}
+                <Typography component='h1' variant='h1' className="" sx={{display: 'inline-block'}}>{pageDetails.label}</Typography>
+                {content}
               </Box>
-           {content}
+                
             </NotAside>
           </CenterBoxWithSidebar>
         </Main>

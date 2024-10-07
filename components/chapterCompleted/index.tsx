@@ -31,7 +31,7 @@ const ChapterCompleted: React.FC<chapterCompletedProps> = ({listOfLessons, listo
   return (
        <Box component='span'>
         {started
-        ? complete ? <Tooltip title="All Lessons Completed"><CircleIcon sx={{color: 'green', verticalAlign: 'initial',  marginLeft: 2, display: 'inline-block'}}/></Tooltip> :
+        ? complete ? <Tooltip title="Take Final Exam"><CircleIcon sx={{color: '#9ACD32', verticalAlign: 'initial',  marginLeft: 2, display: 'inline-block'}}/></Tooltip> :
           <Tooltip title="Take and Pass all Lesson Quiz"><CircleIcon sx={{color: '#FCB61C', verticalAlign: 'initial',  marginLeft: 2, display: 'inline-block'}}/></Tooltip>
         : <Tooltip title="Take and Pass all Lesson Quiz"><CircleIcon sx={{color: 'gray', verticalAlign: 'initial',  marginLeft: 2, display: 'inline-block'}}/></Tooltip>
       }

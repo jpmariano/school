@@ -1,6 +1,6 @@
 
 import React, { useContext } from 'react';
-import { Data, Included, Links, node, NodeType, Parent, TaxonomyPage } from '@/types';
+import { Data, Included, lessonid, Links, listOfLessons, node, NodeType, Parent, TaxonomyPage } from '@/types';
 import ParaText from "@/components/paraText";
 import ParaImage from '@/components/paraImage';
 import HorizontalSeparator from '@/components/layouts/horizontalSeparator';
@@ -14,16 +14,20 @@ import QuizWrapper from '@/components/quiz/QuizWrapper';
 import ContentImageWrapper from '@/components/contentImage/contentImageWrapper';
 import CodeTextWrapper from '@/components/codeText/codeTextWrapper';
 import ExamWrapper from '@/components/quiz/ExamWrapper';
+import LessonPerChapterWrapper from '@/components/lessonsPerChapter/lessonPerChapterWrapper';
 
 export interface taxonomyPageSlicesProps {
     data: TaxonomyPage;
+    chapters: string[];
+    listOfLessons: listOfLessons;
+    listofCompletedLessonsbySubject: lessonid[];
 }
 
 
 
-const TaxonomyPageSlices: React.FC <taxonomyPageSlicesProps> = ({data})=> {
+const TaxonomyPageSlices: React.FC <taxonomyPageSlicesProps> = ({data, chapters, listOfLessons, listofCompletedLessonsbySubject})=> {
 
-
+  //console.log('data*************', chapters, listOfLessons, listofCompletedLessonsbySubject);
 	return (
     <div className='paragraphs'>
       {data.included.map(function (item, i) {
@@ -36,6 +40,16 @@ const TaxonomyPageSlices: React.FC <taxonomyPageSlicesProps> = ({data})=> {
                   data={item}
                   index={i}
                   included={data.included} />
+                  <HorizontalSeparator />
+              </React.Fragment>
+            );
+            case 'paragraph--paragraph_lessonsperchapter':
+            return (
+              <React.Fragment key={i}>
+                <LessonPerChapterWrapper
+                  chapters={chapters}
+                  listOfLessons={listOfLessons}
+                  listofCompletedLessonsbySubject={listofCompletedLessonsbySubject}/>
                   <HorizontalSeparator />
               </React.Fragment>
             );
