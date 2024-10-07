@@ -31,6 +31,7 @@ const ExamSliderPageContext: React.FC<quizSliderProps> = ({ children }) => {
   const [field_score, setField_score] = useState(0);
   const [title, setTitle] = useState("");
   const [field_certificate_id, setField_certificate_id] = useState("");
+  const [hideExam, setHideExam] = useState(false);
   const [completedCourse, setCompletedCourse] = useState<CompletedCourse>({
     type: [{ target_id : "completed_courses"}],
     title: [],
@@ -40,7 +41,7 @@ const ExamSliderPageContext: React.FC<quizSliderProps> = ({ children }) => {
     field_certificate_id: [],
   });
   useEffect(() => {
-    console.log(taxonomyCoursePageContext);
+    console.log("taxonomyCoursePageContext***********", taxonomyCoursePageContext);
     quizContext.setTotalCount(arrayChildren.length);
     const field_subject_ref: number = Number(taxonomyCoursePageContext.field_subject_ref);
     const date = new Date();
@@ -56,6 +57,7 @@ const ExamSliderPageContext: React.FC<quizSliderProps> = ({ children }) => {
     setTitle(`${currentDate}_${user_id}_${taxonomyCoursePageContext.field_subject_ref}`);
     const randomAlphaNumeric = generateRandomAlphaNumeric(30);
     setField_certificate_id(`${currentDate}${user_id}${taxonomyCoursePageContext.field_subject_ref}${randomAlphaNumeric}`);
+    taxonomyCoursePageContext.completedCourseNode.length > 0 ? taxonomyCoursePageContext.completedCourseNode[0].field_score[0].value === 100 ? setHideExam(true) : setHideExam(false) : setHideExam(false);
     //10-7-2024_3_1
     //html106202431
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -116,7 +118,17 @@ const ExamSliderPageContext: React.FC<quizSliderProps> = ({ children }) => {
     quizContext.setDisplayItem(0);
     quizContext.setTotalScore(0);
   };
-
+  
+  if (hideExam) {
+    return (
+      <Box sx={{ width: '100%', textAlign: 'center', mt: 4 }}>
+        <Typography variant="h6">
+          You have already completed this exam with a perfect score.
+        </Typography>
+      </Box>
+    );
+  }
+  
   return (
     <Box sx={{ width: '100%' }}>
       <Box>
