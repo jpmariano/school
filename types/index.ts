@@ -518,6 +518,14 @@ export type UserAccountDetails = {
   path: Path;
   field_registered_lesson: Field_registered_lessons;
   user_picture: Picture[];
+  field_street: value_string[];
+  field_city: value_string[];
+  field_state_region: value_string[];
+  field_postal_code: value_string[];
+  field_country: value_string[];
+  field_first_name: value_string[];
+  field_last_name: value_string[];
+  field_dob: value_string[];
 }
 
 export type userinfo = {
@@ -698,3 +706,32 @@ export type CompletedCourseNode = {
   field_certificate_id: value_string[];
 }
 
+
+export type LinkType = {
+  type: href;
+}
+
+export type LinkSelf = {
+  self: href;
+}
+export type _links = {
+  type: href;
+  self?: href;
+}
+
+export type DrupalFile = {
+  _links: _links;
+  filename: value_string[];
+  uri: uri[];
+  data: value_string[];
+  filesize?: value_number[];
+  status?: value_boolean[];
+  created?: Created;
+  changed?: Changed;
+  fid?: value_number[];
+  uuid?: value_string[];
+  langcode?: value_string[];
+  type?: targetDetails[];
+  filemime?: value_string[];
+  path?: Path;
+}
