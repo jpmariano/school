@@ -26,18 +26,19 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     }
 
     // Get the CSRF token from Drupal API
+    /*
     const drupalSessionResponse = await getSessionToken();
     if (!isFetchResponse(drupalSessionResponse)) {
       return NextResponse.json({ message: 'getSessionToken failed' }, { status: 500 });
     }
-    const drupalSessionToken = await drupalSessionResponse.text();
+    const drupalSessionToken = await drupalSessionResponse.text(); */
 
    
 
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
     headers.append("Authorization", `Bearer ${session.user.access_token}`);
-    headers.append("X-CSRF-Token", drupalSessionToken);
+    headers.append("X-CSRF-Token", session.user.drupal_session);
     console.log("userPicture********************", userPicture);
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/${id}?_format=json`, {
       method: "PATCH",

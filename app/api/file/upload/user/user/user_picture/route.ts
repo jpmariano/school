@@ -32,18 +32,19 @@ export async function POST(req: Request) {
     }
 
     // Get the CSRF token from Drupal API
+    /*
     const drupalSessionResponse = await getSessionToken();
     if (!isFetchResponse(drupalSessionResponse)) {
       return NextResponse.json({ message: 'getSessionToken failed' }, { status: 500 });
     }
-    const drupalSessionToken = await drupalSessionResponse.text();
+    const drupalSessionToken = await drupalSessionResponse.text(); */
 
     // Set the headers as per Postman test
     const headers = new Headers();
     headers.append("Content-Type", "application/octet-stream");
     headers.append("Authorization", `Bearer ${session.user.access_token}`);
     headers.append("Content-Disposition", `file; filename="${file.name}"`);
-    headers.append("X-CSRF-Token", drupalSessionToken);
+    headers.append("X-CSRF-Token", session.user.drupal_session);
 
     // Send the file to Drupal using the new endpoint
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/file/upload/user/user/user_picture?_format=json`, {
