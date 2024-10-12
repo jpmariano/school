@@ -19,7 +19,7 @@ const UserProfile: React.FC<bodyContentProps> = async ({id}) => {
     const userProfile: UserAccountDetails = isFetchResponse(userProfileResponse) && await userProfileResponse.json();
     console.log('userProfile********', userProfile);
   return (<MuiTabs>
-    <Box component="div" className='body-content' title="Profile"><FileUploadForm /></Box>
+    <Box component="div" className='body-content' title="Profile"><FileUploadForm userProfile={userProfile}/></Box>
     <Box component="div" className='body-content'>Files</Box>
     </MuiTabs>);
 };

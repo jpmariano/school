@@ -163,7 +163,7 @@ export const authOptions: NextAuthOptions = {
   session: {
     // Set to jwt in order to CredentialsProvider works properly
     strategy: 'jwt',
-    maxAge: 14400,  // Session expires in 1 hour (3600 seconds)
+    maxAge: 864000,  // Session expires in 1 hour (3600 seconds) 864000 is 10 days
   },
   secret: process.env.NEXTAUTH_SECRET, // TODO: Define env variables https://next-auth.js.org/configuration/options
   /*

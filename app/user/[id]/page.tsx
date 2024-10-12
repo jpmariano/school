@@ -28,7 +28,7 @@ export default async function User({ params }: UserPageProps) {
         redirect('/unauthorized');
     }
     //const X_CSRF_TOKEN = session.user.drupal_session
-    //console.log('session***********', session.user);
+    console.log('session***********', session);
     //console.log('getSessionToken***********', getSessionToken());
   return (
     <Main>

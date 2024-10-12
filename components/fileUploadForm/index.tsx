@@ -1,9 +1,14 @@
 // app/components/FileUploadForm.tsx
 "use client"
-import { DrupalFile } from '@/types';
+import { DrupalFile, UserAccountDetails, UserPicture } from '@/types';
 import React, { useState } from 'react';
+import PatchUserProfile from './updateUserProfile';
 
-const FileUploadForm: React.FC = () => {
+interface FileUploadFormProps {
+  userProfile: UserAccountDetails;
+}
+
+const FileUploadForm: React.FC<FileUploadFormProps> = ({userProfile}) => {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
 
@@ -24,14 +29,34 @@ const FileUploadForm: React.FC = () => {
 
     try {
       setUploading(true);
-      const response = await fetch('/api/entity/file', {
+      const response = await fetch('/api/file/upload/user/user/user_picture', {
         method: 'POST',
         body: formData,
       });
       const data: DrupalFile = await response.json();
       if (response.ok) {
-        alert('File uploaded successfully!');
+        //alert('File uploaded successfully!');
         console.log('File uploaded successfully!', data);
+        if(data.fid){
+          const newuserPicture: UserPicture = {
+            uid: userProfile.uid,
+            uuid: userProfile.uuid,
+            user_picture: [
+              {
+                target_id: data.fid[0].value,
+                alt: "user profile picture",
+              }
+            ]
+          };
+          const PatchUserProfileResponse = PatchUserProfile(userProfile.uid[0].value, newuserPicture);
+          PatchUserProfileResponse.then((data) => {
+              console.log("PatchUserProfileResponse************", data);
+            }); 
+        } else {
+          console.log('Error uploading file:', data);
+        }
+
+       
       } else {
         alert('File upload failed.');
       }

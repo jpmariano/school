@@ -18,7 +18,7 @@ const AuthProgressWrapper: React.FC<AuthProgressWrapperProps> = ({ children }) =
   // Get session and status from useSession hook
   const { data: session, status } = useSession();
   //console.log('session-access-token', session?.user.access_token);
-  useInactivityLogout(3600 * 1000); 
+  //useInactivityLogout(3600 * 1000); 
   //useInactivityLogout(60 * 1000); 
   useEffect(() => {
     // If the user is not authenticated, redirect to the /login page

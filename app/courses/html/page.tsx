@@ -63,6 +63,7 @@ async function getPage(slug: string): Promise<PathDetails>{
 export default async function slug() {
   try {
     const data: GetTaxonomyPageCoursesResponse | ErrorResponse = await getTaxonomyPageCourses();
+    
     if("status" in data){
       console.log("data_______", data);
       if (data.status)  {
@@ -72,8 +73,7 @@ export default async function slug() {
     } else { 
       const { pageDetails, allLessons, listOfAllLessonPerChapter, listofCompletedLessonsbySubject, pathname, taxonomyPage, completedCourse } = data;
       //console.log("taxonomyPage", taxonomyPage ? taxonomyPage.included : null);
-      //console.log("data**********", data);
-      const hasComponents = taxonomyPage ?  taxonomyPage.included.length > 0 ? true : false  : false;
+      const hasComponents = taxonomyPage ?  taxonomyPage.hasOwnProperty('included') ? taxonomyPage.included.length > 0 ? true : false  : false : false;
       const content = taxonomyPage ? hasComponents && (
         <TaxonomyCoursePageProvider field_subject_ref={pageDetails.entity.id} initialCompletedCourseNode={completedCourse}>
                 <ChapterCompleted listOfLessons={allLessons} listofCompletedLessonsbySubject={listofCompletedLessonsbySubject}/>

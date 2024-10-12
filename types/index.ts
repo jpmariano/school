@@ -498,6 +498,12 @@ export type Picture = {
   url: string
 };
 
+export type UserPictureUpdate = {
+  target_id: number;
+  alt: string;
+};
+
+
 export type UserAccountDetails = {
   uid: Uid;
   uuid: Useruid;
@@ -526,6 +532,12 @@ export type UserAccountDetails = {
   field_first_name: value_string[];
   field_last_name: value_string[];
   field_dob: value_string[];
+}
+
+export type UserPicture = {
+  uid: Uid;
+  uuid: Useruid;
+  user_picture: UserPictureUpdate[];
 }
 
 export type userinfo = {

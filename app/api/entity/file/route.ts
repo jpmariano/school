@@ -4,6 +4,7 @@ import path from 'path';
 import { getServerSession } from 'next-auth';
 import { CustomSession } from '@/types';
 import { authOptions } from '@/utils/authOptions';
+import { getSessionToken, isFetchResponse } from '@/api/drupal';
 
 export async function POST(req: Request) {
   try {
@@ -26,33 +27,37 @@ export async function POST(req: Request) {
     const buffer = Buffer.from(await file.arrayBuffer());
 
     // Specify where to store the file locally
-    const uploadDir = path.join(process.cwd(), 'uploads');
+   /* const uploadDir = path.join(process.cwd(), 'uploads');
     const filePath = path.join(uploadDir, file.name);
 
     // Ensure the directory exists
     await fs.mkdir(uploadDir, { recursive: true });
 
     // Write the file to the local directory
-    await fs.writeFile(filePath, buffer);
+    await fs.writeFile(filePath, buffer); */
 
     const session = await getServerSession(authOptions) as CustomSession;
     
     if (!session) {
         return NextResponse.json({ message: 'No session' }, { status: 500 });
     }
-
+    const drupalSessionResponse = await getSessionToken();
+          if (!isFetchResponse(drupalSessionResponse)) {
+            return NextResponse.json({ message: 'getSessionToken failed' }, { status: 500 });
+          }
+    const drupal_session: string = await drupalSessionResponse.text();
     
 
     const headers = new Headers();
     headers.append("Content-Type", "application/hal+json");
     headers.append("Authorization", `Bearer ${session.user.access_token}`);
-    headers.append("X-CSRF-Token", `${session.user.drupal_session}`);
-
-
+    headers.append("X-CSRF-Token", drupal_session);
+    console.log('file***********', file);
+    console.log('buffer***********', buffer.toString('base64'));
     const drupalFileData = JSON.stringify({
       "_links": {
         "type": {
-          "href": `${process.env.NEXT_PUBLIC_API_URL}/rest/type/file/image` 
+          "href": `${process.env.NEXT_PUBLIC_API_URL}/rest/type/file/${file.type.split('/')[0]}` 
         }
       },
       "filename": [
