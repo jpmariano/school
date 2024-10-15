@@ -532,6 +532,7 @@ export type UserAccountDetails = {
   field_first_name: value_string[];
   field_last_name: value_string[];
   field_dob: value_string[];
+  field_phone_number: value_string[];
 }
 
 export type UserPicture = {
@@ -747,3 +748,4 @@ export type DrupalFile = {
   filemime?: value_string[];
   path?: Path;
 }
+
