@@ -6,7 +6,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (!token) {
     return res.status(400).json({ error: 'Token is required' });
   }
-
+  
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/oauth/revoke`, {
       method: 'POST',
@@ -24,6 +24,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
   } catch (error) {
     console.error('Error revoking token:', error);
-  }
+  } 
 
 }

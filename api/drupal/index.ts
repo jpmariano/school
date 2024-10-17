@@ -170,7 +170,7 @@ export const getNewAccessToken = async  (refresh_token: string): Promise<Respons
 	  }
 }
 
-export const refreshAccessToken = async  (custom_token: CustomJWT): Promise<CustomJWT> =>  {
+export const refreshAccessToken = async  (): Promise<Response | ErrorResponse> =>  {
 
 	const client_id = process.env.CLIENT_ID;
 	const client_secret = process.env.NEXTAUTH_SECRET;
@@ -178,6 +178,7 @@ export const refreshAccessToken = async  (custom_token: CustomJWT): Promise<Cust
 	if (!client_id || !client_secret) {
 		throw new Error("Missing environment variables");
 	}
+	const session = await getServerSession(authOptions) as CustomSession;
 
 	 // Create a new FormData object
 	 //const formData = new FormData();
@@ -185,9 +186,9 @@ export const refreshAccessToken = async  (custom_token: CustomJWT): Promise<Cust
 	 formData.append("grant_type", "refresh_token");
 	 formData.append("client_id", client_id);
 	 formData.append("client_secret", client_secret);
-	 formData.append("refresh_token", custom_token.refresh_token!);
+	 formData.append("refresh_token", session.user.refresh_token!);
 
-	 console.log('formData***************', formData);
+	 console.log('refreshAccessTokenFormData***************', formData);
 	// console.log(process.env.NEXT_PUBLIC_API_URL);
 	  try {
 		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/oauth/token`, {
@@ -198,25 +199,28 @@ export const refreshAccessToken = async  (custom_token: CustomJWT): Promise<Cust
 		  body: formData,
 		  redirect: "follow"
 		});
-		console.log('getNewAccessToken-', response.status);
+		//console.log('getNewAccessToken-', response.status);
 		if (!response.ok) {
 		  throw new Error(`HTTP error! status: ${response.status}`);
 		}	
-		
+
+		return response;
+		/*
 		const token_data: Token = await response.json();
 		return {
-			...custom_token,
+			...session.user,
 			access_token: token_data.access_token,
 			refresh_token: token_data.refresh_token,
 			expires_in: token_data.expires_in,
 			issued_at: Date.now() / 1000,
 			refreshing: false // Reset the refreshing flag
-		  };
+		  }; */
 		//return result;
 	  } catch (error) {
 		return {
-			...custom_token,
-			refreshing: false
+			success: false,
+			message: error instanceof Error ? error.message : "Unknown error",
+			status: 500,
 		  };
 	  }
 }

@@ -1,9 +1,10 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import {getNewAccessToken, getSessionToken, getUserInfo, isFetchResponse, userLogin} from '@/api/drupal';
+import {getNewAccessToken, getSessionToken, getUserInfo, isFetchResponse, refreshAccessToken, userLogin} from '@/api/drupal';
 import { CustomJWT, CustomSession, CustomUser, ErrorResponse, Token, tokenResponse, userinfo } from "@/types";
 import userData from '@/data/userLogin.json';
 import { signOut } from "next-auth/react";
+import { updateAccessToken } from "./updateAccessToken";
 
 let isRefreshing = false;
 let refreshTokenPromise: Promise<CustomJWT>;
@@ -75,10 +76,10 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user, account }): Promise<CustomJWT> {
+    async jwt({ token, user, account, trigger }): Promise<CustomJWT> {
+     
       const custom_token: CustomJWT = token as CustomJWT;
       if(account && user){
-      
         // the user present here gets the same data as received from DB call  made above -> fetchUserInfo(credentials.opt)
         return { ...token,
           access_token: user.access_token,
@@ -92,47 +93,67 @@ export const authOptions: NextAuthOptions = {
         } as CustomJWT; 
       }
 
+      if (trigger === "update") {
+       
+        const refreshAccessTokenResponse: Response | ErrorResponse = await refreshAccessToken();
+        if (!isFetchResponse(refreshAccessTokenResponse)) {
+          return custom_token;
+        }
+        const new_tokens: Token = isFetchResponse(refreshAccessTokenResponse) && await refreshAccessTokenResponse.json();
+        const drupalSessionResponse = await getSessionToken();
+        if (!isFetchResponse(drupalSessionResponse)) {
+          return custom_token;
+        }
+        const drupal_session: string = await drupalSessionResponse.text();
+
+        const refreshedToken: CustomJWT = {
+          ...custom_token,
+          drupal_session: drupal_session,
+          access_token: new_tokens.access_token,
+          refresh_token: new_tokens.refresh_token,
+          expires_in: new_tokens.expires_in,
+          issued_at: Date.now() / 1000,
+        };
+        
+        isRefreshing = false;
+       
+        return refreshedToken;
+      }
+      
       const now = Date.now() / 1000;
       const expirationTime = custom_token.issued_at! + custom_token.expires_in!;
       //const expirationTime = custom_token.issued_at! + 120;
-
+      console.log('expirationTime', expirationTime);
+      console.log('now', now);
+      console.log('expirationTime - 90', now < expirationTime - 90);
       if (now < expirationTime - 90) {
         return custom_token;
       }
       if (!isRefreshing) {
         isRefreshing = true;
-        refreshTokenPromise = getNewAccessToken(custom_token.refresh_token!)
-          .then(async (new_tokens) => {
-            if (!isFetchResponse(new_tokens)) {
-              console.error('Failed to refresh token:', new_tokens);
-              return custom_token;  // Return the existing token if refresh fails
-            }
+        const refreshAccessTokenResponse: Response | ErrorResponse = await refreshAccessToken();
+        if (!isFetchResponse(refreshAccessTokenResponse)) {
+          return custom_token;
+        }
+        const new_tokens: Token = isFetchResponse(refreshAccessTokenResponse) && await refreshAccessTokenResponse.json();
+        const drupalSessionResponse = await getSessionToken();
+        if (!isFetchResponse(drupalSessionResponse)) {
+          return custom_token;
+        }
+        const drupal_session: string = await drupalSessionResponse.text();
 
-            const token_data: Token = await new_tokens.json();
-            const drupalSessionResponse = await getSessionToken();
-            if (!isFetchResponse(drupalSessionResponse)) {
-              return custom_token;
-            }
-            const drupal_session: string = await drupalSessionResponse.text();
-
-            const refreshedToken: CustomJWT = {
-              ...custom_token,
-              drupal_session: drupal_session,
-              access_token: token_data.access_token,
-              refresh_token: token_data.refresh_token,
-              expires_in: token_data.expires_in,
-              issued_at: Date.now() / 1000,
-            };
-
-            isRefreshing = false;
-            return refreshedToken;
-          })
-          .catch((error) => {
-            console.error('Error refreshing token:', error);
-            isRefreshing = false;
-            signOut({ callbackUrl: '/login' });
-            return custom_token;  // Return the existing token if refresh fails
-          });
+        const refreshedToken: CustomJWT = {
+          ...custom_token,
+          drupal_session: drupal_session,
+          access_token: new_tokens.access_token,
+          refresh_token: new_tokens.refresh_token,
+          expires_in: new_tokens.expires_in,
+          issued_at: Date.now() / 1000,
+        };
+        
+        isRefreshing = false;
+       
+        return refreshedToken;
       }
 
       // Wait for the refreshTokenPromise to resolve if refresh is already in progress

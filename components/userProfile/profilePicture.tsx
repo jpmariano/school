@@ -14,11 +14,14 @@ interface profilePictureProps {
 const ProfilePicture: React.FC<profilePictureProps> = ({picture}) => {
     const [url, setUrl] = useState<string>('');
     useEffect(() => {
+      console.log('picture', picture);
         const userProfilePicture= GetUserProfilePicture(picture.target_id.toString());
         userProfilePicture.then((data) => {
             console.log('data********', data);
             setUrl(data);
-              }); 
+              }).catch((error) => {
+                console.log(error);
+              })
       }, [picture]);
   return <Box component="div" sx={{}} className='flex justify-center items-center'>
     <Image
