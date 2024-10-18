@@ -12,7 +12,7 @@ import { useSearchParams } from 'next/navigation';
 import CreateAccount from '@/components/loginForm/CreateAccount';
 import Divider from '@mui/material/Divider';
 import { alertType } from '@/types';
-import { signIn } from 'next-auth/react';
+import { getSession, signIn } from 'next-auth/react';
 
 
 export interface loginFormProps {
@@ -114,43 +114,55 @@ const LoginForm: React.FC<loginFormProps> = ({component = "section"}) => {
     setShowCreateAccount(!showCreateAccount);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault(); // Prevent the form from reloading the page
+    
     if (credentials.username === '' && credentials.password === '') {
       setErrors((prevState) => ({
         ...prevState,
         username: true,
         password: true,
       }));
-    } else {
-      if (!validator.isEmail(credentials.username)) {
-        setErrors((prevState) => ({
-          ...prevState,
-          username: true,
-          password: credentials.password === '' ? true : false,
-        }));
-      } else {
-        setErrors((prevState) => ({
-          ...prevState,
-          username: false,
-          password: credentials.password === '' ? true : false,
-        }));
-      }
+      return;
     }
-    if (
-      !errors.username &&
-      !errors.password &&
-      credentials.username !== '' &&
-      credentials.password !== ''
-    ) {
-      console.log(credentials);
-      
-      signIn('credentials', {
-        username: credentials.username,
-        password: credentials.password,
-        redirect: true,
-        callbackUrl: '/test'
-      });
-    } 
+  
+    if (!validator.isEmail(credentials.username)) {
+      setErrors((prevState) => ({
+        ...prevState,
+        username: true,
+        password: credentials.password === '' ? true : false,
+      }));
+      return;
+    }
+  
+    // Proceed with login if no errors
+    const result = await signIn('credentials', {
+      username: credentials.username,
+      password: credentials.password,
+      redirect: false, // Prevent default redirect for manual handling
+    });
+  
+    // Handle the result of the signIn function
+    if (result?.ok) {
+      // Get the current session after the login
+      const session = await getSession();
+  
+      if (session?.user?.userId) {
+        // Dynamically redirect to the user's page with their ID
+        router.push(`/user/${session?.user?.userId}`);
+      } else {
+        // Fallback or handle an error if the user ID is not available
+        router.push(`/`);
+      }
+    } else {
+      // Handle sign-in failure
+      setDisplayErrorMessage(true);
+      setErrors((prevState) => ({
+        ...prevState,
+        username: true,
+        password: true,
+      }));
+    }
   };
   
 
