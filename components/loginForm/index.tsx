@@ -1,6 +1,6 @@
 'use client'
 import React, { ReactNode, useEffect, useState } from 'react';
-import { Alert, AlertColor, Box, Button, FormControl, FormHelperText, Input, InputLabel, Paper, TextField, Typography, colors, useTheme } from '@mui/material';
+import { Alert, AlertColor, Box, Button, FormControl, FormHelperText, Input, InputLabel, LinearProgress, Paper, TextField, Typography, colors, useTheme } from '@mui/material';
 import Image from 'next/image';
 import styles from "@/styles/components/loginform/loginform.module.scss";
 import TextInput from './TextInput';
@@ -37,6 +37,7 @@ const LoginForm: React.FC<loginFormProps> = ({component = "section"}) => {
   const [showResetPassword, setShowResetPassword] = useState(false);
   const [showCreateAccount, setShowCreateAccount] = useState(false);
   const [alertStatus, setAlertStatus] = useState<alertType | undefined>({severity: "success", message: ""});
+  const [loading, setLoading] = useState(false);  // New loading state
 
 
   const theme = useTheme();
@@ -134,7 +135,7 @@ const LoginForm: React.FC<loginFormProps> = ({component = "section"}) => {
       }));
       return;
     }
-  
+    setLoading(true);  // Set loading to true when the sign-in process starts
     // Proceed with login if no errors
     const result = await signIn('credentials', {
       username: credentials.username,
@@ -163,12 +164,14 @@ const LoginForm: React.FC<loginFormProps> = ({component = "section"}) => {
         password: true,
       }));
     }
+    setLoading(false);  // Set loading to false after the sign-in process completes
   };
   
 
 
   return (
     <Paper component={'div'} sx={{backgroundColor: theme.palette.primary.main}} className={`${styles.logincontainer}`}>
+        {loading && <LinearProgress />}
          <Image
           src="/logo.png"
           width={150}
