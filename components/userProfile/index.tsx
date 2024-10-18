@@ -184,17 +184,13 @@ const UserProfile: React.FC = () => {
       } 
   };
 
-  const showPicture = userProfileContext.userProfile ? (
-    <ProfilePicture picture={userProfileContext.userProfile.user_picture[0]} />
-  ) : (
-    <AccountCircleIcon fontSize="large" className="block mx-auto my-0" />
-  );
+ 
 
   return (
     <Box className="flex md:space-x-4 md:space-y-0 space-y-4 md:flex-row flex-col">
       <Box className="flex-none md:w-1/3 w-full">
         <Paper className="p-4">
-          {showPicture}
+            <ProfilePicture  />
           <Box component="div" className="flex justify-center items-center">
             {profileInfo.field_first_name} {profileInfo.field_last_name}
           </Box>

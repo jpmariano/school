@@ -490,12 +490,12 @@ export type Status = OneStatus[];
 export type Picture = {
   target_id: number;
   alt: string;
-  title: string;
-  width: number;
-  height: number;
-  target_type: string;
-  target_uuid: string;
-  url: string
+  title?: string;
+  width?: number;
+  height?: number;
+  target_type?: string;
+  target_uuid?: string;
+  url?: string
 };
 
 export type UserPictureUpdate = {
