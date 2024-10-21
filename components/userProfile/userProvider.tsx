@@ -27,7 +27,7 @@ export const UserProfileProvider: React.FC<UserProfileProviderProps> =  ({id, ch
   const [userProfile, setUserProfile] = useState<UserAccountDetails | null>(null);
 
   useEffect(() => {
-    const userProfileJson= FetchUserProfile(id);
+    const userProfileJson = FetchUserProfile(id);
           userProfileJson.then((data: UserAccountDetails) => {
             setUserProfile(data);
           }); 

@@ -678,6 +678,48 @@ export type CompletedCourse = {
   field_subject_ref: target_id_number[];
   field_certificate_id: value_string[];
 }
+export enum SubscriptionType {
+  monthly = "Monthly",
+  yearly = "Yearly",
+  free = "Free",
+  monthly_group = "Monthly Group",
+  yearly_group = "Yearly Group",
+}
+export type value_SubscriptionType = {
+  value: SubscriptionType;
+}
+export type PostSubscription = {
+  type: target_id_string[];
+  title: value_string[];
+  field_subscription_cancelled: value_boolean[];
+  field_subscription_type: value_SubscriptionType[];
+  field_member_id: value_string[];
+}
+
+export type SubcriptionNode = {
+  nid: value_number[];
+  uuid: value_string[];
+  vid: value_number[];
+  langcode: value_string[];
+  type: targetDetails[];
+  revision_timestamp: Timestamp[];
+  revision_uid: revisionTargetDetails[];
+  revision_log: value_string[];
+  status: value_boolean[];
+  uid: revisionTargetDetails[];
+  title: value_string[];
+  created: Created;
+  change: Changed;
+  promote: value_boolean[];
+  sticky: value_boolean[];
+  default_langcode: value_boolean[];
+  revision_translation_affected: value_boolean[];
+  path: Path;
+  body: Body;
+  field_subscription_cancelled: value_boolean[];
+  field_subscription_type: value_SubscriptionType[];
+  field_member_id: value_string[];
+}
 
 export type targetDetails = {
   target_id: string;

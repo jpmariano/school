@@ -15,6 +15,7 @@ import { getSessionToken, getUserProfile, isFetchResponse } from '@/api/drupal'
 import { UserProfileProvider } from '@/components/userProfile/userProvider'
 import FetchUserProfile from '@/components/userProfile/fetchUserProfile'
 import UserAccountNavigation from '@/components/navigation/userAccountNavigation'
+import Membership from '@/components/membership'
 
 
 interface UserPageProps {
@@ -42,9 +43,9 @@ export default async function User({ params }: UserPageProps) {
                 <UserAccountNavigation id={id}/>
             </Aside>
           <NotAside addClassName="inverse" showBoxShadow={false}>
-            <UserProfileProvider id={id}>
-              <UserProfile />
-            </UserProfileProvider>
+       
+            <Membership id={id}/>
+    
           </NotAside>
         </CenterBoxWithSidebar>
     </Main>

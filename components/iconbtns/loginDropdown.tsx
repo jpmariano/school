@@ -9,6 +9,9 @@ import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { useSession } from "next-auth/react";
 import SignOutButton from '@/components/customSignOut/signOutButton';
 import SignInButton from '@/components/customSignOut/signInButton';
+import { UserProfileProvider } from '@/components/userProfile/userProvider';
+import ProfileIcon from './profileIcon';
+import IconNav from './iconNav';
 
 
 const LoginDropdown: React.FC = () => {
@@ -32,7 +35,9 @@ const LoginDropdown: React.FC = () => {
     return (
       
         <div><IconButton onClick={handleOpen}  sx={{ color: open ? "#FCB61C" : "#ffffff" }} aria-label="Open login and sign up Link">
-                    <AccountCircleIcon fontSize="large" />
+                    <UserProfileProvider id={session?.user.userId!}>
+                        <ProfileIcon />
+                    </UserProfileProvider>
                 </IconButton><Popover
                     open={open}
                     anchorOrigin={{
@@ -48,7 +53,7 @@ const LoginDropdown: React.FC = () => {
                         {!session ? 
                         <SignInButton /> : 
                         
-                        <SignOutButton />}
+                        <IconNav />}
                     </Popover></div>
          
 

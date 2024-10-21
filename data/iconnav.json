@@ -1,0 +1,4 @@
+[
+    { "name": "ACCOUNT", "link": "/user" },
+    { "name": "COURSES", "link": "/courses" }
+]

@@ -34,14 +34,15 @@ const UserProfile: React.FC = () => {
   const theme = useTheme();
   const isLight = theme.palette.mode === 'light';
   const userProfileContext = useUserProfileContext();
+  const [emailInvalid, setEmailInvalid] = useState(false);
   const { data: session, status, update } = useSession();
   const [updateProfileBtn, setUpdateProfileBtn] = useState(false);
   // Single state for both profile and address
   const [profileInfo, setProfileInfo] = useState<UserProfileInfo>({
-    field_first_name: 'No Name Provided',
-    field_last_name: 'No Last Name Provided',
+    field_first_name: '',
+    field_last_name: '',
     field_dob: '',
-    email: 'No Email Provided',
+    email: '',
     field_phone_number: '',
     field_street: '',
     field_city: '',
@@ -60,9 +61,9 @@ const UserProfile: React.FC = () => {
       } = userProfileContext.userProfile;
 
       setProfileInfo({
-        field_first_name: field_first_name[0]?.value || 'No Name Provided',
-        field_last_name: field_last_name[0]?.value || 'No Last Name Provided',
-        email: mail[0]?.value || 'No Email Provided',
+        field_first_name: field_first_name[0]?.value || '',
+        field_last_name: field_last_name[0]?.value || '',
+        email: mail[0]?.value || '',
         field_phone_number: field_phone_number[0]?.value || '',
         field_dob: field_dob[0]?.value || '',
         field_street: field_street[0]?.value || '',
@@ -73,7 +74,17 @@ const UserProfile: React.FC = () => {
       });
     }
   }, [userProfileContext]);
+  
+  const validateAlphanumeric = (value: string): boolean => {
+    const alphanumericRegex = /^[a-zA-Z0-9-\s]*$/; // Added \s to allow spaces
+    return alphanumericRegex.test(value);
+  };
 
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+  
   const handleInputClick = (field: string) => {
     setEditableField(field); // Set the field to be editable
   };
@@ -81,6 +92,12 @@ const UserProfile: React.FC = () => {
  
 
   const handleInputBlur = (field: keyof UserProfileInfo, value: string) => {
+    if (field === 'email' && !validateEmail(value)) {
+      setEmailInvalid(true);
+      return; // Prevent invalid email from being saved
+    }
+    setEmailInvalid(false);
+
     if (field === 'field_dob') {
       value = dayjs(value).format('YYYY-MM-DD');
       console.log(value);
@@ -140,6 +157,12 @@ const UserProfile: React.FC = () => {
   
 
   const handleProfileChange = (field: keyof UserProfileInfo, value: string) => {
+    if (field !== 'email' && field !== 'field_country' && field !== 'field_dob') {
+      if (!validateAlphanumeric(value)) {
+        return; // Don't update state if invalid input
+      }
+    }
+
     if (field === 'field_dob') {
       value = dayjs(value).format('YYYY-MM-DD');
       const updatedProfile = { ...userProfileContext.userProfile };
@@ -210,6 +233,7 @@ const UserProfile: React.FC = () => {
                 value={profileInfo.field_first_name}
                 readOnly={editableField !== 'field_first_name'}
                 className="w-full"
+                placeholder='Enter your first name'
               />
             </Box>
           </Box>
@@ -226,6 +250,7 @@ const UserProfile: React.FC = () => {
                 value={profileInfo.field_last_name}
                 readOnly={editableField !== 'field_last_name'}
                 className="w-full"
+                placeholder='Enter your last name'
               />
             </Box>
           </Box>
@@ -242,7 +267,9 @@ const UserProfile: React.FC = () => {
                 value={profileInfo.email}
                 readOnly={editableField !== 'email'}
                 className="w-full"
+                placeholder='Enter Email Address'
               />
+              {emailInvalid && <Box component="p" className="mt-2 text-sm text-pink-600">Please enter a valid email address.</Box>}
             </Box>
           </Box>
 

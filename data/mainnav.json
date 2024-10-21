@@ -2,5 +2,6 @@
     { "name": "HOME", "link": "/" },
     { "name": "HTML", "link": "/courses/html" },
     { "name": "TEST", "link": "/test" },
+    { "name": "COURSES", "link": "/courses" },
     { "name": "FONT", "link": "/font" }
 ]
