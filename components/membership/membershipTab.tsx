@@ -5,10 +5,10 @@ import { paragraphProps, SubscriptionType } from '@/types';
 import { BASE_URL } from '@/api/config';
 import ContentImage from '.';
 import CodeText from '.';
-import { Box, Tabs, Tab } from '@mui/material';
+import { Box, Tabs, Tab, useTheme } from '@mui/material';
 import { usePathname, useSearchParams } from 'next/navigation'
 import getActiveSubscription from './getActiveSubscription';
-import { useMembershipContext } from './membershipProvider';
+
 import SubscriptionDisplay from './subscriptionDisplay';
 
 
@@ -43,8 +43,12 @@ interface TabPanelProps {
 
 const MembershipTab: React.FC =  () => {
     const [value, setValue] = useState(0);
-   
-    const membershipContext = useMembershipContext();
+    const theme = useTheme();
+    let isLight: boolean = true;
+    if (theme.palette.mode === 'dark') {
+        isLight = false;
+    }
+    
     //const searchParams = useSearchParams();
     //const pathName = usePathname();
     //const id: string = pathName.split('/').pop() || '';
@@ -53,9 +57,7 @@ const MembershipTab: React.FC =  () => {
    // const { id } = router ? router : { id: '' };
     //console.log("searchParams", searchParams);
     //console.log("pathName", id);
-    useEffect(() => {
-        
-      }, []);
+ 
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -64,14 +66,14 @@ const MembershipTab: React.FC =  () => {
     return (
         <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Membership" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{'& .MuiTabs-indicator': { backgroundColor: isLight ? '#000000' : '#ffffff'}}}>
+          <Tab label="Membership" {...a11yProps(0)} sx={{'&.Mui-selected':{color: isLight ? '#000000' : '#ffffff'}}}/>
+          <Tab label="Item Two" {...a11yProps(1)} sx={{'&.Mui-selected':{color: isLight ? '#000000' : '#ffffff'}}}/>
+          <Tab label="Item Three" {...a11yProps(2)} sx={{'&.Mui-selected':{color: isLight ? '#000000' : '#ffffff'}}}/>
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <SubscriptionDisplay type={membershipContext.type} status={membershipContext.member_status}/>
+        <SubscriptionDisplay />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         Item Two

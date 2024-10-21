@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image'
 import Link from 'next/link';
 import parse from 'html-react-parser'
@@ -9,6 +9,7 @@ import { useUserProfileContext } from '@/components/userProfile/userProvider';
 import {getActiveSubscription, isFetchResponse} from '@/api/drupal';
 import { useParams } from 'next/navigation';
 import ProfilePicture from '../userProfile/profilePicture';
+import { useMembershipContext } from './membershipProvider';
 //import styles from "@/styles/components/paraText/paratext.module.scss";
 
 
@@ -17,9 +18,11 @@ interface SubscriptionDisplayProps {
   status: boolean | null;
 }
 
-const SubscriptionDisplay: React.FC<SubscriptionDisplayProps> =  async ({ type, status}) => {
- 
-  if (type === null) {
+const SubscriptionDisplay: React.FC =  () => {
+  const membershipContext = useMembershipContext();
+  
+  
+  if (membershipContext.type === null) {
     return (<><Paper className="p-4">
       <Box component={"ul"} className="list-none">
       <Box component={"li"}><Typography component="p" variant="body1">Membership Type:</Typography> <Typography component="p" variant="body2">"No Active Subscription"</Typography></Box>
@@ -45,14 +48,14 @@ const SubscriptionDisplay: React.FC<SubscriptionDisplayProps> =  async ({ type, 
     }
   };
   // Map the subscription value to its corresponding label
-  console.log("typeValue*************", type);
-  const subscriptionTypeLabel = getSubscriptionTypeLabel(type);
+  console.log("typeValue*************", membershipContext.type);
+  const subscriptionTypeLabel = getSubscriptionTypeLabel(membershipContext.type);
 
   return (
     <Paper className="p-4">
     <Box component={"ul"} className="list-none">
       <Box component={"li"} className="flex"><Typography component="p" variant="body1" className='w-44'>Membership Type:</Typography> <Typography component="p" variant="body2" className='mt-1'>{subscriptionTypeLabel}</Typography></Box>
-      {status !== null && <Box component={"li"} className="flex"><Typography component="p" variant="body1" className='w-44'>Status:</Typography> <Typography component="p" variant="body2" className='mt-1'>{status ? "Active" : "Inactive"}</Typography></Box>}
+      {membershipContext.member_status !== null && <Box component={"li"} className="flex"><Typography component="p" variant="body1" className='w-44'>Status:</Typography> <Typography component="p" variant="body2" className='mt-1'>{membershipContext.member_status ? "Active" : "Inactive"}</Typography></Box>}
     </Box>
     </Paper>);
 
