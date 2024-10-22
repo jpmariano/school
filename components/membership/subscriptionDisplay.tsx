@@ -1,64 +1,66 @@
-
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image'
-import Link from 'next/link';
-import parse from 'html-react-parser'
-import { Box, Paper, Typography } from '@mui/material';
-import { Included, paragraphProps, Body, SubcriptionNode, SubscriptionType } from '@/types';
-import { useUserProfileContext } from '@/components/userProfile/userProvider';
-import {getActiveSubscription, isFetchResponse} from '@/api/drupal';
-import { useParams } from 'next/navigation';
-import ProfilePicture from '../userProfile/profilePicture';
+import React from 'react';
+import { Box, Paper, Typography, Button } from '@mui/material';
 import { useMembershipContext } from './membershipProvider';
-//import styles from "@/styles/components/paraText/paratext.module.scss";
-
 
 interface SubscriptionDisplayProps {
-  type: SubscriptionType | null;
-  status: boolean | null;
+  setValue: (newValue: number) => void; // Accept setValue prop
 }
 
-const SubscriptionDisplay: React.FC =  () => {
+const SubscriptionDisplay: React.FC<SubscriptionDisplayProps> = ({ setValue }) => {
   const membershipContext = useMembershipContext();
-  
-  
+
   if (membershipContext.type === null) {
-    return (<><Paper className="p-4">
-      <Box component={"ul"} className="list-none">
-      <Box component={"li"}><Typography component="p" variant="body1">Membership Type:</Typography> <Typography component="p" variant="body2">"No Active Subscription"</Typography></Box>
-    </Box>
-    </Paper></>);
+    return (
+      <Paper className="p-4">
+        <Box component={"ul"} className="list-none">
+          <Box component={"li"}>
+            <Typography component="p" variant="body1">Membership Type:</Typography>
+            <Typography component="p" variant="body2">"No Active Subscription"</Typography>
+          </Box>
+        </Box>
+      </Paper>
+    );
   }
 
-  const getSubscriptionTypeLabel = (typeValue: SubscriptionType): string => {
+  const getSubscriptionTypeLabel = (typeValue: string): string => {
     switch (typeValue) {
-      case "monthly" as SubscriptionType:
+      case "monthly":
         return "Monthly";
-        case "yearly" as SubscriptionType:
+      case "yearly":
         return "Yearly";
-        case "free" as SubscriptionType:
+      case "free":
         return "Free";
-      case "monthly_group" as SubscriptionType:
+      case "monthly_group":
         return "Monthly Group";
-        case "yearly_group" as SubscriptionType:
+      case "yearly_group":
         return "Yearly Group";
       default:
-        //console.log("typeValue*************", typeValue);
         return "No Active Subscription";
     }
   };
-  // Map the subscription value to its corresponding label
-  console.log("typeValue*************", membershipContext.type);
+
   const subscriptionTypeLabel = getSubscriptionTypeLabel(membershipContext.type);
 
   return (
     <Paper className="p-4">
-    <Box component={"ul"} className="list-none">
-      <Box component={"li"} className="flex"><Typography component="p" variant="body1" className='w-44'>Membership Type:</Typography> <Typography component="p" variant="body2" className='mt-1'>{subscriptionTypeLabel}</Typography></Box>
-      {membershipContext.member_status !== null && <Box component={"li"} className="flex"><Typography component="p" variant="body1" className='w-44'>Status:</Typography> <Typography component="p" variant="body2" className='mt-1'>{membershipContext.member_status ? "Active" : "Inactive"}</Typography></Box>}
-    </Box>
-    </Paper>);
-
+      <Box component={"ul"} className="list-none">
+        <Box component={"li"} className="flex">
+          <Typography component="p" variant="body1" className='w-44'>Membership Type:</Typography>
+          <Typography component="p" variant="body2" className='mt-1'>{subscriptionTypeLabel}</Typography>
+        </Box>
+        {membershipContext.member_status !== null && (
+          <Box component={"li"} className="flex">
+            <Typography component="p" variant="body1" className='w-44'>Status:</Typography>
+            <Typography component="p" variant="body2" className='mt-1'>{membershipContext.member_status ? "Active" : "Inactive"}</Typography>
+          </Box>
+        )}
+      </Box>
+      {/* Add button to navigate to the Billing Information tab */}
+      <Button variant="contained" color="primary" onClick={() => setValue(1)}>
+        Go to Billing Information
+      </Button>
+    </Paper>
+  );
 };
 
 export default SubscriptionDisplay;

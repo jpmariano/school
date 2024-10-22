@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image'
 import Link from 'next/link';
 import parse from 'html-react-parser'
@@ -12,6 +12,7 @@ import ProfilePicture from '../userProfile/profilePicture';
 import SubscriptionDisplay from './subscriptionDisplay';
 import MembershipTab from './membershipTab';
 import { MembershipProvider } from './membershipProvider';
+import ParentComponentTab from './parentComponentTab';
 //import styles from "@/styles/components/paraText/paratext.module.scss";
 
 
@@ -20,6 +21,7 @@ interface MembershipProps {
 }
 
 const Membership: React.FC<MembershipProps> =  async ({ id}) => {
+  //const [value, setValue] = useState(0); // Tab state
   //const userProfileContext = useUserProfileContext();
  
   /*
@@ -31,7 +33,7 @@ const Membership: React.FC<MembershipProps> =  async ({ id}) => {
   //console.log("subcription*************", subscription[0].field_subscription_type[0].value);
   //return (<><SubscriptionDisplay type={subscriptionType} status={subscriptionStatus}/></>); //SubscriptionDisplay;
   //return(<MembershipTab />);
-  return (<MembershipProvider id={id}><MembershipTab /></MembershipProvider>);
+  return (<MembershipProvider id={id}><ParentComponentTab /></MembershipProvider>);
 
 };
 
