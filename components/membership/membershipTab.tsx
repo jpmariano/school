@@ -41,6 +41,7 @@ interface TabPanelProps {
     };
   }
 
+  
 const MembershipTab: React.FC =  () => {
     const [value, setValue] = useState(0);
     const theme = useTheme();
@@ -68,8 +69,8 @@ const MembershipTab: React.FC =  () => {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{'& .MuiTabs-indicator': { backgroundColor: isLight ? '#000000' : '#ffffff'}}}>
           <Tab label="Membership" {...a11yProps(0)} sx={{'&.Mui-selected':{color: isLight ? '#000000' : '#ffffff'}}}/>
-          <Tab label="Item Two" {...a11yProps(1)} sx={{'&.Mui-selected':{color: isLight ? '#000000' : '#ffffff'}}}/>
-          <Tab label="Item Three" {...a11yProps(2)} sx={{'&.Mui-selected':{color: isLight ? '#000000' : '#ffffff'}}}/>
+          <Tab label="Billing Information" {...a11yProps(1)} sx={{'&.Mui-selected':{color: isLight ? '#000000' : '#ffffff'}}}/>
+          <Tab label="Invoices" {...a11yProps(2)} sx={{'&.Mui-selected':{color: isLight ? '#000000' : '#ffffff'}}}/>
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
