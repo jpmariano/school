@@ -27,6 +27,8 @@ import { GetNodePage } from '@/utils/getNodePage'
 import CustomError from '@/utils/CustomError'
 import HorizontalSeparator from '@/components/layouts/horizontalSeparator'
 import { NodePageProvider } from '@/components/nodePage'
+import FullWidthBox from '@/components/layouts/fullWidth'
+import CenterBox from '@/components/layouts/centerBox'
 
 
 
@@ -99,8 +101,10 @@ export default async function page(params) {
               <NotAside addClassName="inverse" showBoxShadow={false}>
                 <Box component='article'>
                   <Breadcrumb pathname={pathname} />
-                  
-                   {content} 
+     
+                  {content} 
+               
+                   
                 </Box>
               </NotAside>
             </CenterBoxWithSidebar>

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Box, Paper, Typography, Button } from '@mui/material';
 import { useMembershipContext } from './membershipProvider';
+import { useTabContext } from './TabProvider';
 
-interface SubscriptionDisplayProps {
-  setValue: (newValue: number) => void; // Accept setValue prop
-}
 
-const SubscriptionDisplay: React.FC<SubscriptionDisplayProps> = ({ setValue }) => {
+
+const SubscriptionDisplay: React.FC = () => {
   const membershipContext = useMembershipContext();
+  const tabContext = useTabContext();
 
   if (membershipContext.type === null) {
     return (
@@ -56,7 +56,7 @@ const SubscriptionDisplay: React.FC<SubscriptionDisplayProps> = ({ setValue }) =
         )}
       </Box>
       {/* Add button to navigate to the Billing Information tab */}
-      <Button variant="contained" color="primary" onClick={() => setValue(1)}>
+      <Button variant="contained" color="primary" onClick={() => tabContext.setTabValue(1)}>
         Go to Billing Information
       </Button>
     </Paper>

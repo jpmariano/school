@@ -10,8 +10,10 @@ import getActiveSubscription from './getActiveSubscription';
 type MembershipContextType = {
     type: SubscriptionType | null;
     member_status: boolean | null;
+    tab_value: number;
     setType: React.Dispatch<React.SetStateAction<SubscriptionType | null>>;
     setMemberStatus: React.Dispatch<React.SetStateAction<boolean | null>>;
+    setTabValue: React.Dispatch<React.SetStateAction<number>>;
 }
 
 
@@ -29,6 +31,7 @@ export const MembershipContext = createContext<null | MembershipContextType> (nu
 export const MembershipProvider: React.FC<MembershipProviderProps> =  ({id, children}) => {
   const [type, setType] = useState<SubscriptionType | null>(null);
   const [member_status, setMemberStatus] = useState<boolean | null>(null);
+  const [tab_value, setTabValue] = useState<number>(0);
   useEffect(() => {
     const activeSubscription = getActiveSubscription(id);
     activeSubscription.then((data : SubcriptionNode[]) => {
@@ -36,11 +39,11 @@ export const MembershipProvider: React.FC<MembershipProviderProps> =  ({id, chil
         setMemberStatus(data.length > 0 ? data[0].status.length > 0 ? data[0].status[0].value : null : null);
     }).catch((error) => {
         console.log(error);
-    })
+    });
   }, [id]);
 
   return (
-    <MembershipContext.Provider value={{  type, member_status, setType, setMemberStatus }}>
+    <MembershipContext.Provider value={{  type, member_status, tab_value, setTabValue, setType, setMemberStatus }}>
       {children}
     </MembershipContext.Provider>
     );

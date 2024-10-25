@@ -1,6 +1,9 @@
+'use client'
 import React, { useState } from 'react';
 import { Box, Tabs, Tab, useTheme } from '@mui/material';
 import SubscriptionDisplay from './subscriptionDisplay';
+import { useMembershipContext } from './membershipProvider';
+import { useTabContext } from './TabProvider';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -36,19 +39,20 @@ interface MembershipTabProps {
   setValue: (newValue: number) => void; // Add setValue as prop
 }
 
-const MembershipTab: React.FC<MembershipTabProps> = ({ value, setValue }) => {
+const MembershipTab: React.FC = () => {
   const theme = useTheme();
   const isLight = theme.palette.mode === 'light';
-
+  const tabContext = useTabContext();
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue); // Use setValue from props
+    //setValue(newValue); // Use setValue from props
+    tabContext.setTabValue(newValue);
   };
 
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs
-          value={value}
+          value={tabContext.tab_value}
           onChange={handleChange}
           aria-label="basic tabs example"
           sx={{ '& .MuiTabs-indicator': { backgroundColor: isLight ? '#000000' : '#ffffff' } }}
@@ -58,13 +62,13 @@ const MembershipTab: React.FC<MembershipTabProps> = ({ value, setValue }) => {
           <Tab label="Invoices" {...a11yProps(2)} sx={{ '&.Mui-selected': { color: isLight ? '#000000' : '#ffffff' } }} />
         </Tabs>
       </Box>
-      <CustomTabPanel value={value} index={0}>
-        <SubscriptionDisplay setValue={setValue} /> {/* Pass setValue as prop */}
+      <CustomTabPanel value={tabContext.tab_value} index={0}>
+        <SubscriptionDisplay /> {/* Pass setValue as prop */}
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
+      <CustomTabPanel value={tabContext.tab_value} index={1}>
         Billing Information Content
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
+      <CustomTabPanel value={tabContext.tab_value} index={2}>
         Invoices Content
       </CustomTabPanel>
     </Box>
