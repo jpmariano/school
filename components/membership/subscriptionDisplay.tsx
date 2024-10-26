@@ -19,6 +19,7 @@ const SubscriptionDisplay: React.FC = () => {
             <Typography component="p" variant="body2">"No Active Subscription"</Typography>
           </Box>
         </Box>
+        <SubscriptionPlan />
       </Paper>
     );
   }
