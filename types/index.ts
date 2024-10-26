@@ -694,6 +694,8 @@ export type PostSubscription = {
   field_subscription_cancelled: value_boolean[];
   field_subscription_type: value_SubscriptionType[];
   field_member_id: value_string[];
+  field_group_id?: value_string[];
+  field_primary_account?: value_boolean[];
 }
 
 export type SubcriptionNode = {
@@ -719,6 +721,8 @@ export type SubcriptionNode = {
   field_subscription_cancelled: value_boolean[];
   field_subscription_type: value_SubscriptionType[];
   field_member_id: value_string[];
+  field_group_id?: value_string[];
+  field_primary_account?: value_boolean[];
 }
 
 export type targetDetails = {

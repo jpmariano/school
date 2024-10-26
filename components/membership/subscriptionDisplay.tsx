@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Paper, Typography, Button } from '@mui/material';
 import { useMembershipContext } from './membershipProvider';
 import { useTabContext } from './TabProvider';
+import SubscriptionPlan from './subscriptionPlan';
 
 
 
@@ -56,9 +57,7 @@ const SubscriptionDisplay: React.FC = () => {
         )}
       </Box>
       {/* Add button to navigate to the Billing Information tab */}
-      <Button variant="contained" color="primary" onClick={() => tabContext.setTabValue(1)}>
-        Go to Billing Information
-      </Button>
+      <SubscriptionPlan />
     </Paper>
   );
 };
